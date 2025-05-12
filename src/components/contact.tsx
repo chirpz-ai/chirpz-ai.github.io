@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { styled } from "@mui/material/styles";
 import {
@@ -28,6 +28,7 @@ import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import TwitterIcon from "@mui/icons-material/Twitter";
+import emailjs from '@emailjs/browser';
 
 const ContactCard = styled(Paper)(({ theme }) => ({
   borderRadius: "20px",
@@ -86,6 +87,7 @@ const SuccessCircle = styled(Box)(({ theme }) => ({
 
 export function Contact() {
   const theme = useTheme();
+  const form = useRef<HTMLFormElement>(null);
   
   const [formState, setFormState] = useState({
     name: "",
@@ -96,6 +98,7 @@ export function Contact() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -107,14 +110,25 @@ export function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setError("");
     
-    // Here you would normally send the form data to your backend
-    // For now, we'll just simulate a submission
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    setFormState({ name: "", email: "", company: "", message: "" });
+    try {
+      const result = await emailjs.sendForm(
+        'service_qa5wj29',
+        'template_9lx6rdi',
+        form.current!,
+        'OnLmLboXYyT4rGfVW'
+      );
+      
+      console.log('Email sent successfully:', result.text);
+      setIsSubmitted(true);
+      setFormState({ name: "", email: "", company: "", message: "" });
+    } catch (error: any) {
+      console.error('Email sending failed:', error);
+      setError("Failed to send your message. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -428,7 +442,7 @@ export function Contact() {
                     </Button>
                   </motion.div>
                 ) : (
-                  <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
+                  <Box component="form" ref={form} onSubmit={handleSubmit} sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
                     <Grid container spacing={2}>
                       <Grid size={{ xs: 12, sm: 6 }}>
                         <Box>
@@ -605,6 +619,11 @@ export function Contact() {
                     </Box>
                     
                     <Box sx={{ mt: 1 }}>
+                      {error && (
+                        <Typography color="error" sx={{ mb: 2 }}>
+                          {error}
+                        </Typography>
+                      )}
                       <Button
                         type="submit"
                         variant="contained"
