@@ -85,7 +85,7 @@ export function Footer() {
                   letterSpacing: "-0.025em",
                 }}
               >
-                chirpz<Box component="span" sx={{ color: "#60A5FA" }}>.ai</Box>
+                ChirpZ<Box component="span" sx={{ color: "#60A5FA" }}>.ai</Box>
               </Typography>
             </Link>
             <Typography
@@ -205,7 +205,7 @@ export function Footer() {
               mb: { xs: 2, md: 0 },
             }}
           >
-            &copy; {currentYear} ChirpZ.AI. All rights reserved.
+            &copy; {currentYear} ChirpZ.ai. All rights reserved.
           </Typography>
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <Typography

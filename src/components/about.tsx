@@ -80,7 +80,8 @@ export function About() {
     "Faster reporting cycles",
     "Enhanced regulatory compliance",
     "Reduced manual workload",
-    "Better data visualization"
+    "Improved report explainability",
+    "Better data visualization",
   ];
 
   return (
@@ -160,7 +161,7 @@ export function About() {
                 color: "white",
               }}
             >
-              About ChirpZ.AI
+              About ChirpZ.ai
             </Typography>
             <Typography
               variant="body1"
@@ -271,8 +272,8 @@ export function About() {
                       pl: 7,
                     }}
                   >
-                    SaaS companies providing AI solutions to insurance carriers struggle with the manual, 
-                    time-consuming process of creating governance reports. Data scientists spend valuable time 
+                    Companies providing AI solutions to insurance carriers struggle with the manual, 
+                    time-consuming, and expensive process of creating governance reports. Data scientists spend valuable time 
                     collecting metrics instead of building better models.
                   </Typography>
                 </StyledPaper>
@@ -299,8 +300,8 @@ export function About() {
                       pl: 7,
                     }}
                   >
-                    ChirpZ.AI's agents integrate with your existing tools, automatically collect and analyze 
-                    model performance data, and generate comprehensive, regulation-compliant reports ready for 
+                    ChirpZ.ai's agents integrate with your existing tools, automatically collect and analyze 
+                    model performance data on schedule or per request, and generate comprehensive, regulation-compliant reports ready for 
                     review.
                   </Typography>
                 </StyledPaper>

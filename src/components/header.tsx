@@ -103,7 +103,7 @@ export function Header(props: Props) {
                   fontSize: { xs: "1.5rem", md: "1.75rem" }
                 }}
               >
-                Chirpz<Box component="span" sx={{ color: "#60a5fa" }}>.ai</Box>
+                ChirpZ<Box component="span" sx={{ color: "#60a5fa" }}>.ai</Box>
               </Typography>
             </StyledLink>
           </motion.div>
