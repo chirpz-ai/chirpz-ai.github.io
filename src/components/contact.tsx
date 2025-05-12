@@ -288,7 +288,7 @@ export function Contact() {
                     viewport={{ once: true }}
                     transition={{ duration: 0.3, delay: 0.2 }}
                   >
-                    <Box sx={{ display: "flex", alignItems: "flex-start" }}>
+                    {/* <Box sx={{ display: "flex", alignItems: "flex-start" }}>
                       <IconBox>
                         <PhoneOutlinedIcon sx={{ fontSize: 20 }} />
                       </IconBox>
@@ -314,7 +314,7 @@ export function Contact() {
                           +1 (555) 123-4567
                         </Link>
                       </Box>
-                    </Box>
+                    </Box> */}
                   </motion.div>
                   
                   <motion.div
