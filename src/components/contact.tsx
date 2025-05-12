@@ -2,9 +2,91 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Send, Mail, MapPin, Phone, CheckCircle, ArrowRight } from "lucide-react";
+import { styled } from "@mui/material/styles";
+import {
+  Box,
+  Container,
+  Typography,
+  Grid,
+  Paper,
+  TextField,
+  Button,
+  Chip,
+  useTheme,
+  alpha,
+  List,
+  ListItem,
+  IconButton,
+  CircularProgress,
+  InputLabel,
+  Link
+} from "@mui/material";
+import SendIcon from "@mui/icons-material/Send";
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
+import PhoneOutlinedIcon from "@mui/icons-material/PhoneOutlined";
+import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import TwitterIcon from "@mui/icons-material/Twitter";
+
+const ContactCard = styled(Paper)(({ theme }) => ({
+  borderRadius: "20px",
+  background: `linear-gradient(135deg, ${alpha('#60A5FA', 0.15)} 0%, ${alpha('#3B82F6', 0.25)} 100%)`,
+  backdropFilter: "blur(8px)",
+  padding: theme.spacing(4),
+  height: "100%",
+  color: "white",
+  border: "1px solid rgba(255, 255, 255, 0.1)",
+}));
+
+const FormCard = styled(Paper)(({ theme }) => ({
+  borderRadius: "20px",
+  background: `linear-gradient(135deg, ${alpha('#fff', 0.95)} 0%, ${alpha('#f0f9ff', 0.95)} 100%)`,
+  backdropFilter: "blur(8px)",
+  boxShadow: "0 15px 30px rgba(0, 0, 0, 0.15)",
+  border: "1px solid rgba(255, 255, 255, 0.2)",
+  padding: theme.spacing(4),
+  height: "100%",
+}));
+
+const IconBox = styled(Box)(({ theme }) => ({
+  width: 40,
+  height: 40,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  borderRadius: "12px",
+  backgroundColor: "white",
+  color: theme.palette.primary.main,
+  boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
+  marginRight: theme.spacing(2),
+}));
+
+const SocialIconButton = styled(IconButton)(({ theme }) => ({
+  backgroundColor: "white",
+  color: theme.palette.primary.main,
+  "&:hover": {
+    backgroundColor: alpha(theme.palette.primary.main, 0.1),
+  },
+  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+  padding: theme.spacing(1.2),
+}));
+
+const SuccessCircle = styled(Box)(({ theme }) => ({
+  width: 80,
+  height: 80,
+  borderRadius: "50%",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  backgroundColor: alpha(theme.palette.success.main, 0.15),
+  color: theme.palette.success.main,
+  marginBottom: theme.spacing(3),
+}));
 
 export function Contact() {
+  const theme = useTheme();
+  
   const [formState, setFormState] = useState({
     name: "",
     email: "",
@@ -36,227 +118,524 @@ export function Contact() {
   };
 
   return (
-    <section className="py-24 bg-white" id="contact">
-      <div className="container mx-auto px-6">
+    <Box
+      id="contact"
+      component="section"
+      sx={{
+        py: { xs: 10, md: 12 },
+        background: "linear-gradient(135deg, #111827 0%, #1F2937 100%)",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      {/* Background grid pattern */}
+      <Box
+        sx={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundImage: "url('/grid-pattern.svg')",
+          backgroundRepeat: "repeat",
+          opacity: 0.05,
+          zIndex: 0,
+        }}
+      />
+
+      {/* Gradient blur effect */}
+      <Box
+        sx={{
+          position: "absolute",
+          top: "30%",
+          right: "-10%",
+          width: "30vw",
+          height: "30vw",
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0) 70%)",
+          filter: "blur(50px)",
+          zIndex: 0,
+        }}
+      />
+
+      <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-center max-w-3xl mx-auto mb-16"
         >
-          <span className="inline-block py-1 px-3 rounded-full text-sm font-medium bg-blue-50 text-blue-600 mb-4">Contact Us</span>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Get in Touch
-          </h2>
-          <p className="text-gray-600 text-lg">
-            Interested in automating your model governance reporting? Contact us to learn more about how ChirpZ.AI can help your business.
-          </p>
+          <Box 
+            sx={{ 
+              textAlign: "center", 
+              maxWidth: "800px", 
+              mx: "auto", 
+              mb: { xs: 6, md: 8 } 
+            }}
+          >
+            <Chip
+              label="Contact Us"
+              sx={{
+                mb: 2,
+                fontWeight: 600,
+                color: "#60A5FA",
+                bgcolor: alpha("#60A5FA", 0.15),
+                py: 0.5,
+                px: 1,
+              }}
+            />
+            <Typography
+              variant="h2"
+              component="h2"
+              sx={{
+                fontSize: { xs: "2rem", md: "2.5rem" },
+                fontWeight: 700,
+                mb: 2,
+                color: "white",
+              }}
+            >
+              Get in Touch
+            </Typography>
+            <Typography
+              variant="body1"
+              sx={{
+                fontSize: { xs: "1rem", md: "1.125rem" },
+                color: alpha("#fff", 0.8),
+                maxWidth: "650px",
+                mx: "auto",
+              }}
+            >
+              Interested in automating your model governance reporting? Contact us to learn more about how ChirpZ.AI can help your business.
+            </Typography>
+          </Box>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="lg:col-span-2"
-          >
-            <div className="bg-blue-50 rounded-2xl p-8 h-full">
-              <h3 className="text-2xl font-bold text-gray-900 mb-8">Contact Information</h3>
-              
-              <div className="space-y-6 mb-8">
-                <motion.div 
-                  className="flex items-start"
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.3, delay: 0.1 }}
+        <Grid container spacing={4}>
+          <Grid size={{ xs: 12, md: 5, lg: 4 }}>
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              style={{ height: "100%" }}
+            >
+              <ContactCard elevation={0}>
+                <Typography 
+                  variant="h5" 
+                  component="h3" 
+                  sx={{ 
+                    fontWeight: 700, 
+                    mb: 4, 
+                    color: "white"
+                  }}
                 >
-                  <div className="mt-1 bg-white p-2 rounded-md shadow-sm mr-4">
-                    <Mail className="h-5 w-5 text-blue-600" />
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-gray-900">Email</h4>
-                    <a href="mailto:info@chirpz.ai" className="text-gray-600 hover:text-blue-600 transition-colors">
-                      info@chirpz.ai
-                    </a>
-                  </div>
-                </motion.div>
+                  Contact Information
+                </Typography>
                 
-                <motion.div 
-                  className="flex items-start"
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.3, delay: 0.2 }}
-                >
-                  <div className="mt-1 bg-white p-2 rounded-md shadow-sm mr-4">
-                    <Phone className="h-5 w-5 text-blue-600" />
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-gray-900">Phone</h4>
-                    <a href="tel:+15551234567" className="text-gray-600 hover:text-blue-600 transition-colors">
-                      +1 (555) 123-4567
-                    </a>
-                  </div>
-                </motion.div>
+                <Box sx={{ mb: 4, display: "flex", flexDirection: "column", gap: 3 }}>
+                  <motion.div
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.3, delay: 0.1 }}
+                  >
+                    <Box sx={{ display: "flex", alignItems: "flex-start" }}>
+                      <IconBox>
+                        <EmailOutlinedIcon sx={{ fontSize: 20 }} />
+                      </IconBox>
+                      <Box>
+                        <Typography 
+                          variant="subtitle2" 
+                          component="h4" 
+                          sx={{ fontWeight: 600, color: "white" }}
+                        >
+                          Email
+                        </Typography>
+                        <Link 
+                          href="mailto:info@chirpz.ai" 
+                          sx={{ 
+                            color: alpha("#fff", 0.8),
+                            textDecoration: "none",
+                            "&:hover": {
+                              color: theme.palette.primary.main,
+                            },
+                            transition: "0.2s",
+                          }}
+                        >
+                          info@chirpz.ai
+                        </Link>
+                      </Box>
+                    </Box>
+                  </motion.div>
+                  
+                  <motion.div
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.3, delay: 0.2 }}
+                  >
+                    <Box sx={{ display: "flex", alignItems: "flex-start" }}>
+                      <IconBox>
+                        <PhoneOutlinedIcon sx={{ fontSize: 20 }} />
+                      </IconBox>
+                      <Box>
+                        <Typography 
+                          variant="subtitle2" 
+                          component="h4" 
+                          sx={{ fontWeight: 600, color: "white" }}
+                        >
+                          Phone
+                        </Typography>
+                        <Link 
+                          href="tel:+15551234567" 
+                          sx={{ 
+                            color: alpha("#fff", 0.8),
+                            textDecoration: "none",
+                            "&:hover": {
+                              color: theme.palette.primary.main,
+                            },
+                            transition: "0.2s",
+                          }}
+                        >
+                          +1 (555) 123-4567
+                        </Link>
+                      </Box>
+                    </Box>
+                  </motion.div>
+                  
+                  <motion.div
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.3, delay: 0.3 }}
+                  >
+                    <Box sx={{ display: "flex", alignItems: "flex-start" }}>
+                      <IconBox>
+                        <LocationOnOutlinedIcon sx={{ fontSize: 20 }} />
+                      </IconBox>
+                      <Box>
+                        <Typography 
+                          variant="subtitle2" 
+                          component="h4" 
+                          sx={{ fontWeight: 600, color: "white" }}
+                        >
+                          Location
+                        </Typography>
+                        <Typography sx={{ color: alpha("#fff", 0.8) }}>
+                          San Francisco, CA
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </motion.div>
+                </Box>
                 
-                <motion.div 
-                  className="flex items-start"
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.3, delay: 0.3 }}
-                >
-                  <div className="mt-1 bg-white p-2 rounded-md shadow-sm mr-4">
-                    <MapPin className="h-5 w-5 text-blue-600" />
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-gray-900">Location</h4>
-                    <p className="text-gray-600">
-                      San Francisco, CA
-                    </p>
-                  </div>
-                </motion.div>
-              </div>
-              
-              <div>
-                <h4 className="font-medium text-gray-900 mb-4">Connect with Us</h4>
-                <div className="flex space-x-3">
-                  <a href="#" className="bg-white p-3 rounded-full shadow-sm text-blue-600 hover:bg-blue-100 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-                  </a>
-                  <a href="#" className="bg-white p-3 rounded-full shadow-sm text-blue-600 hover:bg-blue-100 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path></svg>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </motion.div>
+                <Box>
+                  <Typography 
+                    variant="subtitle2" 
+                    component="h4" 
+                    sx={{ fontWeight: 600, color: "white", mb: 2 }}
+                  >
+                    Connect with Us
+                  </Typography>
+                  <Box sx={{ display: "flex", gap: 1.5 }}>
+                    <SocialIconButton aria-label="LinkedIn">
+                      <LinkedInIcon />
+                    </SocialIconButton>
+                    <SocialIconButton aria-label="Twitter">
+                      <TwitterIcon />
+                    </SocialIconButton>
+                  </Box>
+                </Box>
+              </ContactCard>
+            </motion.div>
+          </Grid>
 
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="lg:col-span-3"
-          >
-            <div className="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">Send us a Message</h3>
-              
-              {isSubmitted ? (
-                <motion.div 
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.4 }}
-                  className="flex flex-col items-center justify-center py-16 text-center"
+          <Grid size={{ xs: 12, md: 7, lg: 8 }}>
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              <FormCard elevation={0}>
+                <Typography 
+                  variant="h5" 
+                  component="h3" 
+                  sx={{ 
+                    fontWeight: 700, 
+                    mb: 4, 
+                    color: "#1F2937"
+                  }}
                 >
-                  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6">
-                    <CheckCircle className="h-8 w-8 text-green-600" />
-                  </div>
-                  <h4 className="text-2xl font-bold text-gray-900 mb-2">Thank You!</h4>
-                  <p className="text-gray-600 max-w-md mb-8">
-                    Your message has been sent successfully. We'll get back to you shortly.
-                  </p>
-                  <button
-                    className="inline-flex items-center justify-center rounded-md bg-blue-600 px-6 py-3 text-sm font-medium text-white shadow-lg shadow-blue-500/20 transition-all hover:bg-blue-700 hover:shadow-blue-500/30 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2"
-                    onClick={() => setIsSubmitted(false)}
+                  Send us a Message
+                </Typography>
+                
+                {isSubmitted ? (
+                  <motion.div 
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.4 }}
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      padding: "3rem 1rem",
+                      textAlign: "center"
+                    }}
                   >
-                    Send Another Message
-                  </button>
-                </motion.div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div>
-                      <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-                        Full Name <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        id="name"
-                        name="name"
-                        type="text"
-                        value={formState.name}
+                    <SuccessCircle>
+                      <CheckCircleOutlineIcon sx={{ fontSize: 40 }} />
+                    </SuccessCircle>
+                    <Typography
+                      variant="h5"
+                      component="h4"
+                      sx={{
+                        fontWeight: 700,
+                        mb: 1,
+                        color: "#1F2937",
+                      }}
+                    >
+                      Thank You!
+                    </Typography>
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        color: "#4B5563",
+                        maxWidth: "500px",
+                        mb: 4,
+                      }}
+                    >
+                      Your message has been sent successfully. We'll get back to you shortly.
+                    </Typography>
+                    <Button 
+                      variant="contained"
+                      disableElevation
+                      onClick={() => setIsSubmitted(false)}
+                      sx={{
+                        bgcolor: theme.palette.primary.main,
+                        py: 1.5,
+                        px: 3,
+                        fontWeight: 600,
+                        boxShadow: `0 8px 16px ${alpha(theme.palette.primary.main, 0.25)}`,
+                        "&:hover": {
+                          bgcolor: theme.palette.primary.dark,
+                          boxShadow: `0 12px 20px ${alpha(theme.palette.primary.main, 0.3)}`,
+                        }
+                      }}
+                    >
+                      Send Another Message
+                    </Button>
+                  </motion.div>
+                ) : (
+                  <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
+                    <Grid container spacing={2}>
+                      <Grid size={{ xs: 12, sm: 6 }}>
+                        <Box>
+                          <InputLabel 
+                            htmlFor="name"
+                            sx={{ 
+                              fontSize: "0.875rem", 
+                              fontWeight: 500, 
+                              color: "#4B5563", 
+                              mb: 0.5
+                            }}
+                          >
+                            Full Name <Box component="span" sx={{ color: "error.main" }}>*</Box>
+                          </InputLabel>
+                          <TextField
+                            id="name"
+                            name="name"
+                            fullWidth
+                            value={formState.name}
+                            onChange={handleChange}
+                            required
+                            placeholder="John Doe"
+                            variant="outlined"
+                            size="small"
+                            sx={{
+                              "& .MuiOutlinedInput-root": {
+                                backgroundColor: "white",
+                                borderRadius: 2,
+                                "& fieldset": {
+                                  borderColor: "rgba(209, 213, 219, 0.8)",
+                                },
+                                "&:hover fieldset": {
+                                  borderColor: "rgba(59, 130, 246, 0.5)",
+                                },
+                                "&.Mui-focused fieldset": {
+                                  borderColor: "rgba(59, 130, 246, 0.8)",
+                                }
+                              },
+                              "& .MuiOutlinedInput-input": {
+                                padding: "14px 16px",
+                              }
+                            }}
+                          />
+                        </Box>
+                      </Grid>
+                      <Grid size={{ xs: 12, sm: 6 }}>
+                        <Box>
+                          <InputLabel 
+                            htmlFor="email"
+                            sx={{ 
+                              fontSize: "0.875rem", 
+                              fontWeight: 500, 
+                              color: "#4B5563", 
+                              mb: 0.5
+                            }}
+                          >
+                            Email Address <Box component="span" sx={{ color: "error.main" }}>*</Box>
+                          </InputLabel>
+                          <TextField
+                            id="email"
+                            name="email"
+                            type="email"
+                            fullWidth
+                            value={formState.email}
+                            onChange={handleChange}
+                            required
+                            placeholder="john@example.com"
+                            variant="outlined"
+                            size="small"
+                            sx={{
+                              "& .MuiOutlinedInput-root": {
+                                backgroundColor: "white",
+                                borderRadius: 2,
+                                "& fieldset": {
+                                  borderColor: "rgba(209, 213, 219, 0.8)",
+                                },
+                                "&:hover fieldset": {
+                                  borderColor: "rgba(59, 130, 246, 0.5)",
+                                },
+                                "&.Mui-focused fieldset": {
+                                  borderColor: "rgba(59, 130, 246, 0.8)",
+                                }
+                              },
+                              "& .MuiOutlinedInput-input": {
+                                padding: "14px 16px",
+                              }
+                            }}
+                          />
+                        </Box>
+                      </Grid>
+                    </Grid>
+                    
+                    <Box>
+                      <InputLabel 
+                        htmlFor="company"
+                        sx={{ 
+                          fontSize: "0.875rem", 
+                          fontWeight: 500, 
+                          color: "#4B5563", 
+                          mb: 0.5
+                        }}
+                      >
+                        Company
+                      </InputLabel>
+                      <TextField
+                        id="company"
+                        name="company"
+                        fullWidth
+                        value={formState.company}
+                        onChange={handleChange}
+                        placeholder="Acme Inc."
+                        variant="outlined"
+                        size="small"
+                        sx={{
+                          "& .MuiOutlinedInput-root": {
+                            backgroundColor: "white",
+                            borderRadius: 2,
+                            "& fieldset": {
+                              borderColor: "rgba(209, 213, 219, 0.8)",
+                            },
+                            "&:hover fieldset": {
+                              borderColor: "rgba(59, 130, 246, 0.5)",
+                            },
+                            "&.Mui-focused fieldset": {
+                              borderColor: "rgba(59, 130, 246, 0.8)",
+                            }
+                          },
+                          "& .MuiOutlinedInput-input": {
+                            padding: "14px 16px",
+                          }
+                        }}
+                      />
+                    </Box>
+                    
+                    <Box>
+                      <InputLabel 
+                        htmlFor="message"
+                        sx={{ 
+                          fontSize: "0.875rem", 
+                          fontWeight: 500, 
+                          color: "#4B5563", 
+                          mb: 0.5
+                        }}
+                      >
+                        Message <Box component="span" sx={{ color: "error.main" }}>*</Box>
+                      </InputLabel>
+                      <TextField
+                        id="message"
+                        name="message"
+                        fullWidth
+                        multiline
+                        rows={5}
+                        value={formState.message}
                         onChange={handleChange}
                         required
-                        className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
-                        placeholder="John Doe"
+                        placeholder="How can we help you?"
+                        variant="outlined"
+                        sx={{
+                          "& .MuiOutlinedInput-root": {
+                            backgroundColor: "white",
+                            borderRadius: 2,
+                            "& fieldset": {
+                              borderColor: "rgba(209, 213, 219, 0.8)",
+                            },
+                            "&:hover fieldset": {
+                              borderColor: "rgba(59, 130, 246, 0.5)",
+                            },
+                            "&.Mui-focused fieldset": {
+                              borderColor: "rgba(59, 130, 246, 0.8)",
+                            }
+                          }
+                        }}
                       />
-                    </div>
-                    <div>
-                      <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                        Email Address <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        id="email"
-                        name="email"
-                        type="email"
-                        value={formState.email}
-                        onChange={handleChange}
-                        required
-                        className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
-                        placeholder="john@example.com"
-                      />
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-1">
-                      Company
-                    </label>
-                    <input
-                      id="company"
-                      name="company"
-                      type="text"
-                      value={formState.company}
-                      onChange={handleChange}
-                      className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
-                      placeholder="Acme Inc."
-                    />
-                  </div>
-                  
-                  <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
-                      Message <span className="text-red-500">*</span>
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      value={formState.message}
-                      onChange={handleChange}
-                      required
-                      rows={5}
-                      className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
-                      placeholder="How can we help you?"
-                    />
-                  </div>
-                  
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="inline-flex items-center justify-center rounded-md bg-blue-600 px-6 py-3 text-base font-medium text-white shadow-lg shadow-blue-500/20 transition-all hover:bg-blue-700 hover:shadow-blue-500/30 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed w-full sm:w-auto"
-                  >
-                    {isSubmitting ? (
-                      <span className="flex items-center">
-                        <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        Sending...
-                      </span>
-                    ) : (
-                      <span className="flex items-center">
-                        <Send className="mr-2 h-4 w-4" /> Send Message
-                      </span>
-                    )}
-                  </button>
-                </form>
-              )}
-            </div>
-          </motion.div>
-        </div>
-      </div>
-    </section>
+                    </Box>
+                    
+                    <Box sx={{ mt: 1 }}>
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        disableElevation
+                        disabled={isSubmitting}
+                        startIcon={isSubmitting ? <CircularProgress size={20} color="inherit" /> : <SendIcon />}
+                        sx={{
+                          py: 1.5,
+                          px: 3,
+                          borderRadius: 2,
+                          fontWeight: 600,
+                          bgcolor: theme.palette.primary.main,
+                          transition: "all 0.3s ease",
+                          boxShadow: `0 8px 16px ${alpha(theme.palette.primary.main, 0.25)}`,
+                          "&:hover": {
+                            bgcolor: theme.palette.primary.dark,
+                            boxShadow: `0 12px 20px ${alpha(theme.palette.primary.main, 0.3)}`,
+                          },
+                          width: { xs: "100%", sm: "auto" }
+                        }}
+                      >
+                        {isSubmitting ? "Sending..." : "Send Message"}
+                      </Button>
+                    </Box>
+                  </Box>
+                )}
+              </FormCard>
+            </motion.div>
+          </Grid>
+        </Grid>
+      </Container>
+    </Box>
   );
 } 

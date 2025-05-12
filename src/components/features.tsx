@@ -1,92 +1,276 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Bot, LineChart, FileText, Workflow } from "lucide-react";
+import { styled } from "@mui/material/styles";
+import {
+  Box,
+  Container,
+  Typography,
+  Grid,
+  Paper,
+  Button,
+  useTheme,
+  alpha,
+  Chip
+} from "@mui/material";
+import SmartToyOutlinedIcon from "@mui/icons-material/SmartToyOutlined";
+import InsightsOutlinedIcon from "@mui/icons-material/InsightsOutlined";
+import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
+import SchemaOutlinedIcon from "@mui/icons-material/SchemaOutlined";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import Link from "next/link";
+
+const FeatureCard = styled(Paper)(({ theme }) => ({
+  padding: theme.spacing(4),
+  height: "100%",
+  minHeight: "280px",
+  display: "flex",
+  flexDirection: "column",
+  borderRadius: "16px",
+  background: `linear-gradient(135deg, ${alpha('#fff', 0.95)} 0%, ${alpha('#f0f9ff', 0.95)} 100%)`,
+  backdropFilter: "blur(8px)",
+  boxShadow: "0 15px 30px rgba(0, 0, 0, 0.15)",
+  border: "1px solid rgba(255, 255, 255, 0.2)",
+  transition: "all 0.3s ease",
+  "&:hover": {
+    transform: "translateY(-8px)",
+    boxShadow: "0 20px 40px rgba(0, 0, 0, 0.25)",
+    border: `1px solid ${alpha(theme.palette.primary.main, 0.3)}`,
+  }
+}));
+
+const IconWrapper = styled(Box)(({ theme }) => ({
+  display: "inline-flex",
+  alignItems: "center",
+  justifyContent: "center",
+  width: "56px",
+  height: "56px",
+  borderRadius: "12px",
+  backgroundColor: alpha(theme.palette.primary.main, 0.15),
+  color: theme.palette.primary.main,
+  marginBottom: theme.spacing(2.5),
+}));
+
+const StyledButton = styled(Button)(({ theme }) => ({
+  padding: "12px 28px",
+  borderRadius: "8px",
+  fontWeight: 600,
+  fontSize: "1rem",
+  textTransform: "none",
+  transition: "all 0.3s ease",
+  boxShadow: "0 4px 14px 0 rgba(0, 0, 0, 0.2)",
+  "&:hover": {
+    transform: "translateY(-2px)",
+    boxShadow: "0 6px 20px rgba(0, 0, 0, 0.25)",
+  }
+}));
+
+const GradientBorder = styled(Box)(({ theme }) => ({
+  position: "relative",
+  borderRadius: "16px",
+  padding: "1px",
+  background: `linear-gradient(90deg, ${theme.palette.primary.main} 0%, ${alpha(theme.palette.primary.main, 0.6)} 100%)`,
+  "& > div": {
+    borderRadius: "15px",
+    backgroundColor: "rgba(17, 24, 39, 0.7)",
+    position: "relative",
+    zIndex: 1,
+  }
+}));
 
 const features = [
   {
-    icon: <Bot className="h-8 w-8" />,
+    icon: <SmartToyOutlinedIcon sx={{ fontSize: 32 }} />,
     title: "AI-Powered Agents",
     description: "Intelligent agents that connect to your existing dashboards and databases to gather model metrics autonomously."
   },
   {
-    icon: <LineChart className="h-8 w-8" />,
+    icon: <InsightsOutlinedIcon sx={{ fontSize: 32 }} />,
     title: "Automated Analytics",
     description: "Automatically extract, analyze and interpret model performance metrics from platforms like Arize, Watsonx, and ClearML."
   },
   {
-    icon: <FileText className="h-8 w-8" />,
+    icon: <DescriptionOutlinedIcon sx={{ fontSize: 32 }} />,
     title: "Custom Reports",
     description: "Generate comprehensive governance reports tailored to meet regulatory requirements for insurance carriers."
   },
   {
-    icon: <Workflow className="h-8 w-8" />,
+    icon: <SchemaOutlinedIcon sx={{ fontSize: 32 }} />,
     title: "Streamlined Workflow",
     description: "Reduce manual effort with one-click report generation pending data scientist approval before delivery."
   }
 ];
 
 export function Features() {
+  const theme = useTheme();
+
   return (
-    <section className="py-20 bg-white" id="features">
-      <div className="container mx-auto px-6">
-        <motion.div 
+    <Box
+      id="features"
+      component="section"
+      sx={{
+        py: { xs: 8, md: 12 },
+        background: "linear-gradient(135deg, #111827 0%, #1F2937 100%)",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      {/* Background grid pattern */}
+      <Box
+        sx={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundImage: "url('/grid-pattern.svg')",
+          backgroundRepeat: "repeat",
+          opacity: 0.05,
+          zIndex: 0,
+        }}
+      />
+
+      {/* Gradient blur effect */}
+      <Box
+        sx={{
+          position: "absolute",
+          top: "30%",
+          left: "-10%",
+          width: "40vw",
+          height: "40vw",
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0) 70%)",
+          filter: "blur(50px)",
+          zIndex: 0,
+        }}
+      />
+
+      <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-center max-w-3xl mx-auto mb-16"
         >
-          <span className="inline-block py-1 px-3 rounded-full text-sm font-medium bg-blue-50 text-blue-600 mb-4">Features</span>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Simplify Model Governance Reporting
-          </h2>
-          <p className="text-gray-600 text-lg">
-            Our platform integrates with your existing tools to automate the entire reporting process.
-          </p>
+          <Box 
+            sx={{ 
+              textAlign: "center", 
+              maxWidth: "800px", 
+              mx: "auto", 
+              mb: { xs: 6, md: 8 } 
+            }}
+          >
+            <Chip
+              label="Features"
+              sx={{
+                mb: 2,
+                fontWeight: 600,
+                color: "#60A5FA",
+                bgcolor: alpha("#60A5FA", 0.15),
+                py: 0.5,
+                px: 1,
+              }}
+            />
+            <Typography
+              variant="h2"
+              component="h2"
+              sx={{
+                fontSize: { xs: "2rem", md: "2.5rem" },
+                fontWeight: 700,
+                mb: 2,
+                color: "white",
+              }}
+            >
+              Simplify Model Governance Reporting
+            </Typography>
+            <Typography
+              variant="body1"
+              sx={{
+                fontSize: { xs: "1rem", md: "1.125rem" },
+                color: alpha("#fff", 0.8),
+                maxWidth: "650px",
+                mx: "auto",
+              }}
+            >
+              Our platform integrates with your existing tools to automate the entire reporting process.
+            </Typography>
+          </Box>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <Grid container spacing={4}>
           {features.map((feature, index) => (
-            <motion.div 
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              whileHover={{ y: -5, transition: { duration: 0.2 } }}
-              className="bg-white rounded-xl p-6 shadow-lg shadow-blue-100/60 border border-gray-100 hover:border-blue-100 transition-all duration-300"
-            >
-              <div className="mb-5 inline-flex items-center justify-center w-12 h-12 rounded-lg bg-blue-50 text-blue-600">
-                {feature.icon}
-              </div>
-              <h3 className="font-bold text-xl text-gray-900 mb-3">{feature.title}</h3>
-              <p className="text-gray-600">{feature.description}</p>
-            </motion.div>
+            <Grid key={index} size={{ xs: 12, sm: 6, md: 3 }}>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                whileHover={{ y: -5 }}
+                style={{ height: "100%" }}
+              >
+                <FeatureCard elevation={0}>
+                  <IconWrapper>
+                    {feature.icon}
+                  </IconWrapper>
+                  <Typography
+                    variant="h6"
+                    component="h3"
+                    sx={{
+                      fontWeight: 700,
+                      mb: 1.5,
+                      color: "#1F2937",
+                    }}
+                  >
+                    {feature.title}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      color: "#4B5563",
+                      lineHeight: 1.6,
+                      flexGrow: 1,
+                    }}
+                  >
+                    {feature.description}
+                  </Typography>
+                </FeatureCard>
+              </motion.div>
+            </Grid>
           ))}
-        </div>
-        
-        <motion.div 
+        </Grid>
+
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-16 flex justify-center"
+          style={{ marginTop: "64px", display: "flex", justifyContent: "center" }}
         >
-          <div className="relative overflow-hidden p-px rounded-lg bg-gradient-to-r from-blue-500 to-blue-600">
-            <div className="relative z-10 flex items-center justify-center bg-white rounded-lg py-5 px-8 space-x-4">
-              <span className="text-gray-700 font-medium">Ready to streamline your reporting process?</span>
-              <a 
-                href="#contact" 
-                className="inline-flex items-center justify-center rounded-md bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2"
-              >
-                Get Started
-              </a>
-            </div>
-            <div className="absolute top-0 left-0 right-0 bottom-0 bg-gradient-to-r from-blue-400/20 to-blue-600/20 blur-xl"></div>
-          </div>
+          <GradientBorder>
+            <Box sx={{ py: 3, px: 4, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 2 }}>
+              <Typography variant="subtitle1" sx={{ fontWeight: 500, color: "white" }}>
+                Ready to streamline your reporting process?
+              </Typography>
+              <Link href="#contact" style={{ textDecoration: 'none' }}>
+                <StyledButton
+                  variant="contained"
+                  disableElevation
+                  endIcon={<ArrowForwardIcon />}
+                  sx={{
+                    bgcolor: theme.palette.primary.main,
+                    "&:hover": {
+                      bgcolor: theme.palette.primary.dark,
+                    }
+                  }}
+                >
+                  Get Started
+                </StyledButton>
+              </Link>
+            </Box>
+          </GradientBorder>
         </motion.div>
-      </div>
-    </section>
+      </Container>
+    </Box>
   );
 } 
