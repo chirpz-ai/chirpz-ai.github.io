@@ -44,9 +44,9 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: 'https://chirpz.ai/assets/og-image.png', // Create and add this image to your public/assets folder
-        width: 1200,
-        height: 630,
+        url: 'https://chirpz.ai/logo-google.png',
+        width: 192,
+        height: 192,
         alt: 'ChirpZ.ai - AI Model Governance',
       }
     ],
@@ -55,8 +55,8 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'ChirpZ.ai | AI Model Governance Reporting',
     description: 'Automating model governance reporting for insurance SaaS companies with AI agents.',
-    images: ['https://chirpz.ai/assets/twitter-image.png'], // Create and add this image to your public/assets folder
-    creator: '@chirpzai', // If you have a Twitter handle
+    images: ['https://chirpz.ai/logo-google.png'],
+    creator: '@chirpzai',
   },
   robots: {
     index: true,
@@ -74,6 +74,7 @@ export const metadata: Metadata = {
       { url: "/favicon.ico", sizes: "any" },
       { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
       { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/logo-google.png", sizes: "192x192", type: "image/png" },
     ],
     apple: {
       url: "/apple-touch-icon.png",
@@ -83,6 +84,7 @@ export const metadata: Metadata = {
     other: [
       { url: "/android-chrome-192x192.png", sizes: "192x192", type: "image/png" },
       { url: "/android-chrome-512x512.png", sizes: "512x512", type: "image/png" },
+      { url: "/logo-google.png", sizes: "192x192", type: "image/png" },
     ],
   },
 };

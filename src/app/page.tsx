@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <main className="min-h-screen flex flex-col">
       <Script
-        id="schema-org"
+        id="schema-org-software"
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
@@ -48,6 +48,39 @@ export default function Home() {
           })
         }}
       />
+      
+      <Script
+        id="schema-org-organization"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "url": "https://chirpz.ai",
+            "name": "ChirpZ.ai",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://chirpz.ai/favicon-192x192.png",
+              "width": "192",
+              "height": "192"
+            },
+            "sameAs": ["https://github.com/chirpz-ai"],
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "email": "info@chirpz.ai",
+              "contactType": "customer service"
+            },
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "San Francisco",
+              "addressRegion": "CA",
+              "addressCountry": "US"
+            },
+            "description": "AI-powered platform that automates model governance reporting for insurance SaaS companies."
+          })
+        }}
+      />
+      
       <Header />
       <Hero />
       <Features />
