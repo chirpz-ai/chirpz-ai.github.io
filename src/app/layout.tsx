@@ -26,11 +26,13 @@ export const metadata: Metadata = {
     "AI agents", 
     "automated reporting", 
     "model metrics", 
-    "insurance AI"
+    "insurance AI",
+    "ChirpZ AI",
+    "ChirpZ.ai"
   ],
-  authors: [{ name: "ChirpZ.ai Team" }],
-  creator: "ChirpZ.ai",
-  publisher: "ChirpZ.ai",
+  authors: [{ name: "ChirpZ AI Team" }],
+  creator: "ChirpZ AI",
+  publisher: "ChirpZ AI",
   formatDetection: {
     email: false,
     address: false,
@@ -40,7 +42,7 @@ export const metadata: Metadata = {
     title: "ChirpZ AI | AI Model Governance Reporting",
     description: "Automating model governance reporting for insurance SaaS companies with AI agents that transform complex metrics into ready-to-ship reports.",
     url: 'https://chirpz.ai',
-    siteName: 'ChirpZ.ai',
+    siteName: 'ChirpZ AI',
     locale: 'en_US',
     type: 'website',
     images: [
@@ -48,7 +50,7 @@ export const metadata: Metadata = {
         url: 'https://chirpz.ai/logo-google.png',
         width: 192,
         height: 192,
-        alt: 'ChirpZ.ai - AI Model Governance',
+        alt: 'ChirpZ AI - AI Model Governance',
       }
     ],
   },
