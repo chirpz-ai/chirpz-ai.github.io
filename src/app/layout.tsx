@@ -12,10 +12,62 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "ChirpZ.ai | AI Model Governance Reporting",
-  description: "Automating model governance reporting for insurance SaaS companies",
+  description: "Automating model governance reporting for insurance SaaS companies with AI agents that transform complex metrics into ready-to-ship reports.",
   metadataBase: new URL("https://chirpz.ai"),
   alternates: {
     canonical: "/",
+  },
+  keywords: [
+    "AI model governance", 
+    "model governance reporting", 
+    "insurance SaaS", 
+    "regulatory compliance", 
+    "AI agents", 
+    "automated reporting", 
+    "model metrics", 
+    "insurance AI"
+  ],
+  authors: [{ name: "ChirpZ.ai Team" }],
+  creator: "ChirpZ.ai",
+  publisher: "ChirpZ.ai",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  openGraph: {
+    title: "ChirpZ.ai | AI Model Governance Reporting",
+    description: "Automating model governance reporting for insurance SaaS companies with AI agents that transform complex metrics into ready-to-ship reports.",
+    url: 'https://chirpz.ai',
+    siteName: 'ChirpZ.ai',
+    locale: 'en_US',
+    type: 'website',
+    images: [
+      {
+        url: 'https://chirpz.ai/assets/og-image.png', // Create and add this image to your public/assets folder
+        width: 1200,
+        height: 630,
+        alt: 'ChirpZ.ai - AI Model Governance',
+      }
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'ChirpZ.ai | AI Model Governance Reporting',
+    description: 'Automating model governance reporting for insurance SaaS companies with AI agents.',
+    images: ['https://chirpz.ai/assets/twitter-image.png'], // Create and add this image to your public/assets folder
+    creator: '@chirpzai', // If you have a Twitter handle
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
   icons: {
     icon: [
