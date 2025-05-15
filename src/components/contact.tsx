@@ -336,7 +336,7 @@ export function Contact() {
                           Location
                         </Typography>
                         <Typography sx={{ color: alpha("#fff", 0.8) }}>
-                          San Francisco, CA
+                          San Francisco, CA · Chicago, IL
                         </Typography>
                       </Box>
                     </Box>

@@ -9,14 +9,13 @@ import {
   Grid,
   IconButton,
   Divider,
-  List,
-  ListItem,
+  Stack,
   useTheme,
-  alpha,
-  Stack
+  alpha
 } from "@mui/material";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import TwitterIcon from "@mui/icons-material/Twitter";
+import GitHubIcon from "@mui/icons-material/GitHub";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
 const FooterLink = styled(Link)(({ theme }) => ({
@@ -100,6 +99,11 @@ export function Footer() {
               Automating model governance reporting for insurance SaaS companies with AI agents that turn complex metrics into ready-to-ship reports.
             </Typography>
             <Stack direction="row" spacing={1.5}>
+              <Link href="https://github.com/chirpz-ai" target="_blank" rel="noopener" style={{ textDecoration: 'none' }}>
+                <SocialIconButton aria-label="GitHub">
+                  <GitHubIcon fontSize="small" />
+                </SocialIconButton>
+              </Link>
               <SocialIconButton aria-label="LinkedIn">
                 <LinkedInIcon fontSize="small" />
               </SocialIconButton>
@@ -110,79 +114,28 @@ export function Footer() {
           </Grid>
           
           <Grid size={{ xs: 12, md: 7, lg: 8 }}>
-            <Grid container spacing={2}>
-              <Grid size={{ xs: 6, sm: 4 }}>
-                <Typography
-                  variant="subtitle1"
-                  sx={{
-                    fontWeight: 600,
-                    mb: 2.5,
-                    color: "white",
-                  }}
-                >
-                  Product
-                </Typography>
-                <List dense disablePadding>
-                  <ListItem disablePadding sx={{ mb: 1 }}>
-                    <FooterLink href="#features">Features</FooterLink>
-                  </ListItem>
-                  <ListItem disablePadding sx={{ mb: 1 }}>
-                    <FooterLink href="#about">About</FooterLink>
-                  </ListItem>
-                  <ListItem disablePadding sx={{ mb: 1 }}>
-                    <FooterLink href="#contact">Contact</FooterLink>
-                  </ListItem>
-                </List>
-              </Grid>
-              
-              <Grid size={{ xs: 6, sm: 4 }}>
-                <Typography
-                  variant="subtitle1"
-                  sx={{
-                    fontWeight: 600,
-                    mb: 2.5,
-                    color: "white",
-                  }}
-                >
-                  Legal
-                </Typography>
-                <List dense disablePadding>
-                  <ListItem disablePadding sx={{ mb: 1 }}>
-                    <FooterLink href="#">Privacy Policy</FooterLink>
-                  </ListItem>
-                  <ListItem disablePadding sx={{ mb: 1 }}>
-                    <FooterLink href="#">Terms of Service</FooterLink>
-                  </ListItem>
-                  <ListItem disablePadding sx={{ mb: 1 }}>
-                    <FooterLink href="#">Cookie Policy</FooterLink>
-                  </ListItem>
-                </List>
-              </Grid>
-              
-              <Grid size={{ xs: 6, sm: 4 }}>
-                <Typography
-                  variant="subtitle1"
-                  sx={{
-                    fontWeight: 600,
-                    mb: 2.5,
-                    color: "white",
-                  }}
-                >
-                  Company
-                </Typography>
-                <List dense disablePadding>
-                  <ListItem disablePadding sx={{ mb: 1 }}>
-                    <FooterLink href="#">Blog</FooterLink>
-                  </ListItem>
-                  <ListItem disablePadding sx={{ mb: 1 }}>
-                    <FooterLink href="#">Careers</FooterLink>
-                  </ListItem>
-                  <ListItem disablePadding sx={{ mb: 1 }}>
-                    <FooterLink href="#">Partners</FooterLink>
-                  </ListItem>
-                </List>
-              </Grid>
-            </Grid>
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+              <Typography
+                variant="subtitle1"
+                sx={{
+                  fontWeight: 600,
+                  mb: 2.5,
+                  color: "white",
+                }}
+              >
+                Product
+              </Typography>
+              <Stack 
+                direction={{ xs: 'column', sm: 'row' }} 
+                spacing={{ xs: 1.5, sm: 4 }}
+                sx={{ flexWrap: 'wrap' }}
+              >
+                <FooterLink href="#features">Features</FooterLink>
+                <FooterLink href="#workflow">How it Works</FooterLink>
+                <FooterLink href="#about">About</FooterLink>
+                <FooterLink href="#contact">Contact</FooterLink>
+              </Stack>
+            </Box>
           </Grid>
         </Grid>
         
@@ -202,32 +155,10 @@ export function Footer() {
             variant="caption"
             sx={{
               color: alpha("#fff", 0.4),
-              mb: { xs: 2, md: 0 },
             }}
           >
             &copy; {currentYear} ChirpZ.ai. All rights reserved.
           </Typography>
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Typography
-              variant="caption"
-              sx={{
-                color: alpha("#fff", 0.4),
-                mr: 0.5,
-              }}
-            >
-              Made with
-            </Typography>
-            <FavoriteIcon sx={{ fontSize: 14, color: "#F87171", mx: 0.5 }} />
-            <Typography
-              variant="caption"
-              sx={{
-                color: alpha("#fff", 0.4),
-                ml: 0.5,
-              }}
-            >
-              in San Francisco
-            </Typography>
-          </Box>
         </Box>
       </Container>
     </Box>

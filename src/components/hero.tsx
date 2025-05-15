@@ -186,7 +186,7 @@ export function Hero() {
                       mx: { xs: "auto", lg: 0 },
                     }}
                   >
-                    Streamline AI governance reporting for insurance SaaS providers with intelligent agents that turn complex metrics into ready-to-ship reports.
+                    Autonomous AI agents handle your entire model governance pipeline. We connect to your tools, gather metrics, and deliver ready-to-submit reports for your model lifecycle.
                   </Typography>
                 </motion.div>
 

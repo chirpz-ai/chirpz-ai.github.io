@@ -2,6 +2,7 @@
 
 import { useState, useEffect, ReactElement } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { styled } from "@mui/material/styles";
 import {
@@ -20,6 +21,7 @@ import {
   useTheme
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import GitHubIcon from "@mui/icons-material/GitHub";
 
 const StyledLink = styled(Link)({
   textDecoration: "none",
@@ -27,7 +29,7 @@ const StyledLink = styled(Link)({
   display: "block",
 });
 
-const navItems = ["Features", "About", "Contact"];
+const navItems = ["Features", "How it Works", "About", "Contact"];
 
 interface Props {
   window?: () => Window;
@@ -93,25 +95,52 @@ export function Header(props: Props) {
             transition={{ duration: 0.5 }}
           >
             <StyledLink href="/">
-              <Typography
-                variant="h5"
-                component="div"
-                sx={{
-                  fontWeight: 700,
-                  letterSpacing: "-0.025em",
-                  mr: 2,
-                  fontSize: { xs: "1.5rem", md: "1.75rem" }
-                }}
-              >
-                ChirpZ<Box component="span" sx={{ color: "#60a5fa" }}>.ai</Box>
-              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Box 
+                  sx={{ 
+                    position: 'relative', 
+                    width: 45, 
+                    height: 45, 
+                    mr: 2,
+                    backgroundColor: 'white',
+                    borderRadius: '8px',
+                    padding: '6px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                >
+                  <Image 
+                    src="/assets/logo.svg" 
+                    alt="ChirpZ.ai Logo"
+                    fill
+                    style={{ 
+                      objectFit: 'contain',
+                      padding: '2px' 
+                    }}
+                    priority
+                  />
+                </Box>
+                <Typography
+                  variant="h5"
+                  component="div"
+                  sx={{
+                    fontWeight: 700,
+                    letterSpacing: "-0.025em",
+                    mr: 2,
+                    fontSize: { xs: "1.5rem", md: "1.75rem" }
+                  }}
+                >
+                  ChirpZ<Box component="span" sx={{ color: "#60a5fa" }}>.ai</Box>
+                </Typography>
+              </Box>
             </StyledLink>
           </motion.div>
 
           <Box sx={{ flexGrow: 1 }} />
 
           {/* Navigation menu */}
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+          <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: 'center' }}>
             {navItems.map((item, index) => (
               <motion.div
                 key={item}
@@ -121,7 +150,7 @@ export function Header(props: Props) {
               >
                 <Button
                   component={StyledLink}
-                  href={`#${item.toLowerCase()}`}
+                  href={`#${item.toLowerCase().replace(/\s+/g, '')}`}
                   sx={{ 
                     my: 2, 
                     mx: 1,
@@ -138,6 +167,27 @@ export function Header(props: Props) {
                 </Button>
               </motion.div>
             ))}
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: 0.1 * navItems.length }}
+            >
+              <IconButton 
+                component="a"
+                href="https://github.com/chirpz-ai"
+                target="_blank"
+                rel="noopener"
+                sx={{ 
+                  color: "white",
+                  ml: 1,
+                  "&:hover": {
+                    bgcolor: "rgba(255, 255, 255, 0.1)",
+                  }
+                }}
+              >
+                <GitHubIcon />
+              </IconButton>
+            </motion.div>
           </Box>
 
           {/* Mobile menu */}
@@ -168,11 +218,18 @@ export function Header(props: Props) {
             >
               {navItems.map((item) => (
                 <MenuItem key={item} onClick={handleCloseNavMenu}>
-                  <StyledLink href={`#${item.toLowerCase()}`}>
+                  <StyledLink href={`#${item.toLowerCase().replace(/\s+/g, '')}`}>
                     <Typography textAlign="center">{item}</Typography>
                   </StyledLink>
                 </MenuItem>
               ))}
+              <MenuItem onClick={handleCloseNavMenu}>
+                <StyledLink href="https://github.com/chirpz-ai" target="_blank" rel="noopener">
+                  <Typography textAlign="center" sx={{ display: 'flex', alignItems: 'center' }}>
+                    <GitHubIcon fontSize="small" sx={{ mr: 1 }} /> GitHub
+                  </Typography>
+                </StyledLink>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>

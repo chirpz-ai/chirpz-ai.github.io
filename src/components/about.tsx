@@ -173,7 +173,7 @@ export function About() {
               }}
             >
               We're building advanced AI agents that automate model governance reporting
-              for SaaS companies providing AI solutions to the insurance industry.
+              for SaaS companies providing AI services to the insurance industry.
             </Typography>
           </Box>
         </motion.div>
@@ -301,7 +301,7 @@ export function About() {
                     }}
                   >
                     ChirpZ.ai's agents integrate with your existing tools, automatically collect and analyze 
-                    model performance data on schedule or per request, and generate comprehensive, regulation-compliant reports ready for 
+                    model metrics and lifecycle data on schedule or per request, and generate comprehensive, regulation-compliant reports ready for 
                     review.
                   </Typography>
                 </StyledPaper>

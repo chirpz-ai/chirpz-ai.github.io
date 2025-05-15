@@ -93,7 +93,7 @@ const features = [
   {
     icon: <DescriptionOutlinedIcon sx={{ fontSize: 32 }} />,
     title: "Custom Reports",
-    description: "Generate comprehensive governance reports tailored to meet regulatory requirements for insurance carriers."
+    description: "Generate comprehensive governance reports tracing your model lifecycle from training to deployment, tailored to meet regulatory requirements for insurance carriers."
   },
   {
     icon: <SchemaOutlinedIcon sx={{ fontSize: 32 }} />,
