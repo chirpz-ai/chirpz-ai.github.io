@@ -11,12 +11,13 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "ChirpZ.ai | AI Model Governance Reporting",
+  title: "ChirpZ AI | AI Model Governance Reporting",
   description: "Automating model governance reporting for insurance SaaS companies with AI agents that transform complex metrics into ready-to-ship reports.",
   metadataBase: new URL("https://chirpz.ai"),
   alternates: {
     canonical: "/",
   },
+  manifest: "/manifest.json",
   keywords: [
     "AI model governance", 
     "model governance reporting", 
@@ -36,7 +37,7 @@ export const metadata: Metadata = {
     telephone: false,
   },
   openGraph: {
-    title: "ChirpZ.ai | AI Model Governance Reporting",
+    title: "ChirpZ AI | AI Model Governance Reporting",
     description: "Automating model governance reporting for insurance SaaS companies with AI agents that transform complex metrics into ready-to-ship reports.",
     url: 'https://chirpz.ai',
     siteName: 'ChirpZ.ai',
@@ -53,7 +54,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'ChirpZ.ai | AI Model Governance Reporting',
+    title: 'ChirpZ AI | AI Model Governance Reporting',
     description: 'Automating model governance reporting for insurance SaaS companies with AI agents.',
     images: ['https://chirpz.ai/logo-google.png'],
     creator: '@chirpzai',
