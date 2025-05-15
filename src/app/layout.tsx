@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   title: "ChirpZ.ai | AI Model Governance Reporting",
   description: "Automating model governance reporting for insurance SaaS companies",
   icons: {
-    icon: "/favicon.ico",
+    icon: "/assets/logo.ico",
   },
 };
 
