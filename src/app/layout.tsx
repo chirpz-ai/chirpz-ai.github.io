@@ -13,6 +13,10 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "ChirpZ.ai | AI Model Governance Reporting",
   description: "Automating model governance reporting for insurance SaaS companies",
+  metadataBase: new URL("https://chirpz.ai"),
+  alternates: {
+    canonical: "/",
+  },
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
