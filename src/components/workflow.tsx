@@ -13,6 +13,7 @@ import {
   Paper,
 } from "@mui/material";
 import { motion } from "framer-motion";
+// Use dynamic import for GSAP instead of static import
 
 // Icons
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
@@ -106,7 +107,7 @@ export function Workflow() {
       const graph = new Graph({
         container: containerRef.current,
         width: containerRef.current.offsetWidth,
-        height: 490,
+        height: 460,
         background: {
           color: 'transparent',
         },
@@ -177,13 +178,17 @@ export function Workflow() {
         },
       });
 
+      // Define a consistent vertical spacing
+      const verticalSpacing = 260;
+      const horizontalSpacing = 190;
+      
       // Create Tools Container Group
       const toolsContainer = graph.addNode({
         id: 'tools-container',
-        x: 160,
-        y: 80,
-        width: 700,
-        height: 170,
+        x: 170,
+        y: 60,
+        width: 680,
+        height: 130,
         zIndex: -1,
         attrs: {
           body: {
@@ -218,46 +223,74 @@ export function Workflow() {
         },
       });
 
+      // Create Processing Container Group 
+      const processingContainer = graph.addNode({
+        id: 'processing-container',
+        x: 230,
+        y: verticalSpacing - 50,
+          width: 780,
+          height: 260,
+        zIndex: -2,
+        attrs: {
+          body: {
+            fill: 'rgba(99, 102, 241, 0.08)',
+            stroke: 'rgba(99, 102, 241, 0.3)',
+            strokeWidth: 1,
+            rx: 16,
+            ry: 16,
+          },
+          label: {
+            text: 'Processing Pipeline',
+            fill: '#818CF8',
+            fontSize: 14,
+            fontWeight: 600,
+            refX: 20,
+            refY: 20,
+            textAnchor: 'start',
+          }
+        },
+      });
+
       // Add Tool Nodes
       const toolNodes = [
         {
           id: 'arize',
-          position: { x: 190, y: 110 },
+          position: { x: 190, y: 80 },
           data: { label: 'Arize', icon: <SsidChartIcon style={{ color: "#60A5FA", fontSize: 18 }} /> }
         },
         {
           id: 'watsonx',
-          position: { x: 350, y: 110 },
+          position: { x: 350, y: 80 },
           data: { label: 'Watsonx', icon: <AutoAwesomeIcon style={{ color: "#8B5CF6", fontSize: 18 }} /> }
         },
         {
           id: 'aws',
-          position: { x: 510, y: 110 },
+          position: { x: 510, y: 80 },
           data: { label: 'AWS SageMaker', icon: <CloudIcon style={{ color: "#F87171", fontSize: 18 }} /> }
         },
         {
           id: 'openlayer',
-          position: { x: 670, y: 110 },
+          position: { x: 670, y: 80 },
           data: { label: 'Openlayer', icon: <LanguageIcon style={{ color: "#EC4899", fontSize: 18 }} /> }
         },
         {
           id: 'dashboards',
-          position: { x: 190, y: 180 },
+          position: { x: 190, y: 135 },
           data: { label: 'Internal Dashboards', icon: <BarChartIcon style={{ color: "#38BDF8", fontSize: 18 }} /> }
         },
         {
           id: 'mongodb',
-          position: { x: 350, y: 180 },
+          position: { x: 350, y: 135 },
           data: { label: 'MongoDB', icon: <StorageIcon style={{ color: "#818CF8", fontSize: 18 }} /> }
         },
         {
           id: 'notion',
-          position: { x: 510, y: 180 },
+          position: { x: 510, y: 135 },
           data: { label: 'Notion', icon: <DescriptionIcon style={{ color: "#10B981", fontSize: 18 }} /> }
         },
         {
           id: 'kb',
-          position: { x: 670, y: 180 },
+          position: { x: 670, y: 135 },
           data: { label: 'Knowledge Base', icon: <ArticleIcon style={{ color: "#F59E0B", fontSize: 18 }} /> }
         },
       ];
@@ -294,17 +327,13 @@ export function Workflow() {
         });
       });
 
-      // Define a consistent vertical spacing
-      const verticalSpacing = 290;
-      const horizontalSpacing = 190;
-      
       // Create Reflection Container Group - positioned at level 2
       const reflectionContainer = graph.addNode({
         id: 'reflection-container',
         x: 595,
-        y: verticalSpacing + 95,
+        y: verticalSpacing + 80,
         width: 400, 
-        height: 130,
+        height: 115,
         zIndex: -1,
         attrs: {
           body: {
@@ -321,7 +350,7 @@ export function Workflow() {
             fontSize: 14,
             fontWeight: 600,
             refX: 0.5,
-            refY: 20,
+            refY: 15,
             textAnchor: 'middle',
           }
         },
@@ -474,7 +503,7 @@ export function Workflow() {
           id: 'reflect',
           shape: 'reflection-node',
           x: 50 + horizontalSpacing * 4,  // Under Generate Response
-          y: verticalSpacing + 130,
+          y: verticalSpacing + 110,
           data: {
             label: 'Reflect',
             icon: <CachedIcon style={{ color: "#10B981", fontSize: 24 }} />,
@@ -485,7 +514,7 @@ export function Workflow() {
           id: 'reflected',
           shape: 'reflection-node',
           x: 50 + horizontalSpacing * 3,  // Under Results
-          y: verticalSpacing + 130,
+          y: verticalSpacing + 110,
           data: {
             label: 'Reflected Response',
             icon: <ForumIcon style={{ color: "#60A5FA", fontSize: 24 }} />,
@@ -496,7 +525,7 @@ export function Workflow() {
           id: 'report',
           shape: 'custom-node',
           x: 50,  // Under Report Request
-          y: verticalSpacing + 130,
+          y: verticalSpacing + 110,
           data: {
             label: 'Generated Report',
             icon: <AssessmentIcon style={{ color: "#F59E0B", fontSize: 24 }} />,
@@ -701,6 +730,117 @@ export function Workflow() {
             ...currentData,
             isActive: id === activeNodeId
           });
+          
+          // Apply animation to the active node
+          const nodeView = graphRef.current?.findViewByCell(node);
+          if (nodeView) {
+            const nodeElement = nodeView.findOne('rect');
+            if (nodeElement) {
+              if (id === activeNodeId) {
+                // Dynamically import GSAP for node animations
+                import('gsap').then(({ default: gsap }) => {
+                  // Clear any existing animations
+                  gsap.killTweensOf(nodeElement);
+                  
+                  // Create glow effect animation for active node
+                  gsap.to(nodeElement, {
+                    stroke: id.includes('reflect') ? 'rgba(16, 185, 129, 0.8)' : 'rgba(96, 165, 250, 0.8)',
+                    strokeWidth: 2,
+                    duration: 0.3
+                  });
+                  
+                  // Create pulsing animation
+                  gsap.fromTo(nodeElement, 
+                    { boxShadow: '0 0 0 0 rgba(96, 165, 250, 0)' },
+                    { 
+                      boxShadow: id.includes('reflect') ? 
+                        '0 0 15px 3px rgba(16, 185, 129, 0.7)' : 
+                        '0 0 15px 3px rgba(96, 165, 250, 0.7)',
+                      duration: 0.8,
+                      repeat: -1,
+                      yoyo: true,
+                      ease: "power2.inOut"
+                    }
+                  );
+                });
+              } else {
+                // Reset non-active nodes
+                import('gsap').then(({ default: gsap }) => {
+                  gsap.killTweensOf(nodeElement);
+                  gsap.to(nodeElement, {
+                    stroke: id.includes('reflect') ? 'rgba(16, 185, 129, 0.3)' : 'rgba(96, 165, 250, 0.3)',
+                    strokeWidth: 1,
+                    boxShadow: 'none',
+                    duration: 0.3
+                  });
+                });
+              }
+            }
+          }
+        }
+      });
+
+      // Apply animation to the edges connecting active node
+      const currentIndex = workflowNodeIds.indexOf(activeNodeId);
+      graphRef.current.getEdges().forEach(edge => {
+        const source = edge.getSourceCellId();
+        const target = edge.getTargetCellId();
+        const edgeView = graphRef.current?.findViewByCell(edge);
+        
+        if (edgeView) {
+          const pathElement = edgeView.findOne('path');
+          if (pathElement) {
+            // Check if this edge is part of the active flow
+            const isActiveEdge = 
+              (source === activeNodeId && workflowNodeIds.includes(target)) ||
+              (target === activeNodeId && workflowNodeIds.includes(source)) ||
+              (currentIndex > 0 && source === workflowNodeIds[currentIndex-1] && target === activeNodeId) ||
+              (currentIndex < workflowNodeIds.length-1 && source === activeNodeId && target === workflowNodeIds[currentIndex+1]) ||
+              (activeNodeId === 'generate' && source === 'generate' && target === 'reflect') ||
+              (activeNodeId === 'reflect' && source === 'reflect' && target === 'reflected') ||
+              (activeNodeId === 'reflected' && source === 'reflected' && target === 'report');
+            
+            // Apply GSAP animation based on edge status
+            import('gsap').then(({ default: gsap }) => {
+              // Clear any existing animations
+              gsap.killTweensOf(pathElement);
+              
+              if (isActiveEdge) {
+                // Enhanced active edge animation
+                gsap.set(pathElement, {
+                  stroke: '#60A5FA',
+                  strokeWidth: 3
+                });
+                
+                // Create a flowing animation along the path
+                gsap.fromTo(pathElement, 
+                  { strokeDasharray: '5 15', strokeDashoffset: 20 },
+                  { 
+                    strokeDashoffset: 0,
+                    duration: 1.5, 
+                    repeat: -1,
+                    ease: "none"
+                  }
+                );
+                
+                // Add subtle glow effect
+                gsap.to(pathElement, {
+                  filter: 'drop-shadow(0 0 3px rgba(96, 165, 250, 0.8))',
+                  duration: 0.5
+                });
+              } else {
+                // Reset non-active edges
+                gsap.to(pathElement, {
+                  stroke: '#60A5FA',
+                  strokeWidth: 2,
+                  strokeDasharray: 'none',
+                  strokeDashoffset: 0,
+                  filter: 'none',
+                  duration: 0.5
+                });
+              }
+            });
+          }
         }
       });
     }
