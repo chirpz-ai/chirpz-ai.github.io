@@ -173,7 +173,7 @@ export function About() {
               }}
             >
               We're building advanced AI agents that automate model governance reporting
-              for SaaS companies providing AI services to the insurance industry.
+              for enterprises that build and ship AI-powered solutions.
             </Typography>
           </Box>
         </motion.div>
@@ -272,7 +272,7 @@ export function About() {
                       pl: 7,
                     }}
                   >
-                    Companies providing AI solutions to insurance carriers struggle with the manual, 
+                    Organizations delivering AI solutions struggle with the manual, 
                     time-consuming, and expensive process of creating governance reports. Data scientists spend valuable time 
                     collecting metrics instead of building better models.
                   </Typography>
@@ -328,8 +328,8 @@ export function About() {
                       pl: 7,
                     }}
                   >
-                    By automating the reporting process, we help SaaS companies save time, reduce costs, enhance 
-                    compliance, and ultimately deliver a better experience to their insurance industry customers.
+                    By automating the reporting process, we help enterprises save time, reduce costs, enhance 
+                    compliance, and ultimately deliver a better experience to their customers across any industry.
                   </Typography>
                 </StyledPaper>
               </Box>

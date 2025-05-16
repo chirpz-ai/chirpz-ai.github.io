@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import MUIProvider from "@/components/mui-provider";
+import Script from "next/script";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -12,7 +13,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "ChirpZ AI | AI Model Governance Reporting",
-  description: "Automating model governance reporting for insurance SaaS companies with AI agents that transform complex metrics into ready-to-ship reports.",
+  description: "Streamlining AI model governance with AI agents that automate compliance reporting for enterprises across any observability platform.",
   metadataBase: new URL("https://chirpz.ai"),
   alternates: {
     canonical: "/",
@@ -21,14 +22,14 @@ export const metadata: Metadata = {
   keywords: [
     "AI model governance", 
     "model governance reporting", 
-    "insurance SaaS", 
+    "enterprise AI", 
     "regulatory compliance", 
     "AI agents", 
     "automated reporting", 
     "model metrics", 
-    "insurance AI",
+    "AI observability",
     "ChirpZ AI",
-    "ChirpZ.ai"
+    "model lifecycle"
   ],
   authors: [{ name: "ChirpZ AI Team" }],
   creator: "ChirpZ AI",
@@ -40,7 +41,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "ChirpZ AI | AI Model Governance Reporting",
-    description: "Automating model governance reporting for insurance SaaS companies with AI agents that transform complex metrics into ready-to-ship reports.",
+    description: "Streamlining AI model governance with AI agents that automate compliance reporting for enterprises across any observability platform.",
     url: 'https://chirpz.ai',
     siteName: 'ChirpZ AI',
     locale: 'en_US',
@@ -57,7 +58,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'ChirpZ AI | AI Model Governance Reporting',
-    description: 'Automating model governance reporting for insurance SaaS companies with AI agents.',
+    description: 'Streamlining AI model governance with AI agents that automate compliance reporting for enterprises across any observability platform.',
     images: ['https://chirpz.ai/logo-google.png'],
     creator: '@chirpzai',
   },
@@ -99,6 +100,26 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <Script
+          id="organization-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "ChirpZ AI",
+              "url": "https://chirpz.ai",
+              "logo": "https://chirpz.ai/logo-google.png",
+              "description": "Streamlining AI model governance with AI agents that automate compliance reporting for enterprises across any observability platform.",
+              "sameAs": [
+                "https://chirpz.ai"
+                // Add social profiles here when available
+              ]
+            })
+          }}
+        />
+      </head>
       <body className={`${inter.variable} font-sans antialiased`}>
         <ThemeProvider
           attribute="class"

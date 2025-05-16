@@ -25,7 +25,7 @@ export default function Home() {
               "price": "0",
               "priceCurrency": "USD"
             },
-            "description": "AI-powered platform that automates model governance reporting for insurance SaaS companies.",
+            "description": "Streamlining AI model governance with AI agents that automate compliance reporting for enterprises across any observability platform.",
             "aggregateRating": {
               "@type": "AggregateRating",
               "ratingValue": "5",
@@ -76,7 +76,7 @@ export default function Home() {
               "addressRegion": "CA",
               "addressCountry": "US"
             },
-            "description": "AI-powered platform that automates model governance reporting for insurance SaaS companies."
+            "description": "Streamlining AI model governance with AI agents that automate compliance reporting for enterprises across any observability platform."
           })
         }}
       />

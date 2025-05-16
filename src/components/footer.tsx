@@ -96,7 +96,7 @@ export function Footer() {
                 lineHeight: 1.6,
               }}
             >
-              Automating model governance reporting for insurance SaaS companies with AI agents that turn complex metrics into ready-to-ship reports.
+              Streamlining AI model governance with AI agents that automate compliance reporting for enterprises across any observability platform.
             </Typography>
             <Stack direction="row" spacing={1.5}>
               <Link href="https://github.com/chirpz-ai" target="_blank" rel="noopener" style={{ textDecoration: 'none' }}>

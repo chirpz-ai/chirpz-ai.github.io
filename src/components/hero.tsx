@@ -182,11 +182,27 @@ export function Hero() {
                       color: alpha("#fff", 0.8),
                       maxWidth: "500px",
                       mt: 3,
-                      mb: 5,
+                      mb: 2,
                       mx: { xs: "auto", lg: 0 },
                     }}
                   >
-                    Autonomous AI agents handle your entire model governance pipeline. We connect to your tools, gather metrics, and deliver ready-to-submit reports for your model lifecycle.
+                    AI agents that enable end-to-end model governance reporting. We link to your observability tools and deliver ready-to-submit compliance reports.
+                  </Typography>
+                  
+                  <Typography
+                    variant="subtitle1"
+                    sx={{
+                      fontWeight: 700,
+                      fontSize: { xs: "1.1rem", md: "1.3rem" },
+                      mb: 4,
+                      background: "linear-gradient(90deg, #10B981 0%, #3B82F6 100%)",
+                      backgroundClip: "text",
+                      color: "transparent",
+                      display: "inline-block",
+                      mx: { xs: "auto", lg: 0 },
+                    }}
+                  >
+                    No migration required. Works with your existing tools.
                   </Typography>
                 </motion.div>
 
