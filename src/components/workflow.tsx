@@ -39,8 +39,10 @@ const CustomNode = ({ node }: { node: Node }) => {
   return (
     <div className={`custom-node ${isActive ? 'active' : ''} ${isReport ? 'report-node' : ''}`}>
       <div className="custom-node-content">
-        <div className="custom-node-icon">
-          {icon}
+        <div className="custom-node-icon-positioning-context">
+          <div className="custom-node-icon-layout-container">
+            {icon}
+          </div>
           {isActive && isReport && (
             <div className="checkmark-icon">
               <DoneIcon style={{ color: "#10B981", fontSize: 18 }} />
@@ -1139,12 +1141,17 @@ export function Workflow() {
                 overflow: hidden;
               }
               
-              .custom-node-icon {
+              .custom-node-icon-positioning-context {
+                position: relative;
                 margin-bottom: 6px;
+                display: flex;
+                justify-content: center;
+              }
+              
+              .custom-node-icon-layout-container {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                position: relative;
               }
               
               .checkmark-icon {
@@ -1159,6 +1166,10 @@ export function Workflow() {
                 align-items: center;
                 justify-content: center;
                 animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+                width: 26px;
+                height: 26px;
+                box-sizing: border-box;
+                line-height: 0;
               }
               
               @keyframes popIn {
