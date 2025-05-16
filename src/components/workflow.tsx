@@ -31,14 +31,22 @@ import ArticleIcon from "@mui/icons-material/Article";
 import CloudIcon from "@mui/icons-material/Cloud";
 import StorageIcon from "@mui/icons-material/Storage";
 import LanguageIcon from "@mui/icons-material/Language";
+import DoneIcon from "@mui/icons-material/Done";
 
 // React components for rendering nodes
 const CustomNode = ({ node }: { node: Node }) => {
-  const { label, icon, isActive } = node.getData() || {};
+  const { label, icon, isActive, isReport } = node.getData() || {};
   return (
-    <div className={`custom-node ${isActive ? 'active' : ''}`}>
+    <div className={`custom-node ${isActive ? 'active' : ''} ${isReport ? 'report-node' : ''}`}>
       <div className="custom-node-content">
-        <div className="custom-node-icon">{icon}</div>
+        <div className="custom-node-icon">
+          {icon}
+          {isActive && isReport && (
+            <div className="checkmark-icon">
+              <DoneIcon style={{ color: "#10B981", fontSize: 18 }} />
+            </div>
+          )}
+        </div>
         <div className="custom-node-label">{label}</div>
       </div>
     </div>
@@ -530,6 +538,7 @@ export function Workflow() {
             label: 'Generated Report',
             icon: <AssessmentIcon style={{ color: "#F59E0B", fontSize: 24 }} />,
             isActive: false,
+            isReport: true,
           },
         },
       ];
@@ -798,7 +807,11 @@ export function Workflow() {
               (currentIndex < workflowNodeIds.length-1 && source === activeNodeId && target === workflowNodeIds[currentIndex+1]) ||
               (activeNodeId === 'generate' && source === 'generate' && target === 'reflect') ||
               (activeNodeId === 'reflect' && source === 'reflect' && target === 'reflected') ||
-              (activeNodeId === 'reflected' && source === 'reflected' && target === 'report');
+              (activeNodeId === 'reflected' && source === 'reflected' && target === 'report') ||
+              // Include tool-call to tools-container edges
+              (activeNodeId === 'tool-call' && 
+                ((source === 'tool-call' && target === 'tools-container') || 
+                 (source === 'tools-container' && target === 'tool-call')));
             
             // Apply GSAP animation based on edge status
             import('gsap').then(({ default: gsap }) => {
@@ -843,6 +856,39 @@ export function Workflow() {
           }
         }
       });
+
+      // Special handling for the report node when active
+      if (activeNodeId === 'report') {
+        const reportNode = graphRef.current?.getCellById('report');
+        if (reportNode) {
+          const nodeView = graphRef.current?.findViewByCell(reportNode);
+          if (nodeView) {
+            const nodeElement = nodeView.findOne('rect');
+            if (nodeElement) {
+              import('gsap').then(({ default: gsap }) => {
+                // Apply special report node glow with a different color
+                gsap.to(nodeElement, {
+                  stroke: 'rgba(16, 185, 129, 0.8)', // Green glow
+                  strokeWidth: 2,
+                  duration: 0.3
+                });
+                
+                // Create more pronounced success glow effect
+                gsap.fromTo(nodeElement, 
+                  { boxShadow: '0 0 0 0 rgba(16, 185, 129, 0)' },
+                  { 
+                    boxShadow: '0 0 20px 5px rgba(16, 185, 129, 0.7)',
+                    duration: 0.8,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "power2.inOut"
+                  }
+                );
+              });
+            }
+          }
+        }
+      }
     }
   }, [activeNodeId, workflowNodeIds]);
 
@@ -853,14 +899,29 @@ export function Workflow() {
     if (workflowRunning) {
       interval = setInterval(() => {
         const currentIndex = workflowNodeIds.indexOf(activeNodeId);
-        const nextIndex = (currentIndex + 1) % workflowNodeIds.length;
+        let nextNodeId;
         
-        if (nextIndex === 0) {
-          if (interval) clearInterval(interval);
-          setTimeout(() => setWorkflowRunning(true), 2000);
+        // Special case: after tool-call, visit tools-container before proceeding to results
+        if (activeNodeId === 'tool-call') {
+          nextNodeId = 'tools-container';
+        } 
+        // Special case: after tools-container, move to results
+        else if (activeNodeId === 'tools-container') {
+          nextNodeId = 'results';
+        } 
+        // Default case: follow the standard workflow
+        else {
+          const nextIndex = (currentIndex + 1) % workflowNodeIds.length;
+          nextNodeId = workflowNodeIds[nextIndex];
+          
+          // Reset on complete cycle
+          if (nextIndex === 0) {
+            if (interval) clearInterval(interval);
+            setTimeout(() => setWorkflowRunning(true), 2000);
+          }
         }
         
-        setActiveNodeId(workflowNodeIds[nextIndex]);
+        setActiveNodeId(nextNodeId);
       }, 1500);
     }
     
@@ -1018,6 +1079,17 @@ export function Workflow() {
                 transform: translateY(-2px) scale(1.03);
               }
               
+              .custom-node.report-node {
+                background-color: rgba(16, 185, 129, 0.08);
+                border: 1px solid rgba(16, 185, 129, 0.3);
+              }
+              
+              .custom-node.report-node.active {
+                box-shadow: 0 0 25px rgba(16, 185, 129, 0.5);
+                border: 1px solid rgba(16, 185, 129, 0.8);
+                background-color: rgba(16, 185, 129, 0.15);
+              }
+              
               .custom-node-content {
                 display: flex;
                 flex-direction: column;
@@ -1030,6 +1102,35 @@ export function Workflow() {
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                position: relative;
+              }
+              
+              .checkmark-icon {
+                position: absolute;
+                top: -8px;
+                right: -16px;
+                background-color: #1e2330;
+                border-radius: 50%;
+                padding: 2px;
+                border: 2px solid rgba(16, 185, 129, 0.8);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+              }
+              
+              @keyframes popIn {
+                0% {
+                  transform: scale(0);
+                  opacity: 0;
+                }
+                70% {
+                  transform: scale(1.2);
+                }
+                100% {
+                  transform: scale(1);
+                  opacity: 1;
+                }
               }
               
               .custom-node-label {
