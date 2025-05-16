@@ -192,6 +192,9 @@ export function Workflow() {
           enabled: true,
           modifiers: 'shift',
         },
+        interacting: {
+          nodeMovable: false, 
+        },
       });
 
       // Define a consistent vertical spacing
@@ -1099,8 +1102,9 @@ export function Workflow() {
               .custom-node {
                 background-color: #1e2330;
                 border-radius: 8px;
-                width: 160px;
-                height: 70px;
+                width: 100%;
+                height: 100%;
+                box-sizing: border-box;
                 padding: 10px 15px;
                 border: 1px solid rgba(96, 165, 250, 0.3);
                 transition: all 0.3s ease;
@@ -1180,8 +1184,9 @@ export function Workflow() {
                 border-radius: 8px;
                 display: flex;
                 align-items: center;
-                width: 140px;
-                height: 40px;
+                width: 100%;
+                height: 100%;
+                box-sizing: border-box;
                 padding: 8px 12px;
                 gap: 8px;
                 transition: all 0.3s ease;
@@ -1212,8 +1217,9 @@ export function Workflow() {
               .reflection-node {
                 background-color: #1e2330;
                 border-radius: 8px;
-                width: 160px;
-                height: 70px;
+                width: 100%;
+                height: 100%;
+                box-sizing: border-box;
                 padding: 10px 15px;
                 border: 1px solid rgba(96, 165, 250, 0.3);
                 transition: all 0.3s ease;
