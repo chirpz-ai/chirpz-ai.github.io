@@ -1109,6 +1109,7 @@ export function Workflow() {
                 border: 1px solid rgba(96, 165, 250, 0.3);
                 transition: all 0.3s ease;
                 box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+                overflow: hidden;
               }
               
               .custom-node.active {
@@ -1135,7 +1136,7 @@ export function Workflow() {
                 width: 100%;
                 height: 100%;
                 box-sizing: border-box;
-                position: relative;
+                overflow: hidden;
               }
               
               .custom-node-icon {
@@ -1179,6 +1180,10 @@ export function Workflow() {
                 font-weight: 500;
                 color: white;
                 text-align: center;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 100%;
               }
               
               .tool-node {
@@ -1227,6 +1232,7 @@ export function Workflow() {
                 border: 1px solid rgba(96, 165, 250, 0.3);
                 transition: all 0.3s ease;
                 box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+                overflow: hidden;
               }
               
               .reflection-node.active {
@@ -1242,7 +1248,7 @@ export function Workflow() {
                 width: 100%;
                 height: 100%;
                 box-sizing: border-box;
-                position: relative;
+                overflow: hidden;
               }
               
               .reflection-node-icon {
@@ -1257,6 +1263,10 @@ export function Workflow() {
                 font-weight: 500;
                 color: white;
                 text-align: center;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 100%;
               }
             `}</style>
           </Paper>
