@@ -1139,12 +1139,13 @@ export function Workflow() {
                 height: 100%;
                 box-sizing: border-box;
                 overflow: hidden;
+                position: relative;
               }
               
               .custom-node-icon-positioning-context {
-                position: relative;
                 margin-bottom: 6px;
                 display: flex;
+                align-items: center;
                 justify-content: center;
               }
               
@@ -1156,8 +1157,8 @@ export function Workflow() {
               
               .checkmark-icon {
                 position: absolute;
-                top: -8px;
-                right: -16px;
+                top: 2px;
+                right: 2px;
                 background-color: #1e2330;
                 border-radius: 50%;
                 padding: 2px;
