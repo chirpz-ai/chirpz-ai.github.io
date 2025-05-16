@@ -29,7 +29,12 @@ const StyledLink = styled(Link)({
   display: "block",
 });
 
-const navItems = ["Features", "How it Works", "About", "Contact"];
+const navItems = [
+  { name: "Features", link: "features" },
+  { name: "How it Works", link: "workflow" },
+  { name: "About", link: "about" },
+  { name: "Contact", link: "contact" }
+];
 
 interface Props {
   window?: () => Window;
@@ -143,14 +148,14 @@ export function Header(props: Props) {
           <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: 'center' }}>
             {navItems.map((item, index) => (
               <motion.div
-                key={item}
+                key={item.name}
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: 0.1 * index }}
               >
                 <Button
                   component={StyledLink}
-                  href={`#${item.toLowerCase().replace(/\s+/g, '')}`}
+                  href={`#${item.link}`}
                   sx={{ 
                     my: 2, 
                     mx: 1,
@@ -163,7 +168,7 @@ export function Header(props: Props) {
                     }
                   }}
                 >
-                  {item}
+                  {item.name}
                 </Button>
               </motion.div>
             ))}
@@ -215,17 +220,26 @@ export function Header(props: Props) {
               }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
+              PaperProps={{
+                sx: {
+                  bgcolor: "rgba(31, 41, 55, 0.95)",
+                  backdropFilter: "blur(8px)",
+                  boxShadow: "0 4px 20px rgba(0, 0, 0, 0.3)",
+                }
+              }}
             >
               {navItems.map((item) => (
-                <MenuItem key={item} onClick={handleCloseNavMenu}>
-                  <StyledLink href={`#${item.toLowerCase().replace(/\s+/g, '')}`}>
-                    <Typography textAlign="center">{item}</Typography>
+                <MenuItem key={item.name} onClick={handleCloseNavMenu} sx={{ py: 1 }}>
+                  <StyledLink href={`#${item.link}`}>
+                    <Typography textAlign="center" sx={{ color: "white", fontWeight: 500 }}>
+                      {item.name}
+                    </Typography>
                   </StyledLink>
                 </MenuItem>
               ))}
-              <MenuItem onClick={handleCloseNavMenu}>
+              <MenuItem onClick={handleCloseNavMenu} sx={{ py: 1 }}>
                 <StyledLink href="https://github.com/chirpz-ai" target="_blank" rel="noopener">
-                  <Typography textAlign="center" sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Typography textAlign="center" sx={{ display: 'flex', alignItems: 'center', color: "white", fontWeight: 500 }}>
                     <GitHubIcon fontSize="small" sx={{ mr: 1 }} /> GitHub
                   </Typography>
                 </StyledLink>
