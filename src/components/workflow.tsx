@@ -1114,7 +1114,6 @@ export function Workflow() {
               .custom-node.active {
                 box-shadow: 0 0 25px rgba(96, 165, 250, 0.5);
                 border: 1px solid rgba(96, 165, 250, 0.8);
-                transform: translateY(-2px) scale(1.03);
               }
               
               .custom-node.report-node {
@@ -1229,7 +1228,6 @@ export function Workflow() {
               .reflection-node.active {
                 box-shadow: 0 0 25px rgba(16, 185, 129, 0.5);
                 border: 1px solid rgba(16, 185, 129, 0.8);
-                transform: translateY(-2px) scale(1.03);
               }
               
               .reflection-node-content {
