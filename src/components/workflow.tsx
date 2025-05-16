@@ -110,12 +110,20 @@ export function Workflow() {
 
   // Initialize the graph when component mounts
   useEffect(() => {
-    if (containerRef.current && !graphRef.current) {
+    const initGraph = () => {
+      if (!containerRef.current) return;
+      
+      // Clean up existing graph if it exists
+      if (graphRef.current) {
+        graphRef.current.dispose();
+        graphRef.current = null;
+      }
+      
       // Initialize X6 Graph
       const graph = new Graph({
         container: containerRef.current,
         width: containerRef.current.offsetWidth,
-        height: 460,
+        height: window.innerWidth < 768 ? 340 : 460,
         background: {
           color: 'transparent',
         },
@@ -170,14 +178,14 @@ export function Workflow() {
           },
         },
         scaling: {
-          min: 0.5,
+          min: 0.3, // Allow scaling down further for mobile
           max: 2,
         },
         mousewheel: {
           enabled: true,
           zoomAtMousePosition: true,
           modifiers: 'ctrl',
-          minScale: 0.5,
+          minScale: 0.3, // Allow scaling down further for mobile
           maxScale: 2,
         },
         panning: {
@@ -263,42 +271,42 @@ export function Workflow() {
       const toolNodes = [
         {
           id: 'arize',
-          position: { x: 190, y: 80 },
+          position: { x: 200, y: 80 },
           data: { label: 'Arize', icon: <SsidChartIcon style={{ color: "#60A5FA", fontSize: 18 }} /> }
         },
         {
           id: 'watsonx',
-          position: { x: 350, y: 80 },
+          position: { x: 360, y: 80 },
           data: { label: 'Watsonx', icon: <AutoAwesomeIcon style={{ color: "#8B5CF6", fontSize: 18 }} /> }
         },
         {
           id: 'aws',
-          position: { x: 510, y: 80 },
+          position: { x: 520, y: 80 },
           data: { label: 'AWS SageMaker', icon: <CloudIcon style={{ color: "#F87171", fontSize: 18 }} /> }
         },
         {
           id: 'openlayer',
-          position: { x: 670, y: 80 },
+          position: { x: 680, y: 80 },
           data: { label: 'Openlayer', icon: <LanguageIcon style={{ color: "#EC4899", fontSize: 18 }} /> }
         },
         {
           id: 'dashboards',
-          position: { x: 190, y: 135 },
+          position: { x: 200, y: 135 },
           data: { label: 'Internal Dashboards', icon: <BarChartIcon style={{ color: "#38BDF8", fontSize: 18 }} /> }
         },
         {
           id: 'mongodb',
-          position: { x: 350, y: 135 },
+          position: { x: 360, y: 135 },
           data: { label: 'MongoDB', icon: <StorageIcon style={{ color: "#818CF8", fontSize: 18 }} /> }
         },
         {
           id: 'notion',
-          position: { x: 510, y: 135 },
+          position: { x: 520, y: 135 },
           data: { label: 'Notion', icon: <DescriptionIcon style={{ color: "#10B981", fontSize: 18 }} /> }
         },
         {
           id: 'kb',
-          position: { x: 670, y: 135 },
+          position: { x: 680, y: 135 },
           data: { label: 'Knowledge Base', icon: <ArticleIcon style={{ color: "#F59E0B", fontSize: 18 }} /> }
         },
       ];
@@ -699,6 +707,21 @@ export function Workflow() {
         },
       });
 
+      // Apply zoom for mobile view only
+      if (window.innerWidth < 480) {
+        graph.scale(0.35); // Very small screens (phones)
+        graph.centerContent();
+      } else if (window.innerWidth < 768) {
+        graph.scale(0.45); // Medium screens (larger phones, small tablets)
+        graph.centerContent();
+      } else {
+        // Just center content for desktop
+        graph.centerContent();
+      }
+      
+      // Save graph reference
+      graphRef.current = graph;
+      
       // Set up node click events
       graph.on('node:click', ({ node }) => {
         if (workflowNodeIds.includes(node.id as string)) {
@@ -711,16 +734,26 @@ export function Workflow() {
           }, 5000);
         }
       });
-
-      // Save graph reference
-      graphRef.current = graph;
-
-      // Center the graph to fit all content
-      graph.centerContent();
-    }
-
+    };
+    
+    // Initialize graph
+    initGraph();
+    
+    // Handle resize with debounce
+    let resizeTimeout: NodeJS.Timeout;
+    const handleResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        initGraph(); // Completely reinitialize graph on resize
+      }, 250);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    
     // Clean up on unmount
     return () => {
+      window.removeEventListener('resize', handleResize);
+      clearTimeout(resizeTimeout);
       if (graphRef.current) {
         graphRef.current.dispose();
         graphRef.current = null;
@@ -944,7 +977,7 @@ export function Workflow() {
       id="workflow"
       component="section"
       sx={{
-        py: { xs: 6, md: 8 },
+        py: { xs: 1, sm: 3, md: 8 },
         background: "linear-gradient(135deg, #1F2937 0%, #111827 100%)",
         position: "relative",
         overflow: "hidden",
@@ -992,13 +1025,13 @@ export function Workflow() {
               textAlign: "center", 
               maxWidth: "800px", 
               mx: "auto", 
-              mb: { xs: 3, md: 4 } 
+              mb: { xs: 1, sm: 2, md: 4 } 
             }}
           >
             <Chip
               label="How it Works"
               sx={{
-                mb: 2,
+                mb: { xs: 1, sm: 2 },
                 fontWeight: 600,
                 color: "#60A5FA",
                 bgcolor: alpha("#60A5FA", 0.15),
@@ -1010,9 +1043,9 @@ export function Workflow() {
               variant="h2"
               component="h2"
               sx={{
-                fontSize: { xs: "2rem", md: "2.5rem" },
+                fontSize: { xs: "1.75rem", sm: "2rem", md: "2.5rem" },
                 fontWeight: 700,
-                mb: 2,
+                mb: { xs: 1, sm: 2 },
                 color: "white",
               }}
             >
@@ -1021,7 +1054,7 @@ export function Workflow() {
             <Typography
               variant="body1"
               sx={{
-                fontSize: { xs: "1rem", md: "1.125rem" },
+                fontSize: { xs: "0.875rem", sm: "1rem", md: "1.125rem" },
                 color: alpha("#fff", 0.8),
                 maxWidth: "650px",
                 mx: "auto",
@@ -1048,13 +1081,14 @@ export function Workflow() {
               border: "1px solid rgba(75, 85, 99, 0.3)",
               boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)",
               overflow: "hidden",
+              mt: { xs: 1, sm: 2, md: 3 }
             }}
           >
             {/* X6 Graph Container */}
             <Box 
               ref={containerRef}
               sx={{ 
-                height: 650, 
+                height: { xs: 340, sm: 450, md: 650 }, 
                 width: '100%',
                 overflow: 'hidden'
               }}
