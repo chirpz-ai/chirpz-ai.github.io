@@ -12,7 +12,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "ChirpZ AI | AI Model Governance Reporting",
+  title: "Chirpz AI | AI Model Governance Reporting",
   description: "Streamlining AI model governance with AI agents that automate compliance reporting for enterprises across any observability platform.",
   metadataBase: new URL("https://chirpz.ai"),
   alternates: {
@@ -28,22 +28,22 @@ export const metadata: Metadata = {
     "automated reporting", 
     "model metrics", 
     "AI observability",
-    "ChirpZ AI",
+    "Chirpz AI",
     "model lifecycle"
   ],
-  authors: [{ name: "ChirpZ AI Team" }],
-  creator: "ChirpZ AI",
-  publisher: "ChirpZ AI",
+  authors: [{ name: "Chirpz AI Team" }],
+  creator: "Chirpz AI",
+  publisher: "Chirpz AI",
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
   openGraph: {
-    title: "ChirpZ AI | AI Model Governance Reporting",
+    title: "Chirpz AI | AI Model Governance Reporting",
     description: "Streamlining AI model governance with AI agents that automate compliance reporting for enterprises across any observability platform.",
     url: 'https://chirpz.ai',
-    siteName: 'ChirpZ AI',
+    siteName: 'Chirpz AI',
     locale: 'en_US',
     type: 'website',
     images: [
@@ -51,13 +51,13 @@ export const metadata: Metadata = {
         url: 'https://chirpz.ai/logo-google.png',
         width: 192,
         height: 192,
-        alt: 'ChirpZ AI - AI Model Governance',
+        alt: 'Chirpz AI - AI Model Governance',
       }
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'ChirpZ AI | AI Model Governance Reporting',
+    title: 'Chirpz AI | AI Model Governance Reporting',
     description: 'Streamlining AI model governance with AI agents that automate compliance reporting for enterprises across any observability platform.',
     images: ['https://chirpz.ai/logo-google.png'],
     creator: '@chirpzai',
@@ -108,7 +108,7 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
-              "name": "ChirpZ AI",
+              "name": "Chirpz AI",
               "url": "https://chirpz.ai",
               "logo": "https://chirpz.ai/logo-google.png",
               "description": "Streamlining AI model governance with AI agents that automate compliance reporting for enterprises across any observability platform.",

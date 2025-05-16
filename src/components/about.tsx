@@ -161,7 +161,7 @@ export function About() {
                 color: "white",
               }}
             >
-              About ChirpZ.ai
+              About Chirpz AI
             </Typography>
             <Typography
               variant="body1"
@@ -300,7 +300,7 @@ export function About() {
                       pl: 7,
                     }}
                   >
-                    ChirpZ.ai's agents integrate with your existing tools, automatically collect and analyze 
+                    Chirpz AI's agents integrate with your existing tools, automatically collect and analyze 
                     model metrics and lifecycle data on schedule or per request, and generate comprehensive, regulation-compliant reports ready for 
                     review.
                   </Typography>

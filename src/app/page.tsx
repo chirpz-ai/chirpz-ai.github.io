@@ -17,7 +17,7 @@ export default function Home() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "SoftwareApplication",
-            "name": "ChirpZ AI",
+            "name": "Chirpz AI",
             "applicationCategory": "BusinessApplication",
             "operatingSystem": "Web",
             "offers": {
@@ -33,7 +33,7 @@ export default function Home() {
             },
             "publisher": {
               "@type": "Organization",
-              "name": "ChirpZ AI",
+              "name": "Chirpz AI",
               "logo": {
                 "@type": "ImageObject",
                 "url": "https://chirpz.ai/logo-google.png"
@@ -57,7 +57,7 @@ export default function Home() {
             "@context": "https://schema.org",
             "@type": "Organization",
             "url": "https://chirpz.ai",
-            "name": "ChirpZ AI",
+            "name": "Chirpz AI",
             "logo": {
               "@type": "ImageObject",
               "url": "https://chirpz.ai/logo-google.png",

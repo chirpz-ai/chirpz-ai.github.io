@@ -117,7 +117,7 @@ export function Header(props: Props) {
                 >
                   <Image 
                     src="/assets/logo.svg" 
-                    alt="ChirpZ.ai Logo"
+                    alt="Chirpz AI Logo"
                     fill
                     style={{ 
                       objectFit: 'contain',
@@ -136,7 +136,7 @@ export function Header(props: Props) {
                     fontSize: { xs: "1.5rem", md: "1.75rem" }
                   }}
                 >
-                  ChirpZ<Box component="span" sx={{ color: "#60a5fa" }}>.ai</Box>
+                  Chirpz <Box component="span" sx={{ color: "#60a5fa" }}>AI</Box>
                 </Typography>
               </Box>
             </StyledLink>
