@@ -39,17 +39,16 @@ const CustomNode = ({ node }: { node: Node }) => {
   return (
     <div className={`custom-node ${isActive ? 'active' : ''} ${isReport ? 'report-node' : ''}`}>
       <div className="custom-node-content">
-        <div className="custom-node-icon-positioning-context">
-          <div className="custom-node-icon-layout-container">
-            {icon}
-          </div>
-          {isActive && isReport && (
-            <div className="checkmark-icon">
-              <DoneIcon style={{ color: "#10B981", fontSize: 18 }} />
-            </div>
-          )}
+        <div className="custom-node-icon-wrapper">
+          {icon}
         </div>
         <div className="custom-node-label">{label}</div>
+        
+        {isActive && isReport && (
+          <div className="checkmark-icon">
+            <DoneIcon style={{ color: "#10B981", fontSize: 18 }} />
+          </div>
+        )}
       </div>
     </div>
   );
@@ -1142,14 +1141,8 @@ export function Workflow() {
                 position: relative;
               }
               
-              .custom-node-icon-positioning-context {
+              .custom-node-icon-wrapper {
                 margin-bottom: 6px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-              }
-              
-              .custom-node-icon-layout-container {
                 display: flex;
                 align-items: center;
                 justify-content: center;
