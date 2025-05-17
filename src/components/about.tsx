@@ -17,6 +17,8 @@ import {
   ListItemText
 } from "@mui/material";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
+import { useRef, useEffect } from "react";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   borderRadius: "16px",
@@ -27,6 +29,15 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(4),
   height: "100%",
   transition: "all 0.3s ease",
+  [theme.breakpoints.down('sm')]: {
+    padding: theme.spacing(2),
+  },
+  maxWidth: 420,
+  width: '100%',
+  margin: '0 auto',
+  [theme.breakpoints.up('md')]: {
+    maxWidth: 540,
+  },
 }));
 
 const NumberCircle = styled(Box)(({ theme }) => ({
@@ -47,6 +58,9 @@ const MissionCard = styled(Box)(({ theme }) => ({
   position: "relative",
   width: "100%",
   padding: theme.spacing(8),
+  [theme.breakpoints.down('sm')]: {
+    padding: theme.spacing(3),
+  },
   "&:before": {
     content: '""',
     position: "absolute",
@@ -71,6 +85,11 @@ const MissionCard = styled(Box)(({ theme }) => ({
     transform: "rotate(3deg)",
     zIndex: 0,
   },
+  maxWidth: 420,
+  margin: '0 auto',
+  [theme.breakpoints.up('md')]: {
+    maxWidth: 540,
+  },
 }));
 
 export function About() {
@@ -78,11 +97,71 @@ export function About() {
   
   const benefits = [
     "Faster reporting cycles",
-    "Enhanced regulatory compliance",
     "Reduced manual workload",
     "Improved report explainability",
     "Better data visualization",
   ];
+
+  // Auto-scroll logic for mobile chips
+  const chipScrollRef = useRef<HTMLDivElement>(null);
+  const autoScrollTimeout = useRef<NodeJS.Timeout | null>(null);
+  const autoScrollInterval = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    const container = chipScrollRef.current;
+    if (!container) return;
+    if (window.innerWidth >= 600) return; // Only run on mobile
+
+    let currentChip = 0;
+    const chips = Array.from(container.querySelectorAll('[data-chip]'));
+    if (chips.length === 0) return;
+
+    function scrollToChip(idx: number) {
+      const chip = chips[idx];
+      if (chip) {
+        chip.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      }
+    }
+
+    function startAutoScroll() {
+      autoScrollInterval.current = setInterval(() => {
+        currentChip = (currentChip + 1) % chips.length;
+        scrollToChip(currentChip);
+      }, 2000);
+    }
+
+    startAutoScroll();
+
+    // Pause auto-scroll on user scroll, resume after 3s
+    function handleUserScroll() {
+      if (autoScrollInterval.current) clearInterval(autoScrollInterval.current);
+      if (autoScrollTimeout.current) clearTimeout(autoScrollTimeout.current);
+      autoScrollTimeout.current = setTimeout(() => {
+        // Find the chip most in view
+        if (!container) return;
+        const containerRect = container.getBoundingClientRect();
+        let bestIdx = 0;
+        let bestVisible = 0;
+        chips.forEach((chip, idx) => {
+          const chipRect = chip.getBoundingClientRect();
+          const visibleWidth = Math.max(0, Math.min(chipRect.right, containerRect.right) - Math.max(chipRect.left, containerRect.left));
+          if (visibleWidth > bestVisible) {
+            bestVisible = visibleWidth;
+            bestIdx = idx;
+          }
+        });
+        currentChip = bestIdx;
+        startAutoScroll();
+      }, 3000);
+    }
+    container.addEventListener('scroll', handleUserScroll);
+
+    return () => {
+      if (autoScrollInterval.current) clearInterval(autoScrollInterval.current);
+      if (autoScrollTimeout.current) clearTimeout(autoScrollTimeout.current);
+      container.removeEventListener('scroll', handleUserScroll);
+    };
+  }, []);
 
   return (
     <Box
@@ -189,30 +268,76 @@ export function About() {
               <Box sx={{ position: "relative" }}>
                 <MissionCard>
                   <StyledPaper elevation={0} sx={{ position: "relative", zIndex: 1 }}>
-                    <Typography
-                      variant="h5"
-                      component="h3"
-                      sx={{
-                        fontWeight: 700,
-                        mb: 2,
-                        color: "#1F2937",
-                      }}
-                    >
-                      Our Mission
-                    </Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                      <RocketLaunchIcon sx={{ color: theme.palette.primary.main, fontSize: 32, mr: 1 }} />
+                      <Typography
+                        variant="h5"
+                        component="h3"
+                        sx={{
+                          fontWeight: 700,
+                          background: "linear-gradient(90deg, #60A5FA 0%, #A78BFA 100%)",
+                          backgroundClip: "text",
+                          color: "transparent",
+                          fontSize: { xs: '1.25rem', sm: '1.5rem', md: '1.7rem' },
+                        }}
+                      >
+                        Our Mission
+                      </Typography>
+                    </Box>
                     <Typography
                       variant="body1"
                       sx={{
                         color: "#4B5563",
-                        mb: 4,
+                        mb: { xs: 2, sm: 4 },
                         lineHeight: 1.6,
+                        fontSize: { xs: '0.98rem', sm: '1.08rem', md: '1.15rem' },
                       }}
                     >
                       Our mission is to eliminate the bottlenecks that slow down AI innovation while ensuring
                       compliance with critical regulations through transparent, consistent reporting.
                     </Typography>
-                    
-                    <List disablePadding>
+                    {/* Horizontal scrollable chips for mobile, vertical list for desktop */}
+                    <Box
+                      ref={chipScrollRef}
+                      sx={{
+                        position: 'relative',
+                        display: { xs: 'flex', sm: 'none' },
+                        overflowX: 'auto',
+                        gap: 2,
+                        pb: 1,
+                        mt: 1,
+                        px: 1,
+                        scrollBehavior: 'smooth',
+                      }}
+                    >
+                      {benefits.map((benefit, idx) => (
+                        <Box
+                          key={idx}
+                          data-chip
+                          sx={{
+                            display: 'inline-flex',
+                            flexShrink: 0,
+                            // No maxWidth, let chip grow
+                          }}
+                        >
+                          <Chip
+                            icon={<CheckCircleOutlineIcon sx={{ color: theme.palette.primary.main }} />}
+                            label={benefit}
+                            sx={{
+                              bgcolor: alpha(theme.palette.primary.main, 0.08),
+                              color: "#4B5563",
+                              fontWeight: 500,
+                              px: 2,
+                              fontSize: '0.98rem',
+                              whiteSpace: 'nowrap',
+                              overflow: 'visible',
+                              minWidth: 'unset',
+                            }}
+                          />
+                        </Box>
+                      ))}
+                    </Box>
+                    <List disablePadding sx={{ display: { xs: 'none', sm: 'block' } }}>
                       {benefits.map((benefit, index) => (
                         <motion.div
                           key={index}
@@ -221,7 +346,7 @@ export function About() {
                           viewport={{ once: true }}
                           transition={{ duration: 0.4, delay: 0.1 * index }}
                         >
-                          <ListItem disablePadding sx={{ mb: 1 }}>
+                          <ListItem disablePadding sx={{ mb: { xs: 0.5, sm: 1 } }}>
                             <ListItemIcon sx={{ minWidth: 36 }}>
                               <CheckCircleOutlineIcon sx={{ color: theme.palette.primary.main }} />
                             </ListItemIcon>
@@ -229,7 +354,8 @@ export function About() {
                               primary={benefit} 
                               primaryTypographyProps={{ 
                                 color: "#4B5563",
-                                fontWeight: 500
+                                fontWeight: 500,
+                                fontSize: { xs: '0.98rem', sm: '1.08rem' },
                               }} 
                             />
                           </ListItem>
@@ -249,8 +375,8 @@ export function About() {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-                <StyledPaper elevation={0}>
+              <Box sx={{ display: "flex", flexDirection: "column", gap: 3, alignItems: "center" }}>
+                <StyledPaper elevation={0} sx={{ maxWidth: { xs: 420, md: 540 }, width: '100%', margin: '0 auto' }}>
                   <Box sx={{ display: "flex", alignItems: "flex-start", mb: 2 }}>
                     <NumberCircle>1</NumberCircle>
                     <Typography
@@ -278,7 +404,7 @@ export function About() {
                   </Typography>
                 </StyledPaper>
 
-                <StyledPaper elevation={0}>
+                <StyledPaper elevation={0} sx={{ maxWidth: { xs: 420, md: 540 }, width: '100%', margin: '0 auto' }}>
                   <Box sx={{ display: "flex", alignItems: "flex-start", mb: 2 }}>
                     <NumberCircle>2</NumberCircle>
                     <Typography
@@ -306,7 +432,7 @@ export function About() {
                   </Typography>
                 </StyledPaper>
 
-                <StyledPaper elevation={0}>
+                <StyledPaper elevation={0} sx={{ maxWidth: { xs: 420, md: 540 }, width: '100%', margin: '0 auto' }}>
                   <Box sx={{ display: "flex", alignItems: "flex-start", mb: 2 }}>
                     <NumberCircle>3</NumberCircle>
                     <Typography
