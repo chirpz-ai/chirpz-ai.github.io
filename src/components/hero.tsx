@@ -624,13 +624,17 @@ export function Hero() {
           </Grid>
 
           <Grid size={{ xs: 12, lg: 6 }}>
-            <Box sx={{ display: { xs: "none", lg: "block" } }}>
+            <Box sx={{ display: "block" }}>
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
               >
-                <DemoWindow elevation={0}>
+                <DemoWindow elevation={0} sx={{ 
+                  maxWidth: { xs: '100%', sm: '90%', md: '100%' },
+                  mx: { xs: 'auto', sm: 'auto', md: 0 },
+                  mt: { xs: 4, sm: 4, md: 0 }
+                }}>
                   {/* Window controls */}
                   <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 3 }}>
                     <Box sx={{ width: 120, height: 18, bgcolor: "#374151", borderRadius: 1 }} />
@@ -656,7 +660,7 @@ export function Hero() {
                     ref={reportContainerRef}
                     sx={{ 
                       mb: 3, 
-                      height: 260, 
+                      height: { xs: 200, sm: 220, md: 260 }, 
                       overflow: "auto",
                       scrollBehavior: "smooth",
                       "&::-webkit-scrollbar": {
