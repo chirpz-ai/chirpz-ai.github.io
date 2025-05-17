@@ -752,6 +752,33 @@ export function Hero() {
                     transition={{ duration: 0.6, delay: 0.7 }}
                     style={{ position: "relative", zIndex: 2 }}
                   >
+                    {/* Top Connection Line with Fade Effect */}
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 40 }}
+                      transition={{ duration: 0.6, delay: 0.6 }}
+                      style={{ 
+                        position: "relative", 
+                        height: 40, 
+                        overflow: "visible",
+                        width: "100%",
+                        marginBottom: -4
+                      }}
+                    >
+                      <Box
+                        sx={{
+                          position: 'absolute',
+                          top: 0,
+                          left: '50%',
+                          transform: 'translateX(-50%)',
+                          width: 2,
+                          height: '90%',
+                          background: 'linear-gradient(to bottom, rgba(59, 130, 246, 0) 0%, rgba(59, 130, 246, 1) 100%)',
+                          zIndex: 1
+                        }}
+                      />
+                    </motion.div>
+
                     <TimelineEventBox sx={{ 
                       mb: 0.5,
                       maxWidth: { xs: '65%', sm: '55%', md: '45%' }, 
@@ -781,22 +808,10 @@ export function Hero() {
                           Report Requested
                         </Typography>
                       </Box>
-                      <Box sx={{ 
-                        position: 'absolute',
-                        bottom: -7, 
-                        left: '50%',
-                        width: 12, 
-                        height: 12, 
-                        bgcolor: '#3B82F6',
-                        borderRadius: '50%',
-                        transform: 'translateX(-50%)',
-                        border: '2px solid #1F2937',
-                        zIndex: 3
-                      }} />
                     </TimelineEventBox>
                   </motion.div>
 
-                  {/* Top Connector Line */}
+                  {/* Bottom Connector Line between Report Requested and Simulation Box with Fade Effect */}
                   <motion.div
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: 30 }}
@@ -809,12 +824,20 @@ export function Hero() {
                       marginTop: -4
                     }}
                   >
-                    <TimelineConnector 
-                      style={{ height: "100%" }}
-                      sx={{ width: 2 }}
+                    <Box
+                      sx={{
+                        position: 'absolute',
+                        top: 0,
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        width: 2,
+                        height: '100%',
+                        background: 'linear-gradient(to bottom, rgba(59, 130, 246, 1) 0%, rgba(59, 130, 246, 0) 100%)',
+                        zIndex: 1
+                      }}
                     />
                   </motion.div>
-                  
+
                   {/* Main Report Generation Box */}
                   <DemoWindow elevation={0} sx={{ 
                     maxWidth: { xs: '100%', sm: '90%', md: '100%' },
@@ -877,9 +900,9 @@ export function Hero() {
                     </Box>
 
                     {/* Action button and agent indicator */}
-                    <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", minHeight: "24px" }}>
                       {/* Agent generating text - always maintain the space even when hidden */}
-                      <Box sx={{ minWidth: '150px' }}>
+                      <Box sx={{ minWidth: '150px', height: '24px', display: 'flex', alignItems: 'center' }}>
                         {agentStatus !== 'idle' && (
                           <motion.div
                             initial={{ opacity: 0 }}
@@ -897,20 +920,6 @@ export function Hero() {
                         )}
                       </Box>
                     </Box>
-                    
-                    {/* Timeline dot at bottom of the box */}
-                    <Box sx={{ 
-                      position: 'absolute',
-                      bottom: -7,
-                      left: '50%',
-                      width: 12,
-                      height: 12,
-                      bgcolor: '#3B82F6',
-                      borderRadius: '50%',
-                      transform: 'translateX(-50%)',
-                      border: '2px solid #1F2937',
-                      zIndex: 3
-                    }} />
                   </DemoWindow>
                   
                   {/* Bottom Connector Line */}
@@ -992,7 +1001,7 @@ export function Hero() {
                     </TimelineEventBox>
                   </motion.div>
 
-                  {/* Final Connector Line to next section */}
+                  {/* Final Connector Line to next section with Fade Effect */}
                   <motion.div
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: 80 }}
@@ -1006,9 +1015,17 @@ export function Hero() {
                       marginBottom: -40
                     }}
                   >
-                    <TimelineConnector 
-                      style={{ height: "100%" }}
-                      sx={{ width: 2 }}
+                    <Box
+                      sx={{
+                        position: 'absolute',
+                        top: 0,
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        width: 2,
+                        height: '100%',
+                        background: 'linear-gradient(to bottom, rgba(59, 130, 246, 1) 0%, rgba(59, 130, 246, 0) 100%)',
+                        zIndex: 1
+                      }}
                     />
                   </motion.div>
                 </Box>
