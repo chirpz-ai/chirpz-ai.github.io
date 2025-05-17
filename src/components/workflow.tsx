@@ -1138,7 +1138,6 @@ export function Workflow() {
                 height: 100%;
                 box-sizing: border-box;
                 overflow: hidden;
-                position: relative;
               }
               
               .custom-node-icon-wrapper {
@@ -1272,6 +1271,12 @@ export function Workflow() {
                 overflow: hidden;
                 text-overflow: ellipsis;
                 max-width: 100%;
+              }
+
+              /* Re-enable relative positioning only for the report node so the
+                 absolute-positioned check-mark can still anchor correctly. */
+              .custom-node.report-node .custom-node-content {
+                position: relative;
               }
             `}</style>
           </Paper>
