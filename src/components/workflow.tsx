@@ -43,12 +43,6 @@ const CustomNode = ({ node }: { node: Node }) => {
           {icon}
         </div>
         <div className="custom-node-label">{label}</div>
-        
-        {isActive && isReport && (
-          <div className="checkmark-icon">
-            <DoneIcon style={{ color: "#10B981", fontSize: 18 }} />
-          </div>
-        )}
       </div>
     </div>
   );
@@ -1147,38 +1141,6 @@ export function Workflow() {
                 justify-content: center;
               }
               
-              .checkmark-icon {
-                position: absolute;
-                top: 2px;
-                right: 2px;
-                background-color: #1e2330;
-                border-radius: 50%;
-                padding: 2px;
-                border: 2px solid rgba(16, 185, 129, 0.8);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-                width: 26px;
-                height: 26px;
-                box-sizing: border-box;
-                line-height: 0;
-              }
-              
-              @keyframes popIn {
-                0% {
-                  transform: scale(0);
-                  opacity: 0;
-                }
-                70% {
-                  transform: scale(1.2);
-                }
-                100% {
-                  transform: scale(1);
-                  opacity: 1;
-                }
-              }
-              
               .custom-node-label {
                 font-size: 12px;
                 font-weight: 500;
@@ -1271,12 +1233,6 @@ export function Workflow() {
                 overflow: hidden;
                 text-overflow: ellipsis;
                 max-width: 100%;
-              }
-
-              /* Re-enable relative positioning only for the report node so the
-                 absolute-positioned check-mark can still anchor correctly. */
-              .custom-node.report-node .custom-node-content {
-                position: relative;
               }
             `}</style>
           </Paper>
