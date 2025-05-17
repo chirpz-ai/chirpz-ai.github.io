@@ -150,11 +150,35 @@ const ReportSection = ({ title, content, type, isLastItem, showCursor, source }:
       dotColor: "#6366F1",
       lightBg: "rgba(99, 102, 241, 0.1)",
       lightText: "rgba(99, 102, 241, 0.8)"
+    },
+    LangSmith: {
+      bg: "rgba(236, 72, 153, 0.15)",
+      border: "rgba(236, 72, 153, 0.3)",
+      text: "#EC4899",
+      dotColor: "#EC4899",
+      lightBg: "rgba(236, 72, 153, 0.1)",
+      lightText: "rgba(236, 72, 153, 0.8)"
+    },
+    SageMaker: {
+      bg: "rgba(249, 115, 22, 0.15)",
+      border: "rgba(249, 115, 22, 0.3)",
+      text: "#F97316",
+      dotColor: "#F97316",
+      lightBg: "rgba(249, 115, 22, 0.1)",
+      lightText: "rgba(249, 115, 22, 0.8)"
+    },
+    Watsonx: {
+      bg: "rgba(16, 185, 129, 0.15)",
+      border: "rgba(16, 185, 129, 0.3)",
+      text: "#10B981",
+      dotColor: "#10B981",
+      lightBg: "rgba(16, 185, 129, 0.1)",
+      lightText: "rgba(16, 185, 129, 0.8)"
     }
   };
   
   // Get the color scheme based on source, default to Arize
-  const colorScheme = source === "Openlayer" ? sourceColors.Openlayer : sourceColors.Arize;
+  const colorScheme = sourceColors[source as keyof typeof sourceColors] || sourceColors.Arize;
   
   return (
     <motion.div
@@ -283,6 +307,7 @@ export function Hero() {
   const [currentReportType, setCurrentReportType] = useState<'llm' | 'cv'>('llm');
   const [agentStatus, setAgentStatus] = useState<'idle' | 'thinking' | 'generating'>('idle');
   const [scrollPosition, setScrollPosition] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const reportContainerRef = useRef<HTMLDivElement>(null);
   const animationTimer = useRef<NodeJS.Timeout | null>(null);
   const resetTimer = useRef<NodeJS.Timeout | null>(null);
@@ -291,7 +316,7 @@ export function Hero() {
 
   // LLM Report sections data
   const llmReportSections = [
-    { id: 'header', title: 'AI Model Governance Report', type: 'header' },
+    { id: 'header', title: 'LLM Model Governance Report', type: 'header' },
     { id: 'model', title: 'Model: LLM-Governance-v2.1', type: 'section' },
     { id: 'date', title: 'Deployed: June 15, 2023', type: 'data' },
     
@@ -299,16 +324,16 @@ export function Hero() {
     { id: 'risk1', title: 'Overall Risk Score', content: '72/100 (Moderate)', type: 'data', source: 'Arize' },
     { id: 'risk3', title: 'Operational Risk', content: 'Moderate (58/100)', type: 'data', source: 'Arize' },
     
-    { id: 'metrics', title: 'Performance Metrics', type: 'section' },
-    { id: 'metrics1', title: 'Accuracy', content: '94.3%', type: 'data' },
-    { id: 'metrics3', title: 'Latency', content: '127ms (p95)', type: 'data' },
+    { id: 'metrics', title: 'Performance Metrics', type: 'section', source: 'LangSmith' },
+    { id: 'metrics1', title: 'Accuracy', content: '94.3%', type: 'data', source: 'LangSmith' },
+    { id: 'metrics3', title: 'Latency', content: '127ms (p95)', type: 'data', source: 'LangSmith' },
     
-    { id: 'fairness', title: 'Fairness Assessment', type: 'section' },
-    { id: 'fairness1', title: 'Demographic Parity', content: '0.97 (Excellent)', type: 'data' },
+    { id: 'fairness', title: 'Fairness Assessment', type: 'section', source: 'Openlayer' },
+    { id: 'fairness1', title: 'Demographic Parity', content: '0.97 (Excellent)', type: 'data', source: 'Openlayer' },
     
-    { id: 'compliance', title: 'Regulatory Compliance', type: 'section' },
-    { id: 'compliance1', title: 'EU AI Act', content: 'Compliant', type: 'data' },
-    { id: 'compliance3', title: 'Model Documentation', content: 'Complete', type: 'data' },
+    { id: 'compliance', title: 'Regulatory Compliance', type: 'section', source: 'Arize' },
+    { id: 'compliance1', title: 'EU AI Act', content: 'Compliant', type: 'data', source: 'Arize' },
+    { id: 'compliance3', title: 'Model Documentation', content: 'Complete', type: 'data', source: 'LangSmith' },
     
     // Stakeholders section - shortened
     { id: 'stakeholders', title: 'Stakeholders', type: 'section' },
@@ -316,9 +341,9 @@ export function Hero() {
     { id: 'stakeholders4', title: 'Compliance Officer', content: 'David Chen', type: 'data' },
     
     // Model Lifecycle section - shortened
-    { id: 'lifecycle', title: 'Model Lifecycle & Maintenance', type: 'section', source: 'Arize' },
-    { id: 'lifecycle2', title: 'Last Retraining', content: 'May 30, 2023', type: 'data', source: 'Arize' },
-    { id: 'lifecycle3', title: 'Drift Detection', content: 'Active (weekly)', type: 'data', source: 'Arize' },
+    { id: 'lifecycle', title: 'Model Lifecycle & Maintenance', type: 'section', source: 'LangSmith' },
+    { id: 'lifecycle2', title: 'Last Retraining', content: 'May 30, 2023', type: 'data', source: 'LangSmith' },
+    { id: 'lifecycle3', title: 'Drift Detection', content: 'Active (weekly)', type: 'data', source: 'Openlayer' },
     
     { id: 'conclusion', title: 'Report Status', content: 'Approved for Production', type: 'conclusion' },
   ];
@@ -331,17 +356,17 @@ export function Hero() {
     
     { id: 'cv-performance', title: 'Model Performance', type: 'section', source: 'Openlayer' },
     { id: 'cv-metrics1', title: 'mAP (IoU=0.5)', content: '0.87', type: 'data', source: 'Openlayer' },
-    { id: 'cv-metrics2', title: 'Precision', content: '91.2%', type: 'data', source: 'Openlayer' },
+    { id: 'cv-metrics2', title: 'Precision', content: '91.2%', type: 'data', source: 'SageMaker' },
     
-    { id: 'cv-thresholds', title: 'Confidence Thresholds', type: 'section', source: 'Openlayer' },
-    { id: 'cv-thresh1', title: 'Detection Threshold', content: '0.65', type: 'data', source: 'Openlayer' },
+    { id: 'cv-thresholds', title: 'Confidence Thresholds', type: 'section', source: 'SageMaker' },
+    { id: 'cv-thresh1', title: 'Detection Threshold', content: '0.65', type: 'data', source: 'SageMaker' },
     
-    { id: 'cv-robustness', title: 'Robustness Analysis', type: 'section' },
-    { id: 'cv-robust1', title: 'Light Variation', content: '96.3% retention', type: 'data' },
-    { id: 'cv-robust3', title: 'Angle Variation', content: '78.9% retention', type: 'data' },
+    { id: 'cv-robustness', title: 'Robustness Analysis', type: 'section', source: 'Watsonx' },
+    { id: 'cv-robust1', title: 'Light Variation', content: '96.3% retention', type: 'data', source: 'Watsonx' },
+    { id: 'cv-robust3', title: 'Angle Variation', content: '78.9% retention', type: 'data', source: 'Watsonx' },
     
-    { id: 'cv-testing', title: 'Downstream Testing', type: 'section' },
-    { id: 'cv-test2', title: 'Adversarial Testing', content: 'Passed', type: 'data' },
+    { id: 'cv-testing', title: 'Downstream Testing', type: 'section', source: 'Openlayer' },
+    { id: 'cv-test2', title: 'Adversarial Testing', content: 'Passed', type: 'data', source: 'Openlayer' },
     
     // Stakeholders section - shortened
     { id: 'cv-stakeholders', title: 'Stakeholders', type: 'section' },
@@ -349,11 +374,11 @@ export function Hero() {
     { id: 'cv-stakeholders3', title: 'Hardware Team', content: 'Edge Devices', type: 'data' },
     
     // Model Lifecycle section - shortened
-    { id: 'cv-lifecycle', title: 'Model Lifecycle & Maintenance', type: 'section', source: 'Openlayer' },
-    { id: 'cv-lifecycle2', title: 'Training Duration', content: '72 hours', type: 'data', source: 'Openlayer' },
-    { id: 'cv-lifecycle5', title: 'Model Refresh', content: 'Bi-monthly', type: 'data', source: 'Openlayer' },
+    { id: 'cv-lifecycle', title: 'Model Lifecycle & Maintenance', type: 'section', source: 'SageMaker' },
+    { id: 'cv-lifecycle2', title: 'Training Duration', content: '72 hours', type: 'data', source: 'SageMaker' },
+    { id: 'cv-lifecycle5', title: 'Model Refresh', content: 'Bi-monthly', type: 'data', source: 'Watsonx' },
     
-    { id: 'cv-conclusion', title: 'Report Status', content: 'Approved for Deployment', type: 'conclusion' },
+    { id: 'cv-conclusion', title: 'Report Status', content: 'Approved for Production', type: 'conclusion' },
   ];
 
   // Get the current active report sections based on report type
@@ -371,34 +396,50 @@ export function Hero() {
 
   // Handle auto-scrolling as content grows
   useEffect(() => {
-    if (!reportContainerRef.current || activeIndex <= 5) return;
+    if (!reportContainerRef.current || activeIndex < 0) return;
     
-    // Calculate where to scroll based on active index - maintain last few items in view
+    // Reset scroll position when starting a new animation
+    if (activeIndex === 0) {
+      if (reportContainerRef.current) {
+        reportContainerRef.current.scrollTop = 0;
+      }
+      return;
+    }
+    
     const container = reportContainerRef.current;
     const contentHeight = container.scrollHeight;
     const viewportHeight = container.clientHeight;
     
     // Only need to scroll if content exceeds viewport
     if (contentHeight > viewportHeight) {
-      // Determine scroll position to keep the active content in view
-      // This formula smoothly scrolls as new content appears
-      const newScrollPosition = Math.max(
-        0,
-        (contentHeight - viewportHeight) * (activeIndex / reportSections.length)
-      );
-      
-      // Apply scrolling with animation
-      scrollTimer.current = setTimeout(() => {
+      // If we're at the conclusion item, scroll to the very bottom
+      if (activeIndex === reportSections.length - 1) {
+        container.scrollTo({
+          top: contentHeight,
+          behavior: 'smooth'
+        });
+      } else {
+        // For other items, use the proportional scroll
+        const newScrollPosition = Math.max(
+          0,
+          (contentHeight - viewportHeight) * (activeIndex / reportSections.length)
+        );
+        
         container.scrollTo({
           top: newScrollPosition,
           behavior: 'smooth'
         });
-      }, 150);
+      }
     }
   }, [activeIndex, reportSections.length]);
 
   // Control the animation sequence
   useEffect(() => {
+    // Don't process animation updates during transition
+    if (isTransitioning) {
+      return;
+    }
+    
     // Start animation after component mounts
     if (activeIndex === -1) {
       // First set to thinking state
@@ -410,7 +451,12 @@ export function Hero() {
         setActiveIndex(0);
         setScrollPosition(0);
         setProgress(5);
-      }, 1500); // Longer delay to show thinking first
+        
+        // Explicitly reset scroll position
+        if (reportContainerRef.current) {
+          reportContainerRef.current.scrollTop = 0;
+        }
+      }, 1000);
       return;
     }
 
@@ -422,27 +468,76 @@ export function Hero() {
       // Set back to idle
       setAgentStatus('idle');
       
+      // First mark as transitioning to prevent any animation updates
+      setIsTransitioning(true);
+      
       resetTimer.current = setTimeout(() => {
+        // Reset animation states
         setActiveIndex(-1);
         setProgress(0);
         setScrollPosition(0);
-        setCurrentReportType(prev => prev === 'llm' ? 'cv' : 'llm');
-      }, 2000);
+        
+        // Important: Switch report type only after a complete animation cycle
+        setTimeout(() => {
+          // Update report type
+          setCurrentReportType(prev => prev === 'llm' ? 'cv' : 'llm');
+          
+          // Explicitly reset scroll position
+          if (reportContainerRef.current) {
+            reportContainerRef.current.scrollTop = 0;
+          }
+          
+          // Allow animation to proceed again after everything is reset
+          setTimeout(() => {
+            setIsTransitioning(false);
+          }, 70);
+        }, 150); 
+      }, 1000);
       return;
     }
 
     // Continue the animation with varying delays based on section type
     const currentType = activeIndex < reportSections.length ? reportSections[activeIndex].type : '';
     const delay = 
-      currentType === 'header' ? 700 : 
-      currentType === 'section' ? 450 : 
+      currentType === 'header' ? 1200 :
+      currentType === 'section' ? 800 :
       currentType === 'conclusion' ? 850 : 
-      250;
+      400;
 
-    animationTimer.current = setTimeout(() => {
-      setActiveIndex(prev => prev + 1);
-    }, delay);
-  }, [activeIndex, reportSections.length, currentReportType]);
+    // If this is the last item (conclusion), add extra delay before transitioning
+    if (activeIndex === reportSections.length - 1) {
+      // First render the conclusion item
+      animationTimer.current = setTimeout(() => {
+        setActiveIndex(prev => prev + 1);
+      }, delay);
+      setTimeout(() => {
+        setActiveIndex(prev => prev + 1);
+      }, delay + 5000);
+    } else {
+      animationTimer.current = setTimeout(() => {
+        setActiveIndex(prev => prev + 1);
+      }, delay);
+    }
+  }, [activeIndex, reportSections.length, currentReportType, isTransitioning]);
+
+  // Render only content that should be visible based on animation state
+  const renderReportSections = () => {
+    if (isTransitioning || activeIndex <= 0) {
+      return null;
+    }
+    
+    return reportSections.slice(0, activeIndex).map((section, index) => (
+      <ReportSection
+        key={section.id}
+        title={section.title}
+        content={section.content}
+        type={section.type}
+        isLastItem={index === activeIndex - 1}
+        showCursor={showCursor}
+        source={section.source}
+      />
+    ));
+  };
 
   return (
     <Box
@@ -678,23 +773,13 @@ export function Hero() {
                   >
                     <AnimatePresence mode="wait">
                       <motion.div
-                        key={currentReportType}
+                        key={`${currentReportType}-${isTransitioning ? 'transition' : 'active'}`}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 0.5 }}
                       >
-                        {reportSections.slice(0, activeIndex).map((section, index) => (
-                          <ReportSection
-                            key={section.id}
-                            title={section.title}
-                            content={section.content}
-                            type={section.type}
-                            isLastItem={index === activeIndex - 1}
-                            showCursor={showCursor}
-                            source={section.source}
-                          />
-                        ))}
+                        {renderReportSections()}
                       </motion.div>
                     </AnimatePresence>
                   </Box>
