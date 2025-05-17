@@ -276,11 +276,11 @@ export function About() {
                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
                       <RocketLaunchIcon sx={{ color: theme.palette.primary.main, fontSize: 32, mr: 1 }} />
                       <Typography
-                        variant="h5"
+                        variant="h3"
                         component="h3"
                         sx={{
-                          fontWeight: 700,
-                          background: "linear-gradient(90deg, #60A5FA 0%, #A78BFA 100%)",
+                          fontWeight: 800,
+                          background: "linear-gradient(90deg, #3B82F6 0%, #8B5CF6 100%)",
                           backgroundClip: "text",
                           color: "transparent",
                           fontSize: { xs: '1.25rem', sm: '1.5rem', md: '1.7rem' },
