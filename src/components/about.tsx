@@ -117,9 +117,14 @@ export function About() {
     if (chips.length === 0) return;
 
     function scrollToChip(idx: number) {
-      const chip = chips[idx];
-      if (chip) {
-        chip.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      const chip = chips[idx] as HTMLElement;
+      if (chip && container) {
+        // Use scrollLeft instead of scrollIntoView to prevent page jumps
+        const chipLeft = chip.offsetLeft;
+        container.scrollTo({
+          left: chipLeft - (container.offsetWidth / 2) + (chip.offsetWidth / 2),
+          behavior: 'smooth'
+        });
       }
     }
 
