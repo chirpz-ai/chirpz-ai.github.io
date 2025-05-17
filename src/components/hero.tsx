@@ -15,6 +15,9 @@ import {
   alpha
 } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import DescriptionIcon from "@mui/icons-material/Description";
+import PersonIcon from "@mui/icons-material/Person";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 const StyledButton = styled(Button)(({ theme }) => ({
   padding: "12px 28px",
@@ -299,6 +302,29 @@ const ReportSection = ({ title, content, type, isLastItem, showCursor, source }:
   );
 };
 
+// Add some additional styled components for the timeline elements
+const TimelineConnector = styled(Box)(({ theme }) => ({
+  width: 2,
+  backgroundColor: "#3B82F6",
+  position: "absolute",
+  left: "50%",
+  transform: "translateX(-50%)",
+  zIndex: 1
+}));
+
+const TimelineEventBox = styled(Paper)(({ theme }) => ({
+  position: "relative",
+  backgroundColor: "rgba(17, 24, 39, 0.7)",
+  borderRadius: "10px",
+  border: "1px solid rgba(75, 85, 99, 0.5)",
+  padding: "10px",
+  boxShadow: "0 10px 20px -5px rgba(0, 0, 0, 0.3)",
+  backdropFilter: "blur(8px)",
+  maxWidth: "70%",
+  margin: "0 auto",
+  textAlign: "center",
+}));
+
 export function Hero() {
   const theme = useTheme();
   const [activeIndex, setActiveIndex] = useState(-1);
@@ -547,6 +573,7 @@ export function Hero() {
         display: "flex",
         alignItems: "center",
         pt: "80px",
+        pb: "10px",
         background: "linear-gradient(135deg, #111827 0%, #1F2937 100%)",
         overflow: "hidden",
       }}
@@ -692,16 +719,6 @@ export function Hero() {
                     }}
                   >
                     <Box sx={{ display: "inline-block" }}>
-                      <Link href="#contact" style={{ textDecoration: 'none' }}>
-                        <PrimaryButton
-                          variant="contained"
-                          disableElevation
-                        >
-                          Get in Touch
-                        </PrimaryButton>
-                      </Link>
-                    </Box>
-                    <Box sx={{ display: "inline-block" }}>
                       <Link href="#features" style={{ textDecoration: 'none' }}>
                         <SecondaryButton
                           variant="outlined"
@@ -724,114 +741,277 @@ export function Hero() {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
+                style={{ position: "relative" }}
               >
-                <DemoWindow elevation={0} sx={{ 
-                  maxWidth: { xs: '100%', sm: '90%', md: '100%' },
-                  mx: { xs: 'auto', sm: 'auto', md: 0 },
-                  mt: { xs: 4, sm: 4, md: 0 }
-                }}>
-                  {/* Window controls */}
-                  <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 3 }}>
-                    <Box sx={{ width: 120, height: 18, bgcolor: "#374151", borderRadius: 1 }} />
-                    <Box sx={{ display: "flex", gap: 1 }}>
-                      <Box sx={{ width: 12, height: 12, borderRadius: "50%", bgcolor: "#EF4444" }} />
-                      <Box sx={{ width: 12, height: 12, borderRadius: "50%", bgcolor: "#F59E0B" }} />
-                      <Box sx={{ width: 12, height: 12, borderRadius: "50%", bgcolor: "#10B981" }} />
-                    </Box>
-                  </Box>
+                {/* Add top margin to push entire grid down */}
+                <Box sx={{ mt: { xs: 4, sm: 5, md: 6 } }}>
+                  {/* Event Trigger Box - Top of Timeline */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.7 }}
+                    style={{ position: "relative", zIndex: 2 }}
+                  >
+                    <TimelineEventBox sx={{ 
+                      mb: 0.5,
+                      maxWidth: { xs: '65%', sm: '55%', md: '45%' }, 
+                      mx: "auto",
+                    }}>
+                      <Box sx={{ 
+                        display: "flex", 
+                        alignItems: "center", 
+                        gap: 1.2,
+                        justifyContent: "center"
+                      }}>
+                        <Box 
+                          sx={{ 
+                            minWidth: 28, 
+                            height: 28, 
+                            borderRadius: '50%', 
+                            bgcolor: 'rgba(59, 130, 246, 0.2)', 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            justifyContent: 'center',
+                            border: '1px solid rgba(59, 130, 246, 0.5)'
+                          }}
+                        >
+                          <DescriptionIcon sx={{ fontSize: 14, color: '#60A5FA' }} />
+                        </Box>
+                        <Typography sx={{ fontSize: '0.8rem', fontWeight: 600, color: '#60A5FA' }}>
+                          Report Requested
+                        </Typography>
+                      </Box>
+                      <Box sx={{ 
+                        position: 'absolute',
+                        bottom: -7, 
+                        left: '50%',
+                        width: 12, 
+                        height: 12, 
+                        bgcolor: '#3B82F6',
+                        borderRadius: '50%',
+                        transform: 'translateX(-50%)',
+                        border: '2px solid #1F2937',
+                        zIndex: 3
+                      }} />
+                    </TimelineEventBox>
+                  </motion.div>
 
-                  {/* Progress bar */}
-                  <Box sx={{ width: "100%", height: 3, bgcolor: "rgba(55, 65, 81, 0.3)", mb: 3, borderRadius: 1, overflow: "hidden" }}>
-                    <motion.div
-                      style={{ height: "100%", backgroundColor: "#3B82F6" }}
-                      initial={{ width: "0%" }}
-                      animate={{ width: `${progress}%` }}
-                      transition={{ duration: 0.5 }}
-                    />
-                  </Box>
-
-                  {/* Dynamic report content */}
-                  <Box 
-                    ref={reportContainerRef}
-                    sx={{ 
-                      mb: 3, 
-                      height: { xs: 200, sm: 220, md: 260 }, 
-                      overflow: "auto",
-                      scrollBehavior: "smooth",
-                      "&::-webkit-scrollbar": {
-                        width: "6px",
-                      },
-                      "&::-webkit-scrollbar-track": {
-                        backgroundColor: "rgba(55, 65, 81, 0.1)",
-                        borderRadius: "10px",
-                      },
-                      "&::-webkit-scrollbar-thumb": {
-                        backgroundColor: "rgba(59, 130, 246, 0.5)",
-                        borderRadius: "10px",
-                      },
+                  {/* Top Connector Line */}
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 30 }}
+                    transition={{ duration: 0.6, delay: 0.9 }}
+                    style={{ 
+                      position: "relative", 
+                      height: 30, 
+                      overflow: "visible",
+                      width: "100%",
+                      marginTop: -4
                     }}
                   >
-                    <AnimatePresence mode="wait">
-                      <motion.div
-                        key={`${currentReportType}-${isTransitioning ? 'transition' : 'active'}`}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.5 }}
-                      >
-                        {renderReportSections()}
-                      </motion.div>
-                    </AnimatePresence>
-                  </Box>
+                    <TimelineConnector 
+                      style={{ height: "100%" }}
+                      sx={{ width: 2 }}
+                    />
+                  </motion.div>
+                  
+                  {/* Main Report Generation Box */}
+                  <DemoWindow elevation={0} sx={{ 
+                    maxWidth: { xs: '100%', sm: '90%', md: '100%' },
+                    mx: { xs: 'auto', sm: 'auto', md: 0 },
+                    position: 'relative',
+                    zIndex: 2
+                  }}>
+                    {/* Window controls */}
+                    <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 3 }}>
+                      <Box sx={{ width: 120, height: 18, bgcolor: "#374151", borderRadius: 1 }} />
+                      <Box sx={{ display: "flex", gap: 1 }}>
+                        <Box sx={{ width: 12, height: 12, borderRadius: "50%", bgcolor: "#EF4444" }} />
+                        <Box sx={{ width: 12, height: 12, borderRadius: "50%", bgcolor: "#F59E0B" }} />
+                        <Box sx={{ width: 12, height: 12, borderRadius: "50%", bgcolor: "#10B981" }} />
+                      </Box>
+                    </Box>
 
-                  {/* Action button and agent indicator */}
-                  <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    {/* Agent generating text - always maintain the space even when hidden */}
-                    <Box sx={{ minWidth: '150px' }}>
-                      {agentStatus !== 'idle' && (
-                        <motion.div
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 0.85 }}
-                          transition={{ duration: 0.3 }}
-                        >
-                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <SpinningLoader />
-                            <Typography variant="caption" sx={{ fontSize: "0.75rem", color: alpha("#fff", 0.8) }}>
-                              {agentStatus === 'thinking' ? 'agent thinking' : 'agent generating'}
-                              <AnimatedDots />
-                            </Typography>
-                          </Box>
-                        </motion.div>
-                      )}
-                    </Box>
-                    
-                    {/* Empty middle space to push button to the right */}
-                    <Box sx={{ flexGrow: 1 }} />
-                    
-                    {/* Generate Report button - always stays on the right */}
-                    <Box>
+                    {/* Progress bar */}
+                    <Box sx={{ width: "100%", height: 3, bgcolor: "rgba(55, 65, 81, 0.3)", mb: 3, borderRadius: 1, overflow: "hidden" }}>
                       <motion.div
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        <Box sx={{ 
-                          width: 120, 
-                          height: 36, 
-                          bgcolor: "#3B82F6", 
-                          borderRadius: 1,
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          cursor: "pointer"
-                        }}>
-                          <Typography sx={{ color: "#fff", fontSize: "0.85rem", fontWeight: 500 }}>
-                            Generate Report
-                          </Typography>
-                        </Box>
-                      </motion.div>
+                        style={{ height: "100%", backgroundColor: "#3B82F6" }}
+                        initial={{ width: "0%" }}
+                        animate={{ width: `${progress}%` }}
+                        transition={{ duration: 0.5 }}
+                      />
                     </Box>
-                  </Box>
-                </DemoWindow>
+
+                    {/* Dynamic report content */}
+                    <Box 
+                      ref={reportContainerRef}
+                      sx={{ 
+                        mb: 3, 
+                        height: { xs: 200, sm: 220, md: 260 }, 
+                        overflow: "auto",
+                        scrollBehavior: "smooth",
+                        "&::-webkit-scrollbar": {
+                          width: "6px",
+                        },
+                        "&::-webkit-scrollbar-track": {
+                          backgroundColor: "rgba(55, 65, 81, 0.1)",
+                          borderRadius: "10px",
+                        },
+                        "&::-webkit-scrollbar-thumb": {
+                          backgroundColor: "rgba(59, 130, 246, 0.5)",
+                          borderRadius: "10px",
+                        },
+                      }}
+                    >
+                      <AnimatePresence mode="wait">
+                        <motion.div
+                          key={`${currentReportType}-${isTransitioning ? 'transition' : 'active'}`}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -20 }}
+                          transition={{ duration: 0.5 }}
+                        >
+                          {renderReportSections()}
+                        </motion.div>
+                      </AnimatePresence>
+                    </Box>
+
+                    {/* Action button and agent indicator */}
+                    <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      {/* Agent generating text - always maintain the space even when hidden */}
+                      <Box sx={{ minWidth: '150px' }}>
+                        {agentStatus !== 'idle' && (
+                          <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 0.85 }}
+                            transition={{ duration: 0.3 }}
+                          >
+                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                              <SpinningLoader />
+                              <Typography variant="caption" sx={{ fontSize: "0.75rem", color: alpha("#fff", 0.8) }}>
+                                {agentStatus === 'thinking' ? 'agent thinking' : 'agent generating'}
+                                <AnimatedDots />
+                              </Typography>
+                            </Box>
+                          </motion.div>
+                        )}
+                      </Box>
+                    </Box>
+                    
+                    {/* Timeline dot at bottom of the box */}
+                    <Box sx={{ 
+                      position: 'absolute',
+                      bottom: -7,
+                      left: '50%',
+                      width: 12,
+                      height: 12,
+                      bgcolor: '#3B82F6',
+                      borderRadius: '50%',
+                      transform: 'translateX(-50%)',
+                      border: '2px solid #1F2937',
+                      zIndex: 3
+                    }} />
+                  </DemoWindow>
+                  
+                  {/* Bottom Connector Line */}
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 30 }}
+                    transition={{ duration: 0.6, delay: 1.1 }}
+                    style={{ 
+                      position: "relative", 
+                      height: 30, 
+                      overflow: "visible",
+                      width: "100%",
+                      marginBottom: -4,
+                      marginTop: -4
+                    }}
+                  >
+                    <TimelineConnector 
+                      style={{ height: "100%" }}
+                      sx={{ width: 2 }}
+                    />
+                  </motion.div>
+                  
+                  {/* Data Scientist Review Box - Bottom of Timeline */}
+                  <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 1.3 }}
+                    style={{ position: "relative", zIndex: 2 }}
+                  >
+                    <TimelineEventBox sx={{ 
+                      mt: 0.5,
+                      maxWidth: { xs: '65%', sm: '55%', md: '45%' },
+                      mx: "auto"
+                    }}>
+                      <Box sx={{ 
+                        display: "flex", 
+                        alignItems: "center", 
+                        justifyContent: "center",
+                        gap: 1.2 
+                      }}>
+                        <Box 
+                          sx={{ 
+                            minWidth: 28, 
+                            height: 28, 
+                            borderRadius: '50%', 
+                            bgcolor: 'rgba(16, 185, 129, 0.2)', 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            justifyContent: 'center',
+                            border: '1px solid rgba(16, 185, 129, 0.5)'
+                          }}
+                        >
+                          <PersonIcon sx={{ fontSize: 14, color: '#10B981' }} />
+                        </Box>
+                        <Typography sx={{ fontSize: '0.8rem', fontWeight: 600, color: '#10B981' }}>
+                          Data Scientist Review
+                        </Typography>
+                        
+                        <CheckCircleIcon 
+                          sx={{ 
+                            fontSize: 20, 
+                            color: '#10B981'
+                          }} 
+                        />
+                      </Box>
+                      
+                      <Box sx={{ 
+                        position: 'absolute',
+                        top: -7,
+                        left: '50%',
+                        width: 12,
+                        height: 12,
+                        bgcolor: '#3B82F6',
+                        borderRadius: '50%',
+                        transform: 'translateX(-50%)',
+                        border: '2px solid #1F2937',
+                        zIndex: 3
+                      }} />
+                    </TimelineEventBox>
+                  </motion.div>
+
+                  {/* Final Connector Line to next section */}
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 80 }}
+                    transition={{ duration: 0.6, delay: 1.5 }}
+                    style={{ 
+                      position: "relative", 
+                      height: 80,
+                      overflow: "visible",
+                      width: "100%",
+                      marginTop: -4,
+                      marginBottom: -40
+                    }}
+                  >
+                    <TimelineConnector 
+                      style={{ height: "100%" }}
+                      sx={{ width: 2 }}
+                    />
+                  </motion.div>
+                </Box>
               </motion.div>
             </Box>
           </Grid>
