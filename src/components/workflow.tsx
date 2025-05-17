@@ -13,7 +13,6 @@ import {
   Paper,
 } from "@mui/material";
 import { motion } from "framer-motion";
-// Use dynamic import for GSAP instead of static import
 
 // Icons
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
@@ -32,6 +31,7 @@ import CloudIcon from "@mui/icons-material/Cloud";
 import StorageIcon from "@mui/icons-material/Storage";
 import LanguageIcon from "@mui/icons-material/Language";
 import DoneIcon from "@mui/icons-material/Done";
+import { transcode } from "buffer";
 
 // React components for rendering nodes
 const CustomNode = ({ node }: { node: Node }) => {
@@ -206,8 +206,8 @@ export function Workflow() {
         zIndex: -1,
         attrs: {
           body: {
-            fill: '#171923',
-            stroke: 'rgba(55, 65, 81, 0.5)',
+            fill: 'rgba(30, 58, 138, 0.15)',
+            stroke: 'rgba(96, 165, 250, 0.4)',
             strokeWidth: 1,
             rx: 12,
             ry: 12,
@@ -511,7 +511,6 @@ export function Workflow() {
       });
 
       // Reflection and report nodes from right to left - level 2
-      // Reflect under Generate Response, Reflected Response under Results, Generated Report under Report Request
       const level2Nodes = [
         {
           id: 'reflect',
@@ -538,7 +537,7 @@ export function Workflow() {
         {
           id: 'report',
           shape: 'custom-node',
-          x: 50,  // Under Report Request
+          x: 50,
           y: verticalSpacing + 110,
           data: {
             label: 'Generated Report',
@@ -1073,11 +1072,10 @@ export function Workflow() {
             elevation={0}
             sx={{
               p: 0,
-              backgroundColor: alpha("#111827", 0.6),
-              backdropFilter: "blur(8px)",
+              background: "transparent",
               borderRadius: "16px",
-              border: "1px solid rgba(75, 85, 99, 0.3)",
-              boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)",
+              border: "none",
+              boxShadow: "none",
               overflow: "hidden",
               mt: { xs: 1, sm: 2, md: 3 }
             }}
