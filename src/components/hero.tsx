@@ -638,34 +638,38 @@ export function Hero() {
                 >
                   <Typography
                     variant="h1"
-                    component="h1"
+                    component="span"
                     sx={{
-                      fontSize: { xs: "2.75rem", sm: "3.5rem", md: "4rem", lg: "4.5rem" },
+                      fontSize: { xs: "2.5rem", sm: "3.25rem", md: "3.75rem", lg: "4.25rem" },
                       fontWeight: 800,
                       lineHeight: 1.1,
                       letterSpacing: "-0.05em",
                       mb: 1,
-                      color: "white",
-                    }}
-                  >
-                    Model Governance
-                  </Typography>
-                  <Typography
-                    variant="h1"
-                    component="span"
-                    sx={{
-                      fontSize: { xs: "2.75rem", sm: "3.5rem", md: "4rem", lg: "4.5rem" },
-                      fontWeight: 800,
-                      lineHeight: 1.1,
-                      letterSpacing: "-0.05em",
-                      mb: 3,
+                      pb: 1,
+                      pr: 1,
                       background: "linear-gradient(90deg, #60A5FA 0%, #A78BFA 100%)",
                       backgroundClip: "text",
                       color: "transparent",
                       display: "inline-block",
                     }}
                   >
-                    Automated by AI
+                    AI Agents 
+                  </Typography>
+                  <Typography
+                    variant="h1"
+                    component="h1"
+                    sx={{
+                      fontSize: { xs: "2.5rem", sm: "2.75rem", md: "3.25rem", lg: "3.25rem" },
+                      fontWeight: 800,
+                      lineHeight: 1.1,
+                      letterSpacing: "-0.05em",
+                      mb: 5,
+                      color: "white",
+                      display: "block",
+                      ml: { xs: 0, sm: 0 }
+                    }}
+                  >
+                    for Model Governance Reporting
                   </Typography>
                 </motion.div>
 
@@ -685,7 +689,7 @@ export function Hero() {
                       mx: { xs: "auto", lg: 0 },
                     }}
                   >
-                    AI agents that enable end-to-end model governance reporting. We link to your observability tools and deliver ready-to-submit compliance reports.
+                    On schedule or request, agents pull metrics from your observability stack, add context, and ship ready-to-submit reports—zero manual stitching.
                   </Typography>
                   
                   <Typography
@@ -701,7 +705,8 @@ export function Hero() {
                       mx: { xs: "auto", lg: 0 },
                     }}
                   >
-                    No migration required. Works with your existing tools.
+                    Connect, don’t migrate.
+                    {/* Zero migration—plugs into your stack. */}
                   </Typography>
                 </motion.div>
 
@@ -762,17 +767,17 @@ export function Hero() {
                         height: 40, 
                         overflow: "visible",
                         width: "100%",
-                        marginBottom: -4
+                        marginBottom: -35
                       }}
                     >
                       <Box
                         sx={{
                           position: 'absolute',
-                          top: 0,
+                          top: -35,
                           left: '50%',
                           transform: 'translateX(-50%)',
                           width: 2,
-                          height: '90%',
+                          height: '100%',
                           background: 'linear-gradient(to bottom, rgba(59, 130, 246, 0) 0%, rgba(59, 130, 246, 1) 100%)',
                           zIndex: 1
                         }}
@@ -821,6 +826,7 @@ export function Hero() {
                       height: 30, 
                       overflow: "visible",
                       width: "100%",
+                      marginBottom: -4,
                       marginTop: -4
                     }}
                   >
@@ -901,7 +907,6 @@ export function Hero() {
 
                     {/* Action button and agent indicator */}
                     <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", minHeight: "24px" }}>
-                      {/* Agent generating text - always maintain the space even when hidden */}
                       <Box sx={{ minWidth: '150px', height: '24px', display: 'flex', alignItems: 'center' }}>
                         {agentStatus !== 'idle' && (
                           <motion.div
@@ -936,9 +941,17 @@ export function Hero() {
                       marginTop: -4
                     }}
                   >
-                    <TimelineConnector 
-                      style={{ height: "100%" }}
-                      sx={{ width: 2 }}
+                    <Box
+                      sx={{
+                        position: 'absolute',
+                        top: 0,
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        width: 2,
+                        height: '100%',
+                        background: 'linear-gradient(to top, rgba(59, 130, 246, 1) 0%, rgba(59, 130, 246, 0) 100%)',
+                        zIndex: 1
+                      }}
                     />
                   </motion.div>
                   
@@ -985,26 +998,13 @@ export function Hero() {
                           }} 
                         />
                       </Box>
-                      
-                      <Box sx={{ 
-                        position: 'absolute',
-                        top: -7,
-                        left: '50%',
-                        width: 12,
-                        height: 12,
-                        bgcolor: '#3B82F6',
-                        borderRadius: '50%',
-                        transform: 'translateX(-50%)',
-                        border: '2px solid #1F2937',
-                        zIndex: 3
-                      }} />
                     </TimelineEventBox>
                   </motion.div>
 
                   {/* Final Connector Line to next section with Fade Effect */}
                   <motion.div
                     initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 80 }}
+                    animate={{ opacity: 1, height: 40 }}
                     transition={{ duration: 0.6, delay: 1.5 }}
                     style={{ 
                       position: "relative", 
@@ -1012,11 +1012,11 @@ export function Hero() {
                       overflow: "visible",
                       width: "100%",
                       marginTop: -4,
-                      marginBottom: -40
+                      marginBottom: -10
                     }}
                   >
                     <Box
-                      sx={{
+                      sx={{   
                         position: 'absolute',
                         top: 0,
                         left: '50%',
