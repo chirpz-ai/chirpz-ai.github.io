@@ -102,29 +102,23 @@ export function Header(props: Props) {
             <StyledLink href="/">
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <Box 
-                  sx={{ 
-                    position: 'relative', 
-                    width: 45, 
-                    height: 45, 
-                    mr: 2,
+                  sx={{
+                    position: 'relative',
+                    width: 50, 
+                    height: 50, 
+                    mr: 1,
                     backgroundColor: 'white',
-                    borderRadius: '8px',
-                    padding: '6px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
+                    borderRadius: '10px',
+                    maskImage: 'url("/assets/logo.svg")',
+                    WebkitMaskImage: 'url("/assets/logo.svg")',
+                    maskSize: 'contain',
+                    WebkitMaskSize: 'contain',
+                    maskRepeat: 'no-repeat',
+                    WebkitMaskRepeat: 'no-repeat',
+                    maskPosition: 'center',
+                    WebkitMaskPosition: 'center',
                   }}
                 >
-                  <Image 
-                    src="/assets/logo.svg" 
-                    alt="Chirpz AI Logo"
-                    fill
-                    style={{ 
-                      objectFit: 'contain',
-                      padding: '2px' 
-                    }}
-                    priority
-                  />
                 </Box>
                 <Typography
                   variant="h5"
