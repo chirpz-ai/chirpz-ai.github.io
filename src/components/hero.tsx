@@ -689,7 +689,7 @@ export function Hero() {
                       mx: { xs: "auto", lg: 0 },
                     }}
                   >
-                    On schedule or request, agents pull metrics from your observability stack, add context, and ship ready-to-submit reports—zero manual stitching.
+                    On schedule or request, agents pull metrics from your observability stack, analyze, and ship ready-to-submit reports—zero manual stitching.
                   </Typography>
                   
                   <Typography
