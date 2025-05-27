@@ -92,6 +92,9 @@ export const metadata: Metadata = {
       { url: "/logo-google.png", sizes: "192x192", type: "image/png" },
     ],
   },
+  other: {
+    'google-site-verification': 'your-verification-code',
+  },
 };
 
 export default function RootLayout({
