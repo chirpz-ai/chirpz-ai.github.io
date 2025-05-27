@@ -342,69 +342,69 @@ export function Hero() {
 
   // LLM Report sections data
   const llmReportSections = [
-    { id: 'header', title: 'LLM Model Governance Report', type: 'header' },
-    { id: 'model', title: 'Model: LLM-Governance-v2.1', type: 'section' },
-    { id: 'date', title: 'Deployed: June 15, 2023', type: 'data' },
+    { id: 'header', title: 'LLM Model Intelligence Dashboard', type: 'header' },
+    { id: 'model', title: 'Model: LLM-Analytics-v2.1', type: 'section' },
+    { id: 'date', title: 'Analysis Generated: June 15, 2023', type: 'data' },
     
-    { id: 'risk', title: 'Risk Assessment', type: 'section', source: 'Arize' },
-    { id: 'risk1', title: 'Overall Risk Score', content: '72/100 (Moderate)', type: 'data', source: 'Arize' },
-    { id: 'risk3', title: 'Operational Risk', content: 'Moderate (58/100)', type: 'data', source: 'Arize' },
+    { id: 'performance', title: 'Performance Analytics', type: 'section', source: 'Arize' },
+    { id: 'perf1', title: 'Accuracy Trend', content: '94.3% (↑2.1% this week)', type: 'data', source: 'Arize' },
+    { id: 'perf2', title: 'Response Quality', content: '4.7/5.0 avg rating', type: 'data', source: 'Arize' },
     
-    { id: 'metrics', title: 'Performance Metrics', type: 'section', source: 'LangSmith' },
-    { id: 'metrics1', title: 'Accuracy', content: '94.3%', type: 'data', source: 'LangSmith' },
-    { id: 'metrics3', title: 'Latency', content: '127ms (p95)', type: 'data', source: 'LangSmith' },
+    { id: 'metrics', title: 'Operational Metrics', type: 'section', source: 'LangSmith' },
+    { id: 'metrics1', title: 'Latency Performance', content: '127ms (p95) - Stable', type: 'data', source: 'LangSmith' },
+    { id: 'metrics3', title: 'Throughput', content: '1.2K requests/min', type: 'data', source: 'LangSmith' },
     
-    { id: 'fairness', title: 'Fairness Assessment', type: 'section', source: 'Openlayer' },
-    { id: 'fairness1', title: 'Demographic Parity', content: '0.97 (Excellent)', type: 'data', source: 'Openlayer' },
+    { id: 'insights', title: 'Predictive Insights', type: 'section', source: 'Openlayer' },
+    { id: 'insights1', title: 'Performance Trend', content: 'Stable growth expected', type: 'data', source: 'Openlayer' },
     
-    { id: 'compliance', title: 'Regulatory Compliance', type: 'section', source: 'Arize' },
-    { id: 'compliance1', title: 'EU AI Act', content: 'Compliant', type: 'data', source: 'Arize' },
-    { id: 'compliance3', title: 'Model Documentation', content: 'Complete', type: 'data', source: 'LangSmith' },
+    { id: 'reliability', title: 'Model Reliability', type: 'section', source: 'Arize' },
+    { id: 'reliability1', title: 'Drift Detection', content: 'No significant drift', type: 'data', source: 'Arize' },
+    { id: 'reliability3', title: 'Error Analysis', content: '2.1% edge case patterns', type: 'data', source: 'LangSmith' },
     
-    // Stakeholders section - shortened
-    { id: 'stakeholders', title: 'Stakeholders', type: 'section' },
-    { id: 'stakeholders1', title: 'Model Owner', content: 'AI Governance Team', type: 'data' },
-    { id: 'stakeholders4', title: 'Compliance Officer', content: 'David Chen', type: 'data' },
+    // Team Workflow section - shortened
+    { id: 'workflow', title: 'Team Workflow', type: 'section' },
+    { id: 'workflow1', title: 'Model Owner', content: 'AI Development Team', type: 'data' },
+    { id: 'workflow4', title: 'Last Review', content: 'David Chen - 2 days ago', type: 'data' },
     
-    // Model Lifecycle section - shortened
-    { id: 'lifecycle', title: 'Model Lifecycle & Maintenance', type: 'section', source: 'LangSmith' },
-    { id: 'lifecycle2', title: 'Last Retraining', content: 'May 30, 2023', type: 'data', source: 'LangSmith' },
-    { id: 'lifecycle3', title: 'Drift Detection', content: 'Active (weekly)', type: 'data', source: 'Openlayer' },
+    // Development Lifecycle section - shortened
+    { id: 'lifecycle', title: 'Development Lifecycle', type: 'section', source: 'LangSmith' },
+    { id: 'lifecycle2', title: 'Last Update', content: 'May 30, 2023', type: 'data', source: 'LangSmith' },
+    { id: 'lifecycle3', title: 'Monitoring Status', content: 'Active (continuous)', type: 'data', source: 'Openlayer' },
     
-    { id: 'conclusion', title: 'Report Status', content: 'Approved for Production', type: 'conclusion' },
+    { id: 'conclusion', title: 'Intelligence Summary', content: 'Performance Optimized - Ready for Scale', type: 'conclusion' },
   ];
 
   // Computer Vision Report sections data
   const cvReportSections = [
-    { id: 'cv-header', title: 'Computer Vision Model Report', type: 'header' },
+    { id: 'cv-header', title: 'Computer Vision Intelligence Dashboard', type: 'header' },
     { id: 'cv-model', title: 'Model: ObjectDetect-CV-3.4', type: 'section' },
-    { id: 'cv-date', title: 'Deployed: August 3, 2023', type: 'data' },
+    { id: 'cv-date', title: 'Analysis Generated: August 3, 2023', type: 'data' },
     
-    { id: 'cv-performance', title: 'Model Performance', type: 'section', source: 'Openlayer' },
-    { id: 'cv-metrics1', title: 'mAP (IoU=0.5)', content: '0.87', type: 'data', source: 'Openlayer' },
-    { id: 'cv-metrics2', title: 'Precision', content: '91.2%', type: 'data', source: 'SageMaker' },
+    { id: 'cv-performance', title: 'Performance Analytics', type: 'section', source: 'Openlayer' },
+    { id: 'cv-metrics1', title: 'mAP Score', content: '0.87 (Excellent)', type: 'data', source: 'Openlayer' },
+    { id: 'cv-metrics2', title: 'Precision Rate', content: '91.2% accuracy', type: 'data', source: 'SageMaker' },
     
-    { id: 'cv-thresholds', title: 'Confidence Thresholds', type: 'section', source: 'SageMaker' },
-    { id: 'cv-thresh1', title: 'Detection Threshold', content: '0.65', type: 'data', source: 'SageMaker' },
+    { id: 'cv-optimization', title: 'Performance Optimization', type: 'section', source: 'SageMaker' },
+    { id: 'cv-thresh1', title: 'Detection Threshold', content: '0.65 optimal setting', type: 'data', source: 'SageMaker' },
     
-    { id: 'cv-robustness', title: 'Robustness Analysis', type: 'section', source: 'Watsonx' },
-    { id: 'cv-robust1', title: 'Light Variation', content: '96.3% retention', type: 'data', source: 'Watsonx' },
-    { id: 'cv-robust3', title: 'Angle Variation', content: '78.9% retention', type: 'data', source: 'Watsonx' },
+    { id: 'cv-robustness', title: 'Robustness Insights', type: 'section', source: 'Watsonx' },
+    { id: 'cv-robust1', title: 'Environmental Variance', content: '96.3% consistency', type: 'data', source: 'Watsonx' },
+    { id: 'cv-robust3', title: 'Angle Sensitivity', content: '78.9% stable range', type: 'data', source: 'Watsonx' },
     
-    { id: 'cv-testing', title: 'Downstream Testing', type: 'section', source: 'Openlayer' },
-    { id: 'cv-test2', title: 'Adversarial Testing', content: 'Passed', type: 'data', source: 'Openlayer' },
+    { id: 'cv-testing', title: 'Predictive Testing', type: 'section', source: 'Openlayer' },
+    { id: 'cv-test2', title: 'Edge Case Analysis', content: 'Low risk scenarios', type: 'data', source: 'Openlayer' },
     
-    // Stakeholders section - shortened
-    { id: 'cv-stakeholders', title: 'Stakeholders', type: 'section' },
-    { id: 'cv-stakeholders1', title: 'Project Lead', content: 'Michael Torres', type: 'data' },
-    { id: 'cv-stakeholders3', title: 'Hardware Team', content: 'Edge Devices', type: 'data' },
+    // Team Workflow section - shortened
+    { id: 'cv-workflow', title: 'Team Workflow', type: 'section' },
+    { id: 'cv-workflow1', title: 'Project Lead', content: 'Michael Torres', type: 'data' },
+    { id: 'cv-workflow3', title: 'Deployment Team', content: 'Edge Infrastructure', type: 'data' },
     
-    // Model Lifecycle section - shortened
-    { id: 'cv-lifecycle', title: 'Model Lifecycle & Maintenance', type: 'section', source: 'SageMaker' },
+    // Development Lifecycle section - shortened
+    { id: 'cv-lifecycle', title: 'Development Lifecycle', type: 'section', source: 'SageMaker' },
     { id: 'cv-lifecycle2', title: 'Training Duration', content: '72 hours', type: 'data', source: 'SageMaker' },
-    { id: 'cv-lifecycle5', title: 'Model Refresh', content: 'Bi-monthly', type: 'data', source: 'Watsonx' },
+    { id: 'cv-lifecycle5', title: 'Update Schedule', content: 'Bi-monthly optimization', type: 'data', source: 'Watsonx' },
     
-    { id: 'cv-conclusion', title: 'Report Status', content: 'Approved for Production', type: 'conclusion' },
+    { id: 'cv-conclusion', title: 'Intelligence Summary', content: 'Performance Optimized - Ready for Scale', type: 'conclusion' },
   ];
 
   // Get the current active report sections based on report type
@@ -669,7 +669,7 @@ export function Hero() {
                       ml: { xs: 0, sm: 0 }
                     }}
                   >
-                    for Model Governance Reporting
+                    for Developer Productivity & Model Intelligence
                   </Typography>
                 </motion.div>
 
@@ -689,7 +689,7 @@ export function Hero() {
                       mx: { xs: "auto", lg: 0 },
                     }}
                   >
-                    On schedule or request, agents pull metrics from your observability stack, analyze, and ship ready-to-submit reports—zero manual stitching.
+                    Automate workflow bottlenecks. Get actionable model insights. Stop manual metric gathering—focus on building better AI.
                   </Typography>
                   
                   <Typography
@@ -705,8 +705,7 @@ export function Hero() {
                       mx: { xs: "auto", lg: 0 },
                     }}
                   >
-                    Connect, don’t migrate.
-                    {/* Zero migration—plugs into your stack. */}
+                    Plug in. Power up. Ship faster.
                   </Typography>
                 </motion.div>
 
@@ -810,7 +809,7 @@ export function Hero() {
                           <DescriptionIcon sx={{ fontSize: 14, color: '#60A5FA' }} />
                         </Box>
                         <Typography sx={{ fontSize: '0.8rem', fontWeight: 600, color: '#60A5FA' }}>
-                          Report Requested
+                          Intelligence Requested
                         </Typography>
                       </Box>
                     </TimelineEventBox>
@@ -988,7 +987,7 @@ export function Hero() {
                           <PersonIcon sx={{ fontSize: 14, color: '#10B981' }} />
                         </Box>
                         <Typography sx={{ fontSize: '0.8rem', fontWeight: 600, color: '#10B981' }}>
-                          Data Scientist Review
+                          Developer Review
                         </Typography>
                         
                         <CheckCircleIcon 

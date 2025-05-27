@@ -82,23 +82,23 @@ const GradientBorder = styled(Box)(({ theme }) => ({
 const features = [
   {
     icon: <SmartToyOutlinedIcon sx={{ fontSize: 32 }} />,
-    title: "AI-Powered Agents",
-    description: "Intelligent agents that connect to your existing dashboards and databases to gather model metrics autonomously."
+    title: "Workflow Automation Agents",
+    description: "Intelligent agents that connect to your observability tools and automate manual metric collection, eliminating context switching for developers."
   },
   {
     icon: <InsightsOutlinedIcon sx={{ fontSize: 32 }} />,
-    title: "Automated Analytics",
-    description: "Automatically extract, analyze and interpret model performance metrics from platforms like Arize, Watsonx, and ClearML."
+    title: "Advanced Model Analytics",
+    description: "Statistical analysis and performance modeling of metrics from platforms like Openlayer, Arize, and Watsonx to surface actionable insights."
   },
   {
     icon: <DescriptionOutlinedIcon sx={{ fontSize: 32 }} />,
-    title: "Custom Reports",
-    description: "Generate comprehensive governance reports tracing your model lifecycle from training to deployment, tailored to meet regulatory requirements for any industry."
+    title: "Intelligence Dashboards",
+    description: "Automated intelligence summaries with performance trends and predictive analytics tailored for development teams."
   },
   {
     icon: <SchemaOutlinedIcon sx={{ fontSize: 32 }} />,
-    title: "Streamlined Workflow",
-    description: "Reduce manual effort with one-click report generation pending data scientist approval before delivery."
+    title: "Developer Experience",
+    description: "Streamlined workflows with one-click intelligence generation, reducing manual overhead and letting teams focus on model improvement."
   }
 ];
 
@@ -182,7 +182,7 @@ export function Features() {
                 color: "white",
               }}
             >
-              Simplify Model Governance Reporting
+              Automate Workflows & Unlock Model Intelligence
             </Typography>
             <Typography
               variant="body1"
@@ -193,7 +193,7 @@ export function Features() {
                 mx: "auto",
               }}
             >
-              Our platform integrates with your existing tools to automate the entire reporting process.
+              Our platform integrates with your existing tools to automate developer workflows and provide advanced model analytics.
             </Typography>
           </Box>
         </motion.div>
@@ -250,7 +250,7 @@ export function Features() {
           <GradientBorder>
             <Box sx={{ py: 3, px: 4, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 2 }}>
               <Typography variant="subtitle1" sx={{ fontWeight: 500, color: "white" }}>
-                Ready to streamline your reporting process?
+                Ready to automate your development workflow?
               </Typography>
               <Link href="#contact" style={{ textDecoration: 'none' }}>
                 <StyledButton

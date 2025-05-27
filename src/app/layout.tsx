@@ -12,24 +12,25 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Chirpz AI | AI Model Governance Reporting",
-  description: "Streamlining AI model governance with AI agents that automate compliance reporting for enterprises across any observability platform.",
+  title: "Chirpz AI | AI Developer Productivity & Model Intelligence",
+  description: "Boosting AI developer productivity with intelligent agents that automate workflows and deliver actionable model insights across any observability platform.",
   metadataBase: new URL("https://chirpz.ai"),
   alternates: {
     canonical: "/",
   },
   manifest: "/manifest.json",
   keywords: [
-    "AI model governance", 
-    "model governance reporting", 
-    "enterprise AI", 
-    "regulatory compliance", 
+    "AI developer productivity", 
+    "model intelligence", 
+    "developer workflow automation", 
+    "AI analytics", 
     "AI agents", 
-    "automated reporting", 
+    "automated workflows", 
     "model metrics", 
     "AI observability",
     "Chirpz AI",
-    "model lifecycle"
+    "developer tools",
+    "model performance analytics"
   ],
   authors: [{ name: "Chirpz AI Team" }],
   creator: "Chirpz AI",
@@ -40,8 +41,8 @@ export const metadata: Metadata = {
     telephone: false,
   },
   openGraph: {
-    title: "Chirpz AI | AI Model Governance Reporting",
-    description: "Streamlining AI model governance with AI agents that automate compliance reporting for enterprises across any observability platform.",
+    title: "Chirpz AI | AI Developer Productivity & Model Intelligence",
+    description: "Boosting AI developer productivity with intelligent agents that automate workflows and deliver actionable model insights across any observability platform.",
     url: 'https://chirpz.ai',
     siteName: 'Chirpz AI',
     locale: 'en_US',
@@ -51,14 +52,14 @@ export const metadata: Metadata = {
         url: 'https://chirpz.ai/logo-google.png',
         width: 192,
         height: 192,
-        alt: 'Chirpz AI - AI Model Governance',
+        alt: 'Chirpz AI - Developer Productivity & Model Intelligence',
       }
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Chirpz AI | AI Model Governance Reporting',
-    description: 'Streamlining AI model governance with AI agents that automate compliance reporting for enterprises across any observability platform.',
+    title: 'Chirpz AI | AI Developer Productivity & Model Intelligence',
+    description: 'Boosting AI developer productivity with intelligent agents that automate workflows and deliver actionable model insights across any observability platform.',
     images: ['https://chirpz.ai/logo-google.png'],
     creator: '@chirpzai',
   },
@@ -111,7 +112,7 @@ export default function RootLayout({
               "name": "Chirpz AI",
               "url": "https://chirpz.ai",
               "logo": "https://chirpz.ai/logo-google.png",
-              "description": "Streamlining AI model governance with AI agents that automate compliance reporting for enterprises across any observability platform.",
+              "description": "Boosting AI developer productivity with intelligent agents that automate workflows and deliver actionable model insights across any observability platform.",
               "sameAs": [
                 "https://chirpz.ai"
                 // Add social profiles here when available

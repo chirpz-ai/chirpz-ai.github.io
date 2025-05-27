@@ -25,7 +25,7 @@ export default function Home() {
               "price": "0",
               "priceCurrency": "USD"
             },
-            "description": "Streamlining AI model governance with AI agents that automate compliance reporting for enterprises across any observability platform.",
+            "description": "Boosting AI developer productivity with intelligent agents that automate workflows and deliver actionable model insights across any observability platform.",
             "aggregateRating": {
               "@type": "AggregateRating",
               "ratingValue": "5",
@@ -76,7 +76,7 @@ export default function Home() {
               "addressRegion": "CA",
               "addressCountry": "US"
             },
-            "description": "Streamlining AI model governance with AI agents that automate compliance reporting for enterprises across any observability platform."
+            "description": "Boosting AI developer productivity with intelligent agents that automate workflows and deliver actionable model insights across any observability platform."
           })
         }}
       />

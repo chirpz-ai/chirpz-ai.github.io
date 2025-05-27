@@ -96,7 +96,7 @@ export function Footer() {
                 lineHeight: 1.6,
               }}
             >
-              Streamlining AI model governance with AI agents that automate compliance reporting for enterprises across any observability platform.
+              Boosting AI developer productivity with intelligent agents that automate workflows and deliver actionable model insights across any observability platform.
             </Typography>
             <Stack direction="row" spacing={1.5}>
               <Link href="https://github.com/chirpz-ai" target="_blank" rel="noopener" style={{ textDecoration: 'none' }}>

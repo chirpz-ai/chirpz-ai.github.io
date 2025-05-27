@@ -219,7 +219,7 @@ export function Contact() {
                 mx: "auto",
               }}
             >
-              Interested in automating your model governance reporting? Contact us to learn more about how Chirpz AI can help your business.
+              Interested in automating your development workflow? Contact us to learn more about how Chirpz AI can boost your team's productivity.
             </Typography>
           </Box>
         </motion.div>

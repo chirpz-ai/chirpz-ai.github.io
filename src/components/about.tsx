@@ -96,10 +96,10 @@ export function About() {
   const theme = useTheme();
   
   const benefits = [
-    "Faster reporting cycles",
-    "Reduced manual workload",
-    "Improved report explainability",
-    "Better data visualization",
+    "Faster development cycles",
+    "Automated workflow intelligence",
+    "Predictive performance insights",
+    "Enhanced developer productivity",
   ];
 
   // Auto-scroll logic for mobile chips
@@ -256,8 +256,8 @@ export function About() {
                 mx: "auto",
               }}
             >
-              We're building advanced AI agents that automate model governance reporting
-              for enterprises that build and ship AI-powered solutions.
+              We're building advanced AI agents that automate developer workflows and deliver 
+              actionable model intelligence for teams building and shipping AI-powered solutions.
             </Typography>
           </Box>
         </motion.div>
@@ -298,8 +298,8 @@ export function About() {
                         fontSize: { xs: '0.98rem', sm: '1.08rem', md: '1.15rem' },
                       }}
                     >
-                      Our mission is to eliminate the bottlenecks that slow down AI innovation while ensuring
-                      compliance with critical regulations through transparent, consistent reporting.
+                      Our mission is to eliminate manual workflow bottlenecks that slow down AI development while providing 
+                      actionable model intelligence and predictive insights for better decision-making.
                     </Typography>
                     {/* Horizontal scrollable chips for mobile, vertical list for desktop */}
                     <Box
@@ -403,9 +403,9 @@ export function About() {
                       pl: 7,
                     }}
                   >
-                    Organizations delivering AI solutions struggle with the manual, 
-                    time-consuming, and expensive process of creating governance reports. Data scientists spend valuable time 
-                    collecting metrics instead of building better models.
+                    AI development teams struggle with manual metric collection, context switching between tools, 
+                    and lack of actionable insights from their observability data. Developers spend valuable time 
+                    gathering data instead of building better models.
                   </Typography>
                 </StyledPaper>
 
@@ -432,8 +432,8 @@ export function About() {
                     }}
                   >
                     Chirpz AI's agents integrate with your existing tools, automatically collect and analyze 
-                    model metrics and lifecycle data on schedule or per request, and generate comprehensive, regulation-compliant reports ready for 
-                    review.
+                    model metrics, and generate actionable intelligence dashboards 
+                    that help teams make data-driven decisions faster.
                   </Typography>
                 </StyledPaper>
 
@@ -459,8 +459,9 @@ export function About() {
                       pl: 7,
                     }}
                   >
-                    By automating the reporting process, we help enterprises save time, reduce costs, enhance 
-                    compliance, and ultimately deliver a better experience to their customers across any industry.
+                    By automating workflows and providing predictive insights, we help development teams save time, 
+                    reduce manual overhead, enhance model performance, and ultimately deliver better AI solutions 
+                    to their customers.
                   </Typography>
                 </StyledPaper>
               </Box>

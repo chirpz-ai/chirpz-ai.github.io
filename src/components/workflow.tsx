@@ -37,7 +37,7 @@ import { transcode } from "buffer";
 const CustomNode = ({ node }: { node: Node }) => {
   const { label, icon, isActive, isReport } = node.getData() || {};
   return (
-    <div className={`custom-node ${isActive ? 'active' : ''} ${isReport ? 'report-node' : ''}`}>
+    <div className={`custom-node ${isActive ? 'active' : ''} ${isReport ? 'dashboard-node' : ''}`}>
       <div className="custom-node-content">
         <div className="custom-node-icon-wrapper">
           {icon}
@@ -100,7 +100,7 @@ export function Workflow() {
   const graphRef = useRef<Graph | null>(null);
 
   const workflowNodeIds = useMemo(() => [
-    'request', 'agent', 'tool-call', 'results', 'generate', 'reflect', 'reflected', 'report'
+    'request', 'agent', 'tool-call', 'results', 'generate', 'reflect', 'reflected', 'dashboard'
   ], []);
 
   // Initialize the graph when component mounts
@@ -280,7 +280,7 @@ export function Workflow() {
         {
           id: 'aws',
           position: { x: 520, y: 80 },
-          data: { label: 'AWS SageMaker', icon: <CloudIcon style={{ color: "#F87171", fontSize: 18 }} /> }
+          data: { label: 'AWS', icon: <CloudIcon style={{ color: "#F87171", fontSize: 18 }} /> }
         },
         {
           id: 'openlayer',
@@ -378,7 +378,7 @@ export function Workflow() {
           x: 50,
           y: verticalSpacing,
           data: {
-            label: 'Report Request',
+            label: 'Intelligence Request',
             icon: <PersonOutlineIcon style={{ color: "#60A5FA", fontSize: 24 }} />,
             isActive: true,
           }
@@ -510,7 +510,7 @@ export function Workflow() {
         });
       });
 
-      // Reflection and report nodes from right to left - level 2
+      // Reflection and dashboard nodes from right to left - level 2
       const level2Nodes = [
         {
           id: 'reflect',
@@ -535,12 +535,12 @@ export function Workflow() {
           },
         },
         {
-          id: 'report',
+          id: 'dashboard',
           shape: 'custom-node',
           x: 50,
           y: verticalSpacing + 110,
           data: {
-            label: 'Generated Report',
+            label: 'Intelligence Dashboard',
             icon: <AssessmentIcon style={{ color: "#F59E0B", fontSize: 24 }} />,
             isActive: false,
             isReport: true,
@@ -626,7 +626,7 @@ export function Workflow() {
         
         // Level 2 flow from right to left
         { source: { cell: 'reflect', port: 'port-left' }, target: { cell: 'reflected', port: 'port-right' } },
-        { source: { cell: 'reflected', port: 'port-left' }, target: { cell: 'report', port: 'port-right' } },
+        { source: { cell: 'reflected', port: 'port-left' }, target: { cell: 'dashboard', port: 'port-right' } },
       ];
 
       // Add main flow edges
@@ -837,7 +837,7 @@ export function Workflow() {
               (currentIndex < workflowNodeIds.length-1 && source === activeNodeId && target === workflowNodeIds[currentIndex+1]) ||
               (activeNodeId === 'generate' && source === 'generate' && target === 'reflect') ||
               (activeNodeId === 'reflect' && source === 'reflect' && target === 'reflected') ||
-              (activeNodeId === 'reflected' && source === 'reflected' && target === 'report') ||
+              (activeNodeId === 'reflected' && source === 'reflected' && target === 'dashboard') ||
               // Include tool-call to tools-container edges
               (activeNodeId === 'tool-call' && 
                 ((source === 'tool-call' && target === 'tools-container') || 
@@ -887,16 +887,16 @@ export function Workflow() {
         }
       });
 
-      // Special handling for the report node when active
-      if (activeNodeId === 'report') {
-        const reportNode = graphRef.current?.getCellById('report');
-        if (reportNode) {
-          const nodeView = graphRef.current?.findViewByCell(reportNode);
+      // Special handling for the dashboard node when active
+      if (activeNodeId === 'dashboard') {
+        const dashboardNode = graphRef.current?.getCellById('dashboard');
+        if (dashboardNode) {
+          const nodeView = graphRef.current?.findViewByCell(dashboardNode);
           if (nodeView) {
             const nodeElement = nodeView.findOne('rect');
             if (nodeElement) {
               import('gsap').then(({ default: gsap }) => {
-                // Apply special report node glow with a different color
+                // Apply special dashboard node glow with a different color
                 gsap.to(nodeElement, {
                   stroke: 'rgba(16, 185, 129, 0.8)', // Green glow
                   strokeWidth: 2,
@@ -1057,7 +1057,7 @@ export function Workflow() {
                 mx: "auto",
               }}
             >
-              Intelligent agents that seamlessly connect to your enterprise tools, extract key metrics, and transform them into comprehensive governance reports.
+              Intelligent agents that seamlessly connect to your enterprise tools, extract key metrics, and transform them into actionable intelligence dashboards.
             </Typography>
           </Box>
         </motion.div>
@@ -1110,12 +1110,12 @@ export function Workflow() {
                 border: 1px solid rgba(96, 165, 250, 0.8);
               }
               
-              .custom-node.report-node {
+              .custom-node.dashboard-node {
                 background-color: rgba(16, 185, 129, 0.08);
                 border: 1px solid rgba(16, 185, 129, 0.3);
               }
               
-              .custom-node.report-node.active {
+              .custom-node.dashboard-node.active {
                 box-shadow: 0 0 25px rgba(16, 185, 129, 0.5);
                 border: 1px solid rgba(16, 185, 129, 0.8);
                 background-color: rgba(16, 185, 129, 0.15);
