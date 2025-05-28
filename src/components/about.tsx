@@ -98,7 +98,7 @@ export function About() {
   const benefits = [
     "Faster development cycles",
     "Automated workflow intelligence",
-    "Predictive performance insights",
+    "Actionable model insights",
     "Enhanced developer productivity",
   ];
 
@@ -299,7 +299,7 @@ export function About() {
                       }}
                     >
                       Our mission is to eliminate manual workflow bottlenecks that slow down AI development while providing 
-                      actionable model intelligence and predictive insights for better decision-making.
+                      actionable model intelligence and explainable insights.
                     </Typography>
                     {/* Horizontal scrollable chips for mobile, vertical list for desktop */}
                     <Box
@@ -432,8 +432,8 @@ export function About() {
                     }}
                   >
                     Chirpz AI's agents integrate with your existing tools, automatically collect and analyze 
-                    model metrics, and generate actionable intelligence dashboards 
-                    that help teams make data-driven decisions faster.
+                    model metrics, and generate actionable intelligence streams 
+                    that help teams make better development decisions dynamically.
                   </Typography>
                 </StyledPaper>
 
@@ -459,7 +459,7 @@ export function About() {
                       pl: 7,
                     }}
                   >
-                    By automating workflows and providing predictive insights, we help development teams save time, 
+                    By automating workflows and providing actionable insights, we help development teams save time, 
                     reduce manual overhead, enhance model performance, and ultimately deliver better AI solutions 
                     to their customers.
                   </Typography>

@@ -83,22 +83,22 @@ const features = [
   {
     icon: <SmartToyOutlinedIcon sx={{ fontSize: 32 }} />,
     title: "Workflow Automation Agents",
-    description: "Intelligent agents that connect to your observability tools and automate manual metric collection, eliminating context switching for developers."
+    description: "Intelligent agents seamlessly connect to your observability stack, automatically collecting metrics from Arize, Openlayer, and similar platforms while eliminating manual context switching."
   },
   {
     icon: <InsightsOutlinedIcon sx={{ fontSize: 32 }} />,
-    title: "Advanced Model Analytics",
-    description: "Statistical analysis and performance modeling of metrics from platforms like Openlayer, Arize, and Watsonx to surface actionable insights."
+    title: "AI Model Intelligence",
+    description: "Agents autonomously analyze and interpret collected performance data, transforming raw metrics into predictive insights and strategic recommendations for your models."
   },
   {
     icon: <DescriptionOutlinedIcon sx={{ fontSize: 32 }} />,
-    title: "Intelligence Dashboards",
-    description: "Automated intelligence summaries with performance trends and predictive analytics tailored for development teams."
+    title: "Intelligence Streams",
+    description: "Real-time intelligence delivery through dynamic summaries, performance trends, and actionable visualizations designed specifically for development teams."
   },
   {
     icon: <SchemaOutlinedIcon sx={{ fontSize: 32 }} />,
     title: "Developer Experience",
-    description: "Streamlined workflows with one-click intelligence generation, reducing manual overhead and letting teams focus on model improvement."
+    description: "One-click intelligence generation and streamlined workflows that reduce manual overhead, letting your team focus entirely on building better AI solutions."
   }
 ];
 

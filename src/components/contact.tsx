@@ -219,7 +219,7 @@ export function Contact() {
                 mx: "auto",
               }}
             >
-              Interested in automating your development workflow? Contact us to learn more about how Chirpz AI can boost your team's productivity.
+              Interested in developing with agentic actionable intelligence? Contact us to learn more about how Chirpz AI can boost your team's productivity.
             </Typography>
           </Box>
         </motion.div>
@@ -288,33 +288,6 @@ export function Contact() {
                     viewport={{ once: true }}
                     transition={{ duration: 0.3, delay: 0.2 }}
                   >
-                    {/* <Box sx={{ display: "flex", alignItems: "flex-start" }}>
-                      <IconBox>
-                        <PhoneOutlinedIcon sx={{ fontSize: 20 }} />
-                      </IconBox>
-                      <Box>
-                        <Typography 
-                          variant="subtitle2" 
-                          component="h4" 
-                          sx={{ fontWeight: 600, color: "white" }}
-                        >
-                          Phone
-                        </Typography>
-                        <Link 
-                          href="tel:+15551234567" 
-                          sx={{ 
-                            color: alpha("#fff", 0.8),
-                            textDecoration: "none",
-                            "&:hover": {
-                              color: theme.palette.primary.main,
-                            },
-                            transition: "0.2s",
-                          }}
-                        >
-                          +1 (555) 123-4567
-                        </Link>
-                      </Box>
-                    </Box> */}
                   </motion.div>
                   
                   <motion.div

@@ -25,7 +25,7 @@ export default function Home() {
               "price": "0",
               "priceCurrency": "USD"
             },
-            "description": "Boosting AI developer productivity with intelligent agents that automate workflows and deliver actionable model insights across any observability platform.",
+            "description": "AI agents that autonomously generate intelligence streams from development and observability stacks, delivering actionable insights that accelerate AI model development.",
             "aggregateRating": {
               "@type": "AggregateRating",
               "ratingValue": "5",
@@ -76,7 +76,7 @@ export default function Home() {
               "addressRegion": "CA",
               "addressCountry": "US"
             },
-            "description": "Boosting AI developer productivity with intelligent agents that automate workflows and deliver actionable model insights across any observability platform."
+            "description": "AI agents that autonomously generate intelligence streams from development and observability stacks, delivering actionable insights that accelerate AI model development."
           })
         }}
       />

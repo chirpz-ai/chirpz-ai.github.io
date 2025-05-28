@@ -96,7 +96,7 @@ export function Footer() {
                 lineHeight: 1.6,
               }}
             >
-              Boosting AI developer productivity with intelligent agents that automate workflows and deliver actionable model insights across any observability platform.
+              AI agents that eliminate manual workflow bottlenecks by delivering actionable model intelligence from your development and observability stack.
             </Typography>
             <Stack direction="row" spacing={1.5}>
               <Link href="https://github.com/chirpz-ai" target="_blank" rel="noopener" style={{ textDecoration: 'none' }}>

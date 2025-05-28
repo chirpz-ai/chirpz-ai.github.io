@@ -280,12 +280,12 @@ export function Workflow() {
         {
           id: 'aws',
           position: { x: 520, y: 80 },
-          data: { label: 'AWS', icon: <CloudIcon style={{ color: "#F87171", fontSize: 18 }} /> }
+          data: { label: 'Openlayer', icon: <LanguageIcon style={{ color: "#F87171", fontSize: 18 }} /> }
         },
         {
           id: 'openlayer',
           position: { x: 680, y: 80 },
-          data: { label: 'Openlayer', icon: <LanguageIcon style={{ color: "#EC4899", fontSize: 18 }} /> }
+          data: { label: 'AWS SageMaker', icon: <CloudIcon style={{ color: "#EC4899", fontSize: 18 }} /> }
         },
         {
           id: 'dashboards',
@@ -295,7 +295,7 @@ export function Workflow() {
         {
           id: 'mongodb',
           position: { x: 360, y: 135 },
-          data: { label: 'MongoDB', icon: <StorageIcon style={{ color: "#818CF8", fontSize: 18 }} /> }
+          data: { label: 'GitHub', icon: <StorageIcon style={{ color: "#818CF8", fontSize: 18 }} /> }
         },
         {
           id: 'notion',
@@ -389,7 +389,7 @@ export function Workflow() {
           x: 50 + horizontalSpacing,
           y: verticalSpacing,
           data: {
-            label: 'Agent',
+            label: 'Supervisor Agent',
             icon: <SmartToyOutlinedIcon style={{ color: "#10B981", fontSize: 24 }} />,
             isActive: false,
           }
@@ -400,7 +400,7 @@ export function Workflow() {
           x: 50 + horizontalSpacing * 2,
           y: verticalSpacing,
           data: {
-            label: 'Tool Call',
+            label: 'Agent Call',
             icon: <BuildIcon style={{ color: "#8B5CF6", fontSize: 24 }} />,
             isActive: false,
           }
@@ -540,7 +540,7 @@ export function Workflow() {
           x: 50,
           y: verticalSpacing + 110,
           data: {
-            label: 'Intelligence Dashboard',
+            label: 'Intelligence Stream',
             icon: <AssessmentIcon style={{ color: "#F59E0B", fontSize: 24 }} />,
             isActive: false,
             isReport: true,
@@ -1057,7 +1057,7 @@ export function Workflow() {
                 mx: "auto",
               }}
             >
-              Intelligent agents that seamlessly connect to your enterprise tools, extract key metrics, and transform them into actionable intelligence dashboards.
+              Agents that seamlessly connect to your development and observability stack, autonomously gather insights, and deliver dynamic intelligence streams for your development team.
             </Typography>
           </Box>
         </motion.div>

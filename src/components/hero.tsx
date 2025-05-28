@@ -659,7 +659,7 @@ export function Hero() {
                     variant="h1"
                     component="h1"
                     sx={{
-                      fontSize: { xs: "2.5rem", sm: "2.75rem", md: "3.25rem", lg: "3.25rem" },
+                      fontSize: { xs: "2.5rem", sm: "2.75rem", md: "3.25rem", lg: "3.5rem" },
                       fontWeight: 800,
                       lineHeight: 1.1,
                       letterSpacing: "-0.05em",
@@ -669,7 +669,7 @@ export function Hero() {
                       ml: { xs: 0, sm: 0 }
                     }}
                   >
-                    for Developer Productivity & Model Intelligence
+                    for Model Intelligence
                   </Typography>
                 </motion.div>
 
@@ -916,7 +916,7 @@ export function Hero() {
                             <Box sx={{ display: 'flex', alignItems: 'center' }}>
                               <SpinningLoader />
                               <Typography variant="caption" sx={{ fontSize: "0.75rem", color: alpha("#fff", 0.8) }}>
-                                {agentStatus === 'thinking' ? 'agent thinking' : 'agent generating'}
+                                {agentStatus === 'thinking' ? 'agent thinking' : 'Intelligence Stream'}
                                 <AnimatedDots />
                               </Typography>
                             </Box>

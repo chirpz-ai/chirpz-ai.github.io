@@ -13,7 +13,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Chirpz AI | AI Developer Productivity & Model Intelligence",
-  description: "Boosting AI developer productivity with intelligent agents that automate workflows and deliver actionable model insights across any observability platform.",
+  description: "AI agents that autonomously generate intelligence streams from development and observability stacks, delivering actionable insights that accelerate AI model development.",
   metadataBase: new URL("https://chirpz.ai"),
   alternates: {
     canonical: "/",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Chirpz AI | AI Developer Productivity & Model Intelligence",
-    description: "Boosting AI developer productivity with intelligent agents that automate workflows and deliver actionable model insights across any observability platform.",
+    description: "AI agents that autonomously generate intelligence streams from development and observability stacks, delivering actionable insights that accelerate AI model development.",
     url: 'https://chirpz.ai',
     siteName: 'Chirpz AI',
     locale: 'en_US',
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Chirpz AI | AI Developer Productivity & Model Intelligence',
-    description: 'Boosting AI developer productivity with intelligent agents that automate workflows and deliver actionable model insights across any observability platform.',
+    description: 'AI agents that autonomously generate intelligence streams from development and observability stacks, delivering actionable insights that accelerate AI model development.',
     images: ['https://chirpz.ai/logo-google.png'],
     creator: '@chirpzai',
   },
@@ -115,7 +115,7 @@ export default function RootLayout({
               "name": "Chirpz AI",
               "url": "https://chirpz.ai",
               "logo": "https://chirpz.ai/logo-google.png",
-              "description": "Boosting AI developer productivity with intelligent agents that automate workflows and deliver actionable model insights across any observability platform.",
+              "description": "AI agents that autonomously generate intelligence streams from development and observability stacks, delivering actionable insights that accelerate AI model development.",
               "sameAs": [
                 "https://chirpz.ai"
                 // Add social profiles here when available
