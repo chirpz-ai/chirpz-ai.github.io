@@ -12,7 +12,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Chirpz AI | AI Developer Productivity & Model Intelligence",
+  title: "Chirpz AI | Agents that Generate Actionable Model Intelligence",
   description: "AI agents that autonomously generate intelligence streams from development and observability stacks, delivering actionable insights that accelerate AI model development.",
   metadataBase: new URL("https://chirpz.ai"),
   alternates: {
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     telephone: false,
   },
   openGraph: {
-    title: "Chirpz AI | AI Developer Productivity & Model Intelligence",
+    title: "Chirpz AI | Agents that Generate Actionable Model Intelligence",
     description: "AI agents that autonomously generate intelligence streams from development and observability stacks, delivering actionable insights that accelerate AI model development.",
     url: 'https://chirpz.ai',
     siteName: 'Chirpz AI',
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Chirpz AI | AI Developer Productivity & Model Intelligence',
+    title: 'Chirpz AI | Agents that Generate Actionable Model Intelligence',
     description: 'AI agents that autonomously generate intelligence streams from development and observability stacks, delivering actionable insights that accelerate AI model development.',
     images: ['https://chirpz.ai/logo-google.png'],
     creator: '@chirpzai',
