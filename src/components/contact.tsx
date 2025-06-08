@@ -114,7 +114,7 @@ export function Contact() {
     
     try {
       const result = await emailjs.sendForm(
-        'service_rxb3mpe',
+        'service_32mbd4b',
         'template_9lx6rdi',
         form.current!,
         'OnLmLboXYyT4rGfVW'
