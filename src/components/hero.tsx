@@ -302,6 +302,86 @@ const ReportSection = ({ title, content, type, isLastItem, showCursor, source }:
   );
 };
 
+// LaTeX Code Display Component
+interface LaTeXCodeProps {
+  code: string;
+  isTyping: boolean;
+}
+
+const LaTeXCodeDisplay = ({ code, isTyping }: LaTeXCodeProps) => {
+  return (
+    <Box sx={{
+      fontFamily: 'Consolas, "Courier New", monospace',
+      fontSize: '0.75rem',
+      lineHeight: 1.6,
+      color: '#E5E7EB',
+      whiteSpace: 'pre',
+      overflow: 'hidden',
+      textAlign: 'left',
+      letterSpacing: '0px',
+      fontFeatureSettings: '"liga" 0',
+      textRendering: 'optimizeSpeed'
+    }}>
+      {code}
+      {isTyping && <Cursor />}
+    </Box>
+  );
+};
+
+// PDF Preview Component
+interface PDFPreviewProps {
+  content: string[];
+  activeLines: number;
+}
+
+const PDFPreviewDisplay = ({ content, activeLines }: PDFPreviewProps) => {
+  return (
+    <Box sx={{
+      bgcolor: 'white',
+      borderRadius: 1,
+      p: 2,
+      height: '100%',
+      fontSize: '0.65rem',
+      lineHeight: 1.3,
+      color: '#1F2937',
+      fontFamily: 'serif',
+      overflow: 'hidden',
+      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+    }}>
+             <Box sx={{ mb: 2, textAlign: 'center' }}>
+         <Typography sx={{ fontSize: '0.8rem', fontWeight: 'bold', mb: 1 }}>
+           Constitutional AI for LLM Safety
+         </Typography>
+         <Typography sx={{ fontSize: '0.6rem', color: '#6B7280' }}>
+           NSF Grant Proposal - AI Safety Initiative
+         </Typography>
+       </Box>
+      
+      <Box sx={{ borderBottom: '1px solid #E5E7EB', mb: 1.5, pb: 1 }}>
+        <Typography sx={{ fontSize: '0.7rem', fontWeight: 'bold', mb: 0.5 }}>
+          Abstract
+        </Typography>
+        <AnimatePresence>
+          {content.slice(0, Math.min(activeLines, content.length)).map((line, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3, delay: index * 0.1 }}
+            >
+              <Typography sx={{ fontSize: '0.6rem', mb: 0.3 }}>
+                {line}
+              </Typography>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </Box>
+      
+      
+    </Box>
+  );
+};
+
 // Add some additional styled components for the timeline elements
 const TimelineConnector = styled(Box)(({ theme }) => ({
   width: 2,
@@ -330,90 +410,68 @@ export function Hero() {
   const [activeIndex, setActiveIndex] = useState(-1);
   const [showCursor, setShowCursor] = useState(true);
   const [progress, setProgress] = useState(0);
-  const [currentReportType, setCurrentReportType] = useState<'proposal' | 'paper'>('proposal');
-  const [agentStatus, setAgentStatus] = useState<'idle' | 'thinking' | 'generating'>('idle');
-  const [scrollPosition, setScrollPosition] = useState(0);
+  const [agentStatus, setAgentStatus] = useState<'idle' | 'researching' | 'writing'>('idle');
+  const [latexCode, setLatexCode] = useState('');
+  const [pdfLines, setPdfLines] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const reportContainerRef = useRef<HTMLDivElement>(null);
   const animationTimer = useRef<NodeJS.Timeout | null>(null);
   const resetTimer = useRef<NodeJS.Timeout | null>(null);
-  const scrollTimer = useRef<NodeJS.Timeout | null>(null);
-  const statusTimer = useRef<NodeJS.Timeout | null>(null);
+  const latexTimer = useRef<NodeJS.Timeout | null>(null);
 
-  // Grant Proposal Report sections data
-  const proposalReportSections = [
-    { id: 'header', title: 'NSF Grant Proposal Generation', type: 'header' },
-    { id: 'topic', title: 'Topic: Quantum Computing in Machine Learning', type: 'section' },
-    { id: 'date', title: 'Generated: December 15, 2024', type: 'data' },
-    
-    { id: 'research', title: 'Literature Research Phase', type: 'section', source: 'ArXiv' },
-    { id: 'papers1', title: 'Papers Analyzed', content: '127 relevant publications', type: 'data', source: 'ArXiv' },
-    { id: 'papers2', title: 'Key Citations', content: '23 high-impact references', type: 'data', source: 'IEEE' },
-    
-    { id: 'grants', title: 'Grant Database Analysis', type: 'section', source: 'NSF' },
-    { id: 'grants1', title: 'Open Opportunities', content: '8 matching programs found', type: 'data', source: 'NSF' },
-    { id: 'grants2', title: 'Deadline Tracking', content: 'Next: Feb 15, 2025', type: 'data', source: 'NSF' },
-    
-    { id: 'synthesis', title: 'Research Synthesis', type: 'section', source: 'Nature' },
-    { id: 'synthesis1', title: 'Research Gaps', content: 'Identified 3 key opportunities', type: 'data', source: 'Nature' },
-    
-    { id: 'writing', title: 'LaTeX Document Generation', type: 'section' },
-    { id: 'writing1', title: 'Abstract', content: 'Complete (250 words)', type: 'data' },
-    { id: 'writing2', title: 'Technical Approach', content: 'Draft ready for review', type: 'data' },
-    
-    { id: 'budget', title: 'Budget & Timeline', type: 'section' },
-    { id: 'budget1', title: 'Total Request', content: '$485,000 over 3 years', type: 'data' },
-    { id: 'budget2', title: 'Personnel', content: '2 PhD students, 1 Postdoc', type: 'data' },
-    
-    { id: 'conclusion', title: 'Proposal Status', content: 'Ready for PI Review & Submission', type: 'conclusion' },
-  ];
+     // Research Phase sections data
+   const researchSections = [
+     { id: 'header', title: 'Deep Research Phase: LLM Safety Grant', type: 'header' },
+     { id: 'search', title: 'Literature Search Initiated', type: 'section', source: 'ArXiv' },
+     { id: 'papers1', title: 'Papers Found', content: '189 relevant publications', type: 'data', source: 'ArXiv' },
+     { id: 'papers2', title: 'High Impact Citations', content: '27 breakthrough papers', type: 'data', source: 'Nature' },
+     
+     { id: 'grants', title: 'Grant Database Scan', type: 'section', source: 'NSF' },
+     { id: 'grants1', title: 'Matching Programs', content: 'AI Safety Initiative: $450K available', type: 'data', source: 'NSF' },
+     { id: 'grants2', title: 'Deadline Analysis', content: 'Optimal submission: Feb 15', type: 'data', source: 'NSF' },
+     
+     { id: 'analysis', title: 'Research Gap Analysis', type: 'section', source: 'IEEE' },
+     { id: 'gaps1', title: 'Key Opportunity', content: 'Constitutional AI for LLMs', type: 'data', source: 'IEEE' },
+     { id: 'gaps2', title: 'Competitive Edge', content: 'RLHF + interpretability unexplored', type: 'data', source: 'PubMed' },
+     
+     { id: 'synthesis', title: 'Research Synthesis Complete', type: 'section', source: 'Nature' },
+     { id: 'synthesis1', title: 'Novel Approach Identified', content: 'Ready for proposal generation', type: 'data', source: 'Nature' },
+     
+     { id: 'transition', title: 'Initiating LaTeX Generation', content: 'Switching to Writing Mode', type: 'conclusion' },
+   ];
 
-  // Research Paper Report sections data
-  const paperReportSections = [
-    { id: 'paper-header', title: 'Technical Paper Draft Generation', type: 'header' },
-    { id: 'paper-topic', title: 'Title: Neural Architecture Search for Edge Computing', type: 'section' },
-    { id: 'paper-date', title: 'Generated: December 15, 2024', type: 'data' },
-    
-    { id: 'paper-research', title: 'Literature Review Phase', type: 'section', source: 'ArXiv' },
-    { id: 'paper-lit1', title: 'Papers Reviewed', content: '89 recent publications', type: 'data', source: 'ArXiv' },
-    { id: 'paper-lit2', title: 'Methodology Analysis', content: '15 comparative studies', type: 'data', source: 'IEEE' },
-    
-    { id: 'paper-analysis', title: 'Research Gap Analysis', type: 'section', source: 'PubMed' },
-    { id: 'paper-gaps1', title: 'Identified Gaps', content: 'Real-time optimization lacking', type: 'data', source: 'PubMed' },
-    
-    { id: 'paper-method', title: 'Methodology Section', type: 'section', source: 'Nature' },
-    { id: 'paper-method1', title: 'Experimental Design', content: 'Benchmarking framework', type: 'data', source: 'Nature' },
-    { id: 'paper-method2', title: 'Evaluation Metrics', content: 'Latency & Accuracy trade-offs', type: 'data', source: 'IEEE' },
-    
-    { id: 'paper-writing', title: 'LaTeX Compilation', type: 'section' },
-    { id: 'paper-writing1', title: 'Document Structure', content: '8 sections, 12 pages', type: 'data' },
-    { id: 'paper-writing2', title: 'Figures & Tables', content: '6 figures, 3 tables generated', type: 'data' },
-    
-    { id: 'paper-refs', title: 'References & Citations', type: 'section' },
-    { id: 'paper-refs1', title: 'Bibliography', content: '47 properly formatted refs', type: 'data' },
-    { id: 'paper-refs2', title: 'Citation Style', content: 'IEEE format applied', type: 'data' },
-    
-    { id: 'paper-conclusion', title: 'Paper Status', content: 'Ready for Conference Submission', type: 'conclusion' },
-  ];
+     // LaTeX code that gets typed out
+   const latexCodeLines = [
+     '\\documentclass[11pt]{article}\n\\usepackage{amsmath}\n\n',
+     '\\title{Constitutional AI for LLM Safety}\n\\author{Research Team}\n\n',
+     '\\begin{document}\n\\maketitle\n\n',
+     '\\begin{abstract}\n',
+     'This proposal addresses LLM safety through constitutional AI methods. ',
+     'We propose novel RLHF techniques to ensure aligned behavior. ',
+     'We request $450,000 over 3 years.\n',
+     '\\end{abstract}\n\n'
+   ];
 
-  // Get the current active report sections based on report type
-  const reportSections = currentReportType === 'proposal' ? proposalReportSections : paperReportSections;
+     // PDF content lines
+   const pdfContent = [
+     'This proposal addresses LLM safety through constitutional AI methods.',
+     'We propose novel RLHF techniques to ensure aligned behavior.',
+     'We request $450,000 over 3 years.'
+   ];
 
   // Clean up timers on unmount
   useEffect(() => {
     return () => {
       if (animationTimer.current) clearTimeout(animationTimer.current);
       if (resetTimer.current) clearTimeout(resetTimer.current);
-      if (scrollTimer.current) clearTimeout(scrollTimer.current);
-      if (statusTimer.current) clearTimeout(statusTimer.current);
+      if (latexTimer.current) clearTimeout(latexTimer.current);
     };
   }, []);
 
-  // Handle auto-scrolling as content grows
+  // Handle auto-scrolling during research phase
   useEffect(() => {
-    if (!reportContainerRef.current || activeIndex < 0) return;
+    if (!reportContainerRef.current || activeIndex < 0 || agentStatus === 'writing') return;
     
-    // Reset scroll position when starting a new animation
     if (activeIndex === 0) {
       if (reportContainerRef.current) {
         reportContainerRef.current.scrollTop = 0;
@@ -425,49 +483,31 @@ export function Hero() {
     const contentHeight = container.scrollHeight;
     const viewportHeight = container.clientHeight;
     
-    // Only need to scroll if content exceeds viewport
     if (contentHeight > viewportHeight) {
-      // If we're at the conclusion item, scroll to the very bottom
-      if (activeIndex === reportSections.length - 1) {
-        container.scrollTo({
-          top: contentHeight,
-          behavior: 'smooth'
-        });
-      } else {
-        // For other items, use the proportional scroll
-        const newScrollPosition = Math.max(
-          0,
-          (contentHeight - viewportHeight) * (activeIndex / reportSections.length)
-        );
-        
-        container.scrollTo({
-          top: newScrollPosition,
-          behavior: 'smooth'
-        });
-      }
+      const newScrollPosition = Math.max(
+        0,
+        (contentHeight - viewportHeight) * (activeIndex / researchSections.length)
+      );
+      
+      container.scrollTo({
+        top: newScrollPosition,
+        behavior: 'smooth'
+      });
     }
-  }, [activeIndex, reportSections.length]);
+  }, [activeIndex, agentStatus]);
 
-  // Control the animation sequence
+  // Control the main animation sequence
   useEffect(() => {
-    // Don't process animation updates during transition
-    if (isTransitioning) {
-      return;
-    }
+    if (isTransitioning) return;
     
-    // Start animation after component mounts
+    // Start research phase
     if (activeIndex === -1) {
-      // First set to thinking state
-      setAgentStatus('thinking');
+      setAgentStatus('researching');
       
       animationTimer.current = setTimeout(() => {
-        // After short thinking period, switch to generating
-        setAgentStatus('generating');
         setActiveIndex(0);
-        setScrollPosition(0);
         setProgress(5);
         
-        // Explicitly reset scroll position
         if (reportContainerRef.current) {
           reportContainerRef.current.scrollTop = 0;
         }
@@ -475,79 +515,95 @@ export function Hero() {
       return;
     }
 
-    // Update progress based on current index
-    setProgress(Math.min(100, Math.round(((activeIndex + 1) / reportSections.length) * 100)));
+    // Research phase progression
+    if (agentStatus === 'researching' && activeIndex < researchSections.length) {
+      setProgress(Math.min(50, Math.round(((activeIndex + 1) / researchSections.length) * 50)));
 
-    // If animation is complete, reset after delay and switch report type
-    if (activeIndex >= reportSections.length) {
-      // Set back to idle
-      setAgentStatus('idle');
-      
-      // First mark as transitioning to prevent any animation updates
-      setIsTransitioning(true);
-      
-      resetTimer.current = setTimeout(() => {
-        // Reset animation states
-        setActiveIndex(-1);
-        setProgress(0);
-        setScrollPosition(0);
-        
-        // Important: Switch report type only after a complete animation cycle
-        setTimeout(() => {
-          // Update report type
-          setCurrentReportType(prev => prev === 'proposal' ? 'paper' : 'proposal');
-          
-          // Explicitly reset scroll position
-          if (reportContainerRef.current) {
-            reportContainerRef.current.scrollTop = 0;
-          }
-          
-          // Allow animation to proceed again after everything is reset
-          setTimeout(() => {
-            setIsTransitioning(false);
-          }, 70);
-        }, 150); 
-      }, 1000);
+      const currentType = researchSections[activeIndex]?.type || '';
+      const delay = 
+        currentType === 'header' ? 1000 :
+        currentType === 'section' ? 600 :
+        currentType === 'conclusion' ? 1500 : 
+        300;
+
+      animationTimer.current = setTimeout(() => {
+        if (activeIndex === researchSections.length - 1) {
+          // Transition to writing phase
+          setAgentStatus('writing');
+          setProgress(60);
+        } else {
+          setActiveIndex(prev => prev + 1);
+        }
+      }, delay);
       return;
     }
 
-    // Continue the animation with varying delays based on section type
-    const currentType = activeIndex < reportSections.length ? reportSections[activeIndex].type : '';
-    const delay = 
-      currentType === 'header' ? 1200 :
-      currentType === 'section' ? 800 :
-      currentType === 'conclusion' ? 850 : 
-      400;
-
-    // If this is the last item (conclusion), add extra delay before transitioning
-    if (activeIndex === reportSections.length - 1) {
-      // First render the conclusion item
-      animationTimer.current = setTimeout(() => {
-        setActiveIndex(prev => prev + 1);
-      }, delay);
-      setTimeout(() => {
-        setActiveIndex(prev => prev + 1);
-      }, delay + 5000);
-    } else {
-      animationTimer.current = setTimeout(() => {
-        setActiveIndex(prev => prev + 1);
-      }, delay);
+    // Writing phase - start LaTeX generation
+    if (agentStatus === 'writing') {
+      // Start typing LaTeX code
+      let currentLineIndex = 0;
+      let currentCharIndex = 0;
+      
+      const typeLatex = () => {
+        if (currentLineIndex >= latexCodeLines.length) {
+          // Writing complete, restart cycle
+          setProgress(100);
+          
+          resetTimer.current = setTimeout(() => {
+            setIsTransitioning(true);
+            setActiveIndex(-1);
+            setProgress(0);
+            setLatexCode('');
+            setPdfLines(0);
+            setAgentStatus('idle');
+            
+            setTimeout(() => {
+              setIsTransitioning(false);
+            }, 500);
+          }, 3000);
+          return;
+        }
+        
+        const currentLine = latexCodeLines[currentLineIndex];
+        
+        if (currentCharIndex < currentLine.length) {
+          // Type character by character
+          setLatexCode(prev => prev + currentLine[currentCharIndex]);
+          currentCharIndex++;
+          
+          // Update PDF preview based on progress
+          if (currentLineIndex >= 3) { // After abstract starts
+            const pdfLineIndex = Math.floor((currentLineIndex - 3) * 1.5);
+            setPdfLines(Math.min(pdfLineIndex, pdfContent.length));
+          }
+          
+                     latexTimer.current = setTimeout(typeLatex, 25);
+         } else {
+           // Move to next line
+           currentLineIndex++;
+           currentCharIndex = 0;
+           setProgress(60 + (currentLineIndex / latexCodeLines.length) * 40);
+           latexTimer.current = setTimeout(typeLatex, 100);
+        }
+      };
+      
+      latexTimer.current = setTimeout(typeLatex, 500);
     }
-  }, [activeIndex, reportSections.length, currentReportType, isTransitioning]);
+  }, [activeIndex, agentStatus, isTransitioning]);
 
-  // Render only content that should be visible based on animation state
-  const renderReportSections = () => {
-    if (isTransitioning || activeIndex <= 0) {
+  // Render research sections
+  const renderResearchSections = () => {
+    if (agentStatus === 'writing' || activeIndex <= 0) {
       return null;
     }
     
-    return reportSections.slice(0, activeIndex).map((section, index) => (
+    return researchSections.slice(0, activeIndex + 1).map((section, index) => (
       <ReportSection
         key={section.id}
         title={section.title}
         content={section.content}
         type={section.type}
-        isLastItem={index === activeIndex - 1}
+        isLastItem={index === activeIndex}
         showCursor={showCursor}
         source={section.source}
       />
@@ -798,7 +854,7 @@ export function Hero() {
                           <DescriptionIcon sx={{ fontSize: 14, color: '#60A5FA' }} />
                         </Box>
                         <Typography sx={{ fontSize: '0.8rem', fontWeight: 600, color: '#60A5FA' }}>
-                          Research Request
+                          Proactive Research
                         </Typography>
                       </Box>
                     </TimelineEventBox>
@@ -859,39 +915,92 @@ export function Hero() {
                       />
                     </Box>
 
-                    {/* Dynamic report content */}
-                    <Box 
-                      ref={reportContainerRef}
-                      sx={{ 
-                        mb: 3, 
-                        height: { xs: 200, sm: 220, md: 260 }, 
-                        overflow: "auto",
-                        scrollBehavior: "smooth",
-                        "&::-webkit-scrollbar": {
-                          width: "6px",
-                        },
-                        "&::-webkit-scrollbar-track": {
-                          backgroundColor: "rgba(55, 65, 81, 0.1)",
-                          borderRadius: "10px",
-                        },
-                        "&::-webkit-scrollbar-thumb": {
-                          backgroundColor: "rgba(59, 130, 246, 0.5)",
-                          borderRadius: "10px",
-                        },
-                      }}
-                    >
-                      <AnimatePresence mode="wait">
-                        <motion.div
-                          key={`${currentReportType}-${isTransitioning ? 'transition' : 'active'}`}
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -20 }}
-                          transition={{ duration: 0.5 }}
-                        >
-                          {renderReportSections()}
-                        </motion.div>
-                      </AnimatePresence>
-                    </Box>
+                    {/* Dynamic content - Research Phase or Writing Phase */}
+                    {agentStatus === 'writing' ? (
+                      // Overleaf-like LaTeX editor with PDF preview
+                      <Box sx={{ mb: 3, height: { xs: 200, sm: 220, md: 260 } }}>
+                        <Box sx={{ display: 'flex', gap: 1, height: '100%' }}>
+                          {/* LaTeX Code Panel */}
+                          <Box sx={{ 
+                            flex: 1, 
+                            bgcolor: "rgba(31, 41, 55, 0.8)", 
+                            borderRadius: 1, 
+                            p: 1.5,
+                            overflow: "auto",
+                            "&::-webkit-scrollbar": {
+                              width: "4px",
+                            },
+                            "&::-webkit-scrollbar-track": {
+                              backgroundColor: "rgba(55, 65, 81, 0.1)",
+                            },
+                            "&::-webkit-scrollbar-thumb": {
+                              backgroundColor: "rgba(59, 130, 246, 0.5)",
+                              borderRadius: "2px",
+                            },
+                          }}>
+                            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, pb: 1, borderBottom: '1px solid rgba(75, 85, 99, 0.3)' }}>
+                              <Typography sx={{ fontSize: '0.7rem', color: '#9CA3AF', fontWeight: 600 }}>
+                                proposal.tex
+                              </Typography>
+                            </Box>
+                            <LaTeXCodeDisplay code={latexCode} isTyping={agentStatus === 'writing'} />
+                          </Box>
+                          
+                          {/* PDF Preview Panel */}
+                          <Box sx={{ 
+                            flex: 1, 
+                            bgcolor: "rgba(229, 231, 235, 0.05)", 
+                            borderRadius: 1, 
+                            p: 1,
+                            display: 'flex',
+                            flexDirection: 'column'
+                          }}>
+                            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, pb: 1, borderBottom: '1px solid rgba(75, 85, 99, 0.3)' }}>
+                              <Typography sx={{ fontSize: '0.7rem', color: '#9CA3AF', fontWeight: 600 }}>
+                                PDF Preview
+                              </Typography>
+                            </Box>
+                            <Box sx={{ flex: 1, overflow: 'hidden' }}>
+                              <PDFPreviewDisplay content={pdfContent} activeLines={pdfLines} />
+                            </Box>
+                          </Box>
+                        </Box>
+                      </Box>
+                    ) : (
+                      // Research Phase Display
+                      <Box 
+                        ref={reportContainerRef}
+                        sx={{ 
+                          mb: 3, 
+                          height: { xs: 200, sm: 220, md: 260 }, 
+                          overflow: "auto",
+                          scrollBehavior: "smooth",
+                          "&::-webkit-scrollbar": {
+                            width: "6px",
+                          },
+                          "&::-webkit-scrollbar-track": {
+                            backgroundColor: "rgba(55, 65, 81, 0.1)",
+                            borderRadius: "10px",
+                          },
+                          "&::-webkit-scrollbar-thumb": {
+                            backgroundColor: "rgba(59, 130, 246, 0.5)",
+                            borderRadius: "10px",
+                          },
+                        }}
+                      >
+                        <AnimatePresence mode="wait">
+                          <motion.div
+                            key={`${agentStatus}-${isTransitioning ? 'transition' : 'active'}`}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            transition={{ duration: 0.5 }}
+                          >
+                            {renderResearchSections()}
+                          </motion.div>
+                        </AnimatePresence>
+                      </Box>
+                    )}
 
                     {/* Action button and agent indicator */}
                     <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", minHeight: "24px" }}>
@@ -905,7 +1014,7 @@ export function Hero() {
                             <Box sx={{ display: 'flex', alignItems: 'center' }}>
                               <SpinningLoader />
                               <Typography variant="caption" sx={{ fontSize: "0.75rem", color: alpha("#fff", 0.8) }}>
-                                {agentStatus === 'thinking' ? 'agent thinking' : 'Research Agent Working'}
+                                {agentStatus === 'researching' ? 'agent researching' : 'Research Agent Working'}
                                 <AnimatedDots />
                               </Typography>
                             </Box>
