@@ -138,7 +138,7 @@ interface SectionProps {
 const ReportSection = ({ title, content, type, isLastItem, showCursor, source }: SectionProps) => {
   // Define color schemes for different sources
   const sourceColors = {
-    Arize: {
+    ArXiv: {
       bg: "rgba(14, 165, 233, 0.15)",
       border: "rgba(14, 165, 233, 0.3)",
       text: "#0EA5E9",
@@ -146,7 +146,7 @@ const ReportSection = ({ title, content, type, isLastItem, showCursor, source }:
       lightBg: "rgba(14, 165, 233, 0.1)",
       lightText: "rgba(14, 165, 233, 0.8)"
     },
-    Openlayer: {
+    NSF: {
       bg: "rgba(99, 102, 241, 0.15)",
       border: "rgba(99, 102, 241, 0.3)",
       text: "#6366F1",
@@ -154,7 +154,7 @@ const ReportSection = ({ title, content, type, isLastItem, showCursor, source }:
       lightBg: "rgba(99, 102, 241, 0.1)",
       lightText: "rgba(99, 102, 241, 0.8)"
     },
-    LangSmith: {
+    PubMed: {
       bg: "rgba(236, 72, 153, 0.15)",
       border: "rgba(236, 72, 153, 0.3)",
       text: "#EC4899",
@@ -162,7 +162,7 @@ const ReportSection = ({ title, content, type, isLastItem, showCursor, source }:
       lightBg: "rgba(236, 72, 153, 0.1)",
       lightText: "rgba(236, 72, 153, 0.8)"
     },
-    SageMaker: {
+    IEEE: {
       bg: "rgba(249, 115, 22, 0.15)",
       border: "rgba(249, 115, 22, 0.3)",
       text: "#F97316",
@@ -170,7 +170,7 @@ const ReportSection = ({ title, content, type, isLastItem, showCursor, source }:
       lightBg: "rgba(249, 115, 22, 0.1)",
       lightText: "rgba(249, 115, 22, 0.8)"
     },
-    Watsonx: {
+    Nature: {
       bg: "rgba(16, 185, 129, 0.15)",
       border: "rgba(16, 185, 129, 0.3)",
       text: "#10B981",
@@ -180,8 +180,8 @@ const ReportSection = ({ title, content, type, isLastItem, showCursor, source }:
     }
   };
   
-  // Get the color scheme based on source, default to Arize
-  const colorScheme = sourceColors[source as keyof typeof sourceColors] || sourceColors.Arize;
+  // Get the color scheme based on source, default to ArXiv
+  const colorScheme = sourceColors[source as keyof typeof sourceColors] || sourceColors.ArXiv;
   
   return (
     <motion.div
@@ -330,7 +330,7 @@ export function Hero() {
   const [activeIndex, setActiveIndex] = useState(-1);
   const [showCursor, setShowCursor] = useState(true);
   const [progress, setProgress] = useState(0);
-  const [currentReportType, setCurrentReportType] = useState<'llm' | 'cv'>('llm');
+  const [currentReportType, setCurrentReportType] = useState<'proposal' | 'paper'>('proposal');
   const [agentStatus, setAgentStatus] = useState<'idle' | 'thinking' | 'generating'>('idle');
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -340,75 +340,64 @@ export function Hero() {
   const scrollTimer = useRef<NodeJS.Timeout | null>(null);
   const statusTimer = useRef<NodeJS.Timeout | null>(null);
 
-  // LLM Report sections data
-  const llmReportSections = [
-    { id: 'header', title: 'LLM Model Intelligence Dashboard', type: 'header' },
-    { id: 'model', title: 'Model: LLM-Analytics-v2.1', type: 'section' },
-    { id: 'date', title: 'Analysis Generated: June 15, 2023', type: 'data' },
+  // Grant Proposal Report sections data
+  const proposalReportSections = [
+    { id: 'header', title: 'NSF Grant Proposal Generation', type: 'header' },
+    { id: 'topic', title: 'Topic: Quantum Computing in Machine Learning', type: 'section' },
+    { id: 'date', title: 'Generated: December 15, 2024', type: 'data' },
     
-    { id: 'performance', title: 'Performance Analytics', type: 'section', source: 'Arize' },
-    { id: 'perf1', title: 'Accuracy Trend', content: '94.3% (↑2.1% this week)', type: 'data', source: 'Arize' },
-    { id: 'perf2', title: 'Response Quality', content: '4.7/5.0 avg rating', type: 'data', source: 'Arize' },
+    { id: 'research', title: 'Literature Research Phase', type: 'section', source: 'ArXiv' },
+    { id: 'papers1', title: 'Papers Analyzed', content: '127 relevant publications', type: 'data', source: 'ArXiv' },
+    { id: 'papers2', title: 'Key Citations', content: '23 high-impact references', type: 'data', source: 'IEEE' },
     
-    { id: 'metrics', title: 'Operational Metrics', type: 'section', source: 'LangSmith' },
-    { id: 'metrics1', title: 'Latency Performance', content: '127ms (p95) - Stable', type: 'data', source: 'LangSmith' },
-    { id: 'metrics3', title: 'Throughput', content: '1.2K requests/min', type: 'data', source: 'LangSmith' },
+    { id: 'grants', title: 'Grant Database Analysis', type: 'section', source: 'NSF' },
+    { id: 'grants1', title: 'Open Opportunities', content: '8 matching programs found', type: 'data', source: 'NSF' },
+    { id: 'grants2', title: 'Deadline Tracking', content: 'Next: Feb 15, 2025', type: 'data', source: 'NSF' },
     
-    { id: 'insights', title: 'Predictive Insights', type: 'section', source: 'Openlayer' },
-    { id: 'insights1', title: 'Performance Trend', content: 'Stable growth expected', type: 'data', source: 'Openlayer' },
+    { id: 'synthesis', title: 'Research Synthesis', type: 'section', source: 'Nature' },
+    { id: 'synthesis1', title: 'Research Gaps', content: 'Identified 3 key opportunities', type: 'data', source: 'Nature' },
     
-    { id: 'reliability', title: 'Model Reliability', type: 'section', source: 'Arize' },
-    { id: 'reliability1', title: 'Drift Detection', content: 'No significant drift', type: 'data', source: 'Arize' },
-    { id: 'reliability3', title: 'Error Analysis', content: '2.1% edge case patterns', type: 'data', source: 'LangSmith' },
+    { id: 'writing', title: 'LaTeX Document Generation', type: 'section' },
+    { id: 'writing1', title: 'Abstract', content: 'Complete (250 words)', type: 'data' },
+    { id: 'writing2', title: 'Technical Approach', content: 'Draft ready for review', type: 'data' },
     
-    // Team Workflow section - shortened
-    { id: 'workflow', title: 'Team Workflow', type: 'section' },
-    { id: 'workflow1', title: 'Model Owner', content: 'AI Development Team', type: 'data' },
-    { id: 'workflow4', title: 'Last Review', content: 'David Chen - 2 days ago', type: 'data' },
+    { id: 'budget', title: 'Budget & Timeline', type: 'section' },
+    { id: 'budget1', title: 'Total Request', content: '$485,000 over 3 years', type: 'data' },
+    { id: 'budget2', title: 'Personnel', content: '2 PhD students, 1 Postdoc', type: 'data' },
     
-    // Development Lifecycle section - shortened
-    { id: 'lifecycle', title: 'Development Lifecycle', type: 'section', source: 'LangSmith' },
-    { id: 'lifecycle2', title: 'Last Update', content: 'May 30, 2023', type: 'data', source: 'LangSmith' },
-    { id: 'lifecycle3', title: 'Monitoring Status', content: 'Active (continuous)', type: 'data', source: 'Openlayer' },
-    
-    { id: 'conclusion', title: 'Intelligence Summary', content: 'Performance Optimized - Ready for Scale', type: 'conclusion' },
+    { id: 'conclusion', title: 'Proposal Status', content: 'Ready for PI Review & Submission', type: 'conclusion' },
   ];
 
-  // Computer Vision Report sections data
-  const cvReportSections = [
-    { id: 'cv-header', title: 'Computer Vision Intelligence Dashboard', type: 'header' },
-    { id: 'cv-model', title: 'Model: ObjectDetect-CV-3.4', type: 'section' },
-    { id: 'cv-date', title: 'Analysis Generated: August 3, 2023', type: 'data' },
+  // Research Paper Report sections data
+  const paperReportSections = [
+    { id: 'paper-header', title: 'Technical Paper Draft Generation', type: 'header' },
+    { id: 'paper-topic', title: 'Title: Neural Architecture Search for Edge Computing', type: 'section' },
+    { id: 'paper-date', title: 'Generated: December 15, 2024', type: 'data' },
     
-    { id: 'cv-performance', title: 'Performance Analytics', type: 'section', source: 'Openlayer' },
-    { id: 'cv-metrics1', title: 'mAP Score', content: '0.87 (Excellent)', type: 'data', source: 'Openlayer' },
-    { id: 'cv-metrics2', title: 'Precision Rate', content: '91.2% accuracy', type: 'data', source: 'SageMaker' },
+    { id: 'paper-research', title: 'Literature Review Phase', type: 'section', source: 'ArXiv' },
+    { id: 'paper-lit1', title: 'Papers Reviewed', content: '89 recent publications', type: 'data', source: 'ArXiv' },
+    { id: 'paper-lit2', title: 'Methodology Analysis', content: '15 comparative studies', type: 'data', source: 'IEEE' },
     
-    { id: 'cv-optimization', title: 'Performance Optimization', type: 'section', source: 'SageMaker' },
-    { id: 'cv-thresh1', title: 'Detection Threshold', content: '0.65 optimal setting', type: 'data', source: 'SageMaker' },
+    { id: 'paper-analysis', title: 'Research Gap Analysis', type: 'section', source: 'PubMed' },
+    { id: 'paper-gaps1', title: 'Identified Gaps', content: 'Real-time optimization lacking', type: 'data', source: 'PubMed' },
     
-    { id: 'cv-robustness', title: 'Robustness Insights', type: 'section', source: 'Watsonx' },
-    { id: 'cv-robust1', title: 'Environmental Variance', content: '96.3% consistency', type: 'data', source: 'Watsonx' },
-    { id: 'cv-robust3', title: 'Angle Sensitivity', content: '78.9% stable range', type: 'data', source: 'Watsonx' },
+    { id: 'paper-method', title: 'Methodology Section', type: 'section', source: 'Nature' },
+    { id: 'paper-method1', title: 'Experimental Design', content: 'Benchmarking framework', type: 'data', source: 'Nature' },
+    { id: 'paper-method2', title: 'Evaluation Metrics', content: 'Latency & Accuracy trade-offs', type: 'data', source: 'IEEE' },
     
-    { id: 'cv-testing', title: 'Predictive Testing', type: 'section', source: 'Openlayer' },
-    { id: 'cv-test2', title: 'Edge Case Analysis', content: 'Low risk scenarios', type: 'data', source: 'Openlayer' },
+    { id: 'paper-writing', title: 'LaTeX Compilation', type: 'section' },
+    { id: 'paper-writing1', title: 'Document Structure', content: '8 sections, 12 pages', type: 'data' },
+    { id: 'paper-writing2', title: 'Figures & Tables', content: '6 figures, 3 tables generated', type: 'data' },
     
-    // Team Workflow section - shortened
-    { id: 'cv-workflow', title: 'Team Workflow', type: 'section' },
-    { id: 'cv-workflow1', title: 'Project Lead', content: 'Michael Torres', type: 'data' },
-    { id: 'cv-workflow3', title: 'Deployment Team', content: 'Edge Infrastructure', type: 'data' },
+    { id: 'paper-refs', title: 'References & Citations', type: 'section' },
+    { id: 'paper-refs1', title: 'Bibliography', content: '47 properly formatted refs', type: 'data' },
+    { id: 'paper-refs2', title: 'Citation Style', content: 'IEEE format applied', type: 'data' },
     
-    // Development Lifecycle section - shortened
-    { id: 'cv-lifecycle', title: 'Development Lifecycle', type: 'section', source: 'SageMaker' },
-    { id: 'cv-lifecycle2', title: 'Training Duration', content: '72 hours', type: 'data', source: 'SageMaker' },
-    { id: 'cv-lifecycle5', title: 'Update Schedule', content: 'Bi-monthly optimization', type: 'data', source: 'Watsonx' },
-    
-    { id: 'cv-conclusion', title: 'Intelligence Summary', content: 'Performance Optimized - Ready for Scale', type: 'conclusion' },
+    { id: 'paper-conclusion', title: 'Paper Status', content: 'Ready for Conference Submission', type: 'conclusion' },
   ];
 
   // Get the current active report sections based on report type
-  const reportSections = currentReportType === 'llm' ? llmReportSections : cvReportSections;
+  const reportSections = currentReportType === 'proposal' ? proposalReportSections : paperReportSections;
 
   // Clean up timers on unmount
   useEffect(() => {
@@ -506,7 +495,7 @@ export function Hero() {
         // Important: Switch report type only after a complete animation cycle
         setTimeout(() => {
           // Update report type
-          setCurrentReportType(prev => prev === 'llm' ? 'cv' : 'llm');
+          setCurrentReportType(prev => prev === 'proposal' ? 'paper' : 'proposal');
           
           // Explicitly reset scroll position
           if (reportContainerRef.current) {
@@ -653,7 +642,7 @@ export function Hero() {
                       display: "inline-block",
                     }}
                   >
-                    AI Agents 
+                    Your AI
                   </Typography>
                   <Typography
                     variant="h1"
@@ -669,7 +658,7 @@ export function Hero() {
                       ml: { xs: 0, sm: 0 }
                     }}
                   >
-                    for Model Intelligence
+                    Research Partner
                   </Typography>
                 </motion.div>
 
@@ -689,7 +678,7 @@ export function Hero() {
                       mx: { xs: "auto", lg: 0 },
                     }}
                   >
-                    Automate workflow bottlenecks. Get actionable model insights. Stop manual metric gathering—focus on building better AI.
+                    An autonomous AI agent that handles the entire research and writing lifecycle—from literature review to LaTeX compiling—so you can reclaim your time for what truly matters.
                   </Typography>
                   
                   <Typography
@@ -705,7 +694,7 @@ export function Hero() {
                       mx: { xs: "auto", lg: 0 },
                     }}
                   >
-                    Plug in. Power up. Ship faster.
+                    Focus on Discovery, Not the Paperwork.
                   </Typography>
                 </motion.div>
 
@@ -809,7 +798,7 @@ export function Hero() {
                           <DescriptionIcon sx={{ fontSize: 14, color: '#60A5FA' }} />
                         </Box>
                         <Typography sx={{ fontSize: '0.8rem', fontWeight: 600, color: '#60A5FA' }}>
-                          Intelligence Requested
+                          Research Request
                         </Typography>
                       </Box>
                     </TimelineEventBox>
@@ -916,7 +905,7 @@ export function Hero() {
                             <Box sx={{ display: 'flex', alignItems: 'center' }}>
                               <SpinningLoader />
                               <Typography variant="caption" sx={{ fontSize: "0.75rem", color: alpha("#fff", 0.8) }}>
-                                {agentStatus === 'thinking' ? 'agent thinking' : 'Intelligence Stream'}
+                                {agentStatus === 'thinking' ? 'agent thinking' : 'Research Agent Working'}
                                 <AnimatedDots />
                               </Typography>
                             </Box>
@@ -987,7 +976,7 @@ export function Hero() {
                           <PersonIcon sx={{ fontSize: 14, color: '#10B981' }} />
                         </Box>
                         <Typography sx={{ fontSize: '0.8rem', fontWeight: 600, color: '#10B981' }}>
-                          Developer Review
+                          Scientist Review
                         </Typography>
                         
                         <CheckCircleIcon 
