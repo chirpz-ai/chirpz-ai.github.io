@@ -47,13 +47,10 @@ export function Footer() {
     <Box
       component="footer"
       sx={{
-        backgroundColor: "background.paper",
-        color: "text.primary",
-        pt: { xs: 8, md: 10 },
-        pb: 4,
+        pt: { xs: 4, md: 6 },
+        pb: 3,
         position: "relative",
         overflow: "hidden",
-        borderTop: "1px solid",
         borderColor: "divider",
       }}
     >
@@ -74,8 +71,8 @@ export function Footer() {
 
       <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
         {/* Top section with logo and navigation */}
-        <Grid container spacing={4} sx={{ pb: 6 }}>
-          <Grid size={{ xs: 12, md: 5, lg: 4 }}>
+        <Grid container spacing={4} sx={{ pb: 4 }}>
+          <Grid size={{ xs: 12, md: 7, lg: 8 }}>
             <Link href="/" style={{ textDecoration: 'none' }}>
               <Typography 
                 variant="h5" 
@@ -83,7 +80,7 @@ export function Footer() {
                 sx={{ 
                   display: "inline-block",
                   fontWeight: 700,
-                  mb: 3,
+                  mb: 2,
                   color: "text.primary",
                   letterSpacing: "-0.025em",
                 }}
@@ -95,44 +92,32 @@ export function Footer() {
               variant="body2"
               sx={{
                 color: "text.secondary",
-                mb: 4,
-                maxWidth: "md",
+                mb: 0,
+                maxWidth: "100%",
                 lineHeight: 1.6,
+                pr: { xs: 0, md: 4 },
               }}
             >
-              AI agents that eliminate manual workflow bottlenecks by delivering actionable model intelligence from your development and observability stack.
+              The AI research scientist for busy researchers.
             </Typography>
-            <Stack direction="row" spacing={1.5}>
-              <Link href="https://github.com/chirpz-ai" target="_blank" rel="noopener" style={{ textDecoration: 'none' }}>
-                <SocialIconButton aria-label="GitHub">
-                  <GitHubIcon fontSize="small" />
-                </SocialIconButton>
-              </Link>
-              <SocialIconButton aria-label="LinkedIn">
-                <LinkedInIcon fontSize="small" />
-              </SocialIconButton>
-              <SocialIconButton aria-label="Twitter">
-                <TwitterIcon fontSize="small" />
-              </SocialIconButton>
-            </Stack>
           </Grid>
           
-          <Grid size={{ xs: 12, md: 7, lg: 8 }}>
-            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-              <Typography
-                variant="subtitle1"
-                sx={{
-                  fontWeight: 600,
-                  mb: 2.5,
-                  color: "text.primary",
-                }}
-              >
-                Product
-              </Typography>
+          <Grid size={{ xs: 12, md: 5, lg: 4 }}>
+            <Box sx={{ 
+              display: 'flex', 
+              flexDirection: 'column',
+              alignItems: { xs: 'flex-start', md: 'flex-end' },
+              justifyContent: { xs: 'flex-start', md: 'flex-start' },
+              height: '100%',
+              mt: { xs: 2, md: 0 }
+            }}>
               <Stack 
-                direction={{ xs: 'column', sm: 'row' }} 
-                spacing={{ xs: 1.5, sm: 4 }}
-                sx={{ flexWrap: 'wrap' }}
+                direction="row"
+                spacing={3}
+                sx={{ 
+                  flexWrap: 'wrap',
+                  mt: { xs: 0, md: 0 }
+                }}
               >
                 <FooterLink href="#features">Features</FooterLink>
                 <FooterLink href="#workflow">How it Works</FooterLink>
@@ -148,7 +133,7 @@ export function Footer() {
         {/* Bottom section with copyright */}
         <Box
           sx={{
-            pt: 4,
+            pt: 3,
             display: "flex",
             flexDirection: { xs: "column", md: "row" },
             justifyContent: "space-between",

@@ -798,7 +798,7 @@ export function Hero() {
                       mx: { xs: "auto", lg: 0 },
                     }}
                   >
-                    The agent that proactively researches and writes proposals on your behalf. No manual literature review. No LaTeX struggles.
+                    AI agent that proactively researches and writes proposals on your behalf. No manual literature review. No LaTeX struggles.
                   </Typography>
                   
                   {/* <Typography
