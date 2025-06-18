@@ -1,88 +1,51 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { motion } from "framer-motion";
 import { styled } from "@mui/material/styles";
 import {
   Box,
   Container,
   Typography,
-  Grid,
-  Paper,
   TextField,
   Button,
-  Chip,
-  useTheme,
-  alpha,
-  List,
-  ListItem,
-  IconButton,
+  Grid,
+  Alert,
   CircularProgress,
-  InputLabel,
-  Link
+  Snackbar,
+  useTheme
 } from "@mui/material";
-import SendIcon from "@mui/icons-material/Send";
-import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
-import PhoneOutlinedIcon from "@mui/icons-material/PhoneOutlined";
-import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import TwitterIcon from "@mui/icons-material/Twitter";
+import EmailIcon from "@mui/icons-material/Email";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 import emailjs from '@emailjs/browser';
 
-const ContactCard = styled(Paper)(({ theme }) => ({
-  borderRadius: "20px",
-  background: `linear-gradient(135deg, ${alpha('#60A5FA', 0.15)} 0%, ${alpha('#3B82F6', 0.25)} 100%)`,
-  backdropFilter: "blur(8px)",
-  padding: theme.spacing(4),
-  height: "100%",
-  color: "white",
-  border: "1px solid rgba(255, 255, 255, 0.1)",
-}));
-
-const FormCard = styled(Paper)(({ theme }) => ({
-  borderRadius: "20px",
-  background: `linear-gradient(135deg, ${alpha('#fff', 0.95)} 0%, ${alpha('#f0f9ff', 0.95)} 100%)`,
-  backdropFilter: "blur(8px)",
-  boxShadow: "0 15px 30px rgba(0, 0, 0, 0.15)",
-  border: "1px solid rgba(255, 255, 255, 0.2)",
-  padding: theme.spacing(4),
-  height: "100%",
-}));
-
-const IconBox = styled(Box)(({ theme }) => ({
-  width: 40,
-  height: 40,
-  display: "flex",
+// Badge component exactly like features component
+const ContactBadge = styled(Box)(({ theme }) => ({
+  display: "inline-flex",
   alignItems: "center",
-  justifyContent: "center",
-  borderRadius: "12px",
-  backgroundColor: "white",
-  color: theme.palette.primary.main,
-  boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
-  marginRight: theme.spacing(2),
+  padding: "8px 16px",
+  borderRadius: "24px",
+  fontSize: "0.875rem",
+  fontWeight: 600,
+  whiteSpace: "nowrap",
+  position: "relative",
+  overflow: "hidden",
+  "&::before": {
+    content: '""',
+    position: "absolute",
+    inset: 0,
+    padding: "1px",
+    background: "linear-gradient(90deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 100%)",
+    borderRadius: "inherit",
+    mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+    maskComposite: "xor",
+    WebkitMaskComposite: "xor",
+  }
 }));
 
-const SocialIconButton = styled(IconButton)(({ theme }) => ({
-  backgroundColor: "white",
-  color: theme.palette.primary.main,
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.primary.main, 0.1),
-  },
-  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-  padding: theme.spacing(1.2),
-}));
-
-const SuccessCircle = styled(Box)(({ theme }) => ({
-  width: 80,
-  height: 80,
-  borderRadius: "50%",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  backgroundColor: alpha(theme.palette.success.main, 0.15),
-  color: theme.palette.success.main,
-  marginBottom: theme.spacing(3),
+// Contact form container with transparent background
+const ContactFormContainer = styled(Box)(({ theme }) => ({
+  backgroundColor: "transparent",
+  padding: "0px",
 }));
 
 export function Contact() {
@@ -92,19 +55,20 @@ export function Contact() {
   const [formState, setFormState] = useState({
     name: "",
     email: "",
-    company: "",
-    message: "",
+    university: "",
+    message: ""
   });
-
+  
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState("");
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormState((prev) => ({ ...prev, [name]: value }));
+    setFormState(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -122,7 +86,7 @@ export function Contact() {
       
       console.log('Email sent successfully:', result.text);
       setIsSubmitted(true);
-      setFormState({ name: "", email: "", company: "", message: "" });
+      setFormState({ name: "", email: "", university: "", message: "" });
     } catch (error: any) {
       console.error('Email sending failed:', error);
       setError("Failed to send your message. Please try again later.");
@@ -131,503 +95,390 @@ export function Contact() {
     }
   };
 
+  const handleCloseSnackbar = () => {
+    setIsSubmitted(false);
+  };
+
   return (
     <Box
       id="contact"
-      component="section"
       sx={{
-        py: { xs: 10, md: 12 },
-        background: "linear-gradient(135deg, #111827 0%, #1F2937 100%)",
         position: "relative",
+        py: { xs: 8, md: 12 },
+        mx: { xs: 2, sm: 3, md: 4 },
+        my: { xs: 4, md: 6 },
+        borderRadius: 5,
+        borderLeft: "1px solid transparent",
+        borderRight: "1px solid transparent", 
+        borderBottom: "1px solid transparent",
+        background: (theme) => 
+          `linear-gradient(180deg, transparent 0%, ${theme.palette.mode === 'dark' 
+            ? 'rgba(18, 18, 18, 0.3)' 
+            : 'rgba(255, 255, 255, 0.3)'} 15%, ${theme.palette.background.paper} 40%)`,
         overflow: "hidden",
       }}
     >
-      {/* Background grid pattern */}
-      <Box
-        sx={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundImage: "url('/grid-pattern.svg')",
-          backgroundRepeat: "repeat",
-          opacity: 0.05,
-          zIndex: 0,
-        }}
-      />
-
-      {/* Gradient blur effect */}
-      <Box
-        sx={{
-          position: "absolute",
-          top: "30%",
-          right: "-10%",
-          width: "30vw",
-          height: "30vw",
-          borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0) 70%)",
-          filter: "blur(50px)",
-          zIndex: 0,
-        }}
-      />
-
       <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
-          <Box 
-            sx={{ 
-              textAlign: "center", 
-              maxWidth: "800px", 
-              mx: "auto", 
-              mb: { xs: 6, md: 8 } 
-            }}
-          >
-            <Chip
-              label="Contact Us"
-              sx={{
-                mb: 2,
-                fontWeight: 600,
-                color: "#60A5FA",
-                bgcolor: alpha("#60A5FA", 0.15),
-                py: 0.5,
-                px: 1,
-              }}
-            />
-            <Typography
-              variant="h2"
-              component="h2"
-              sx={{
-                fontSize: { xs: "2rem", md: "2.5rem" },
-                fontWeight: 700,
-                mb: 2,
-                color: "white",
-              }}
-            >
-              Get in Touch
+        {/* Badge */}
+        <Box sx={{ display: "flex", justifyContent: "center", mb: 4 }}>
+          <ContactBadge>
+            <Typography sx={{ color: "text.primary", fontSize: "0.875rem", fontWeight: 600 }}>
+              Contact Us
             </Typography>
-            <Typography
-              variant="body1"
-              sx={{
-                fontSize: { xs: "1rem", md: "1.125rem" },
-                color: alpha("#fff", 0.8),
-                maxWidth: "650px",
-                mx: "auto",
-              }}
-            >
-              Interested in developing with agentic actionable intelligence? Contact us to learn more about how Chirpz AI can boost your team's productivity.
-            </Typography>
-          </Box>
-        </motion.div>
+          </ContactBadge>
+        </Box>
 
-        <Grid container spacing={4}>
-          <Grid size={{ xs: 12, md: 5, lg: 4 }}>
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              style={{ height: "100%" }}
-            >
-              <ContactCard elevation={0}>
-                <Typography 
-                  variant="h5" 
-                  component="h3" 
-                  sx={{ 
-                    fontWeight: 700, 
-                    mb: 4, 
-                    color: "white"
-                  }}
-                >
-                  Contact Information
-                </Typography>
-                
-                <Box sx={{ mb: 4, display: "flex", flexDirection: "column", gap: 3 }}>
-                  <motion.div
-                    initial={{ opacity: 0, x: -10 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.3, delay: 0.1 }}
-                  >
-                    <Box sx={{ display: "flex", alignItems: "flex-start" }}>
-                      <IconBox>
-                        <EmailOutlinedIcon sx={{ fontSize: 20 }} />
-                      </IconBox>
-                      <Box>
-                        <Typography 
-                          variant="subtitle2" 
-                          component="h4" 
-                          sx={{ fontWeight: 600, color: "white" }}
-                        >
-                          Email
-                        </Typography>
-                        <Link 
-                          href="mailto:info@chirpz.ai" 
-                          sx={{ 
-                            color: alpha("#fff", 0.8),
-                            textDecoration: "none",
-                            "&:hover": {
-                              color: theme.palette.primary.main,
-                            },
-                            transition: "0.2s",
-                          }}
-                        >
-                          info@chirpz.ai
-                        </Link>
-                      </Box>
-                    </Box>
-                  </motion.div>
-                  
-                  <motion.div
-                    initial={{ opacity: 0, x: -10 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.3, delay: 0.2 }}
-                  >
-                  </motion.div>
-                  
-                  <motion.div
-                    initial={{ opacity: 0, x: -10 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.3, delay: 0.3 }}
-                  >
-                    <Box sx={{ display: "flex", alignItems: "flex-start" }}>
-                      <IconBox>
-                        <LocationOnOutlinedIcon sx={{ fontSize: 20 }} />
-                      </IconBox>
-                      <Box>
-                        <Typography 
-                          variant="subtitle2" 
-                          component="h4" 
-                          sx={{ fontWeight: 600, color: "white" }}
-                        >
-                          Location
-                        </Typography>
-                        <Typography sx={{ color: alpha("#fff", 0.8) }}>
-                          San Francisco, CA · Chicago, IL
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </motion.div>
-                </Box>
-                
-                <Box>
-                  <Typography 
-                    variant="subtitle2" 
-                    component="h4" 
-                    sx={{ fontWeight: 600, color: "white", mb: 2 }}
-                  >
-                    Connect with Us
-                  </Typography>
-                  <Box sx={{ display: "flex", gap: 1.5 }}>
-                    <SocialIconButton aria-label="LinkedIn">
-                      <LinkedInIcon />
-                    </SocialIconButton>
-                    <SocialIconButton aria-label="Twitter">
-                      <TwitterIcon />
-                    </SocialIconButton>
-                  </Box>
-                </Box>
-              </ContactCard>
-            </motion.div>
-          </Grid>
+        <Grid container spacing={8} alignItems="flex-start">
+          {/* Left Side - Contact Info */}
+          <Grid size={{ xs: 12, md: 6 }}>
+            <Box sx={{ pr: { md: 4 } }}>
+              {/* Headline */}
+              <Typography
+                variant="h2"
+                component="h2"
+                sx={{
+                  fontSize: { xs: "2.5rem", md: "4rem" },
+                  fontWeight: 400,
+                  mb: 3,
+                  color: "text.primary",
+                  letterSpacing: "-0.02em",
+                  fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+                }}
+              >
+                Let's talk.
+              </Typography>
 
-          <Grid size={{ xs: 12, md: 7, lg: 8 }}>
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-            >
-              <FormCard elevation={0}>
-                <Typography 
-                  variant="h5" 
-                  component="h3" 
-                  sx={{ 
-                    fontWeight: 700, 
-                    mb: 4, 
-                    color: "#1F2937"
-                  }}
-                >
-                  Send us a Message
-                </Typography>
-                
-                {isSubmitted ? (
-                  <motion.div 
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.4 }}
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      padding: "3rem 1rem",
-                      textAlign: "center"
+              {/* Sub-headline */}
+              <Typography
+                variant="body1"
+                sx={{
+                  fontSize: { xs: "1rem", md: "1.1rem" },
+                  color: "text.secondary",
+                  mb: 6,
+                  lineHeight: 1.6,
+                  maxWidth: "400px",
+                }}
+              >
+                Interested in a demo for your institution or have a question? Reach out.
+              </Typography>
+
+              {/* Contact Info */}
+              <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
+                {/* Email */}
+                <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                  <EmailIcon sx={{ fontSize: 20, color: "text.secondary" }} />
+                  <Typography
+                    sx={{
+                      fontSize: "1rem",
+                      color: "text.secondary",
+                      fontFamily: "monospace",
                     }}
                   >
-                    <SuccessCircle>
-                      <CheckCircleOutlineIcon sx={{ fontSize: 40 }} />
-                    </SuccessCircle>
+                    info@chirpz.ai
+                  </Typography>
+                </Box>
+
+                {/* Location */}
+                <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                  <LocationOnIcon sx={{ fontSize: 20, color: "text.secondary" }} />
+                  <Typography
+                    sx={{
+                      fontSize: "1rem",
+                      color: "text.secondary",
+                    }}
+                  >
+                    Chicago, IL
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
+          </Grid>
+
+          {/* Right Side - Contact Form */}
+          <Grid size={{ xs: 12, md: 6 }}>
+            <ContactFormContainer>
+              {error && (
+                <Alert 
+                  severity="error" 
+                  sx={{ 
+                    mb: 3,
+                    backgroundColor: "rgba(239, 68, 68, 0.1)",
+                    border: "1px solid rgba(239, 68, 68, 0.2)",
+                    color: "error.main"
+                  }}
+                >
+                  {error}
+                </Alert>
+              )}
+
+              <Box component="form" ref={form} onSubmit={handleSubmit}>
+                <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                  {/* Name Field */}
+                  <Box>
                     <Typography
-                      variant="h5"
-                      component="h4"
                       sx={{
-                        fontWeight: 700,
-                        mb: 1,
-                        color: "#1F2937",
+                        fontSize: "0.85rem",
+                        color: "text.primary",
+                        mb: 0.5,
+                        fontWeight: 500,
                       }}
                     >
-                      Thank You!
+                      Name
                     </Typography>
-                    <Typography
-                      variant="body1"
+                    <TextField
+                      name="name"
+                      value={formState.name}
+                      onChange={handleInputChange}
+                      placeholder="Jane Smith"
+                      required
+                      fullWidth
+                      variant="outlined"
+                      size="small"
                       sx={{
-                        color: "#4B5563",
-                        maxWidth: "500px",
-                        mb: 4,
-                      }}
-                    >
-                      Your message has been sent successfully. We'll get back to you shortly.
-                    </Typography>
-                    <Button 
-                      variant="contained"
-                      disableElevation
-                      onClick={() => setIsSubmitted(false)}
-                      sx={{
-                        bgcolor: theme.palette.primary.main,
-                        py: 1.5,
-                        px: 3,
-                        fontWeight: 600,
-                        boxShadow: `0 8px 16px ${alpha(theme.palette.primary.main, 0.25)}`,
-                        "&:hover": {
-                          bgcolor: theme.palette.primary.dark,
-                          boxShadow: `0 12px 20px ${alpha(theme.palette.primary.main, 0.3)}`,
-                        }
-                      }}
-                    >
-                      Send Another Message
-                    </Button>
-                  </motion.div>
-                ) : (
-                  <Box component="form" ref={form} onSubmit={handleSubmit} sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-                    <Grid container spacing={2}>
-                      <Grid size={{ xs: 12, sm: 6 }}>
-                        <Box>
-                          <InputLabel 
-                            htmlFor="name"
-                            sx={{ 
-                              fontSize: "0.875rem", 
-                              fontWeight: 500, 
-                              color: "#4B5563", 
-                              mb: 0.5
-                            }}
-                          >
-                            Full Name <Box component="span" sx={{ color: "error.main" }}>*</Box>
-                          </InputLabel>
-                          <TextField
-                            id="name"
-                            name="name"
-                            fullWidth
-                            value={formState.name}
-                            onChange={handleChange}
-                            required
-                            placeholder="John Doe"
-                            variant="outlined"
-                            size="small"
-                            sx={{
-                              "& .MuiOutlinedInput-root": {
-                                backgroundColor: "white",
-                                borderRadius: 2,
-                                "& fieldset": {
-                                  borderColor: "rgba(209, 213, 219, 0.8)",
-                                },
-                                "&:hover fieldset": {
-                                  borderColor: "rgba(59, 130, 246, 0.5)",
-                                },
-                                "&.Mui-focused fieldset": {
-                                  borderColor: "rgba(59, 130, 246, 0.8)",
-                                }
-                              },
-                              "& .MuiOutlinedInput-input": {
-                                padding: "14px 16px",
-                              }
-                            }}
-                          />
-                        </Box>
-                      </Grid>
-                      <Grid size={{ xs: 12, sm: 6 }}>
-                        <Box>
-                          <InputLabel 
-                            htmlFor="email"
-                            sx={{ 
-                              fontSize: "0.875rem", 
-                              fontWeight: 500, 
-                              color: "#4B5563", 
-                              mb: 0.5
-                            }}
-                          >
-                            Email Address <Box component="span" sx={{ color: "error.main" }}>*</Box>
-                          </InputLabel>
-                          <TextField
-                            id="email"
-                            name="email"
-                            type="email"
-                            fullWidth
-                            value={formState.email}
-                            onChange={handleChange}
-                            required
-                            placeholder="john@example.com"
-                            variant="outlined"
-                            size="small"
-                            sx={{
-                              "& .MuiOutlinedInput-root": {
-                                backgroundColor: "white",
-                                borderRadius: 2,
-                                "& fieldset": {
-                                  borderColor: "rgba(209, 213, 219, 0.8)",
-                                },
-                                "&:hover fieldset": {
-                                  borderColor: "rgba(59, 130, 246, 0.5)",
-                                },
-                                "&.Mui-focused fieldset": {
-                                  borderColor: "rgba(59, 130, 246, 0.8)",
-                                }
-                              },
-                              "& .MuiOutlinedInput-input": {
-                                padding: "14px 16px",
-                              }
-                            }}
-                          />
-                        </Box>
-                      </Grid>
-                    </Grid>
-                    
-                    <Box>
-                      <InputLabel 
-                        htmlFor="company"
-                        sx={{ 
-                          fontSize: "0.875rem", 
-                          fontWeight: 500, 
-                          color: "#4B5563", 
-                          mb: 0.5
-                        }}
-                      >
-                        Company
-                      </InputLabel>
-                      <TextField
-                        id="company"
-                        name="company"
-                        fullWidth
-                        value={formState.company}
-                        onChange={handleChange}
-                        placeholder="Acme Inc."
-                        variant="outlined"
-                        size="small"
-                        sx={{
-                          "& .MuiOutlinedInput-root": {
-                            backgroundColor: "white",
-                            borderRadius: 2,
-                            "& fieldset": {
-                              borderColor: "rgba(209, 213, 219, 0.8)",
-                            },
-                            "&:hover fieldset": {
-                              borderColor: "rgba(59, 130, 246, 0.5)",
-                            },
-                            "&.Mui-focused fieldset": {
-                              borderColor: "rgba(59, 130, 246, 0.8)",
-                            }
+                        "& .MuiOutlinedInput-root": {
+                          backgroundColor: "rgba(255, 255, 255, 0.02)",
+                          borderRadius: "10px",
+                          height: "38px",
+                          "& fieldset": {
+                            borderColor: "rgba(255, 255, 255, 0.1)",
                           },
-                          "& .MuiOutlinedInput-input": {
-                            padding: "14px 16px",
-                          }
-                        }}
-                      />
-                    </Box>
-                    
-                    <Box>
-                      <InputLabel 
-                        htmlFor="message"
-                        sx={{ 
-                          fontSize: "0.875rem", 
-                          fontWeight: 500, 
-                          color: "#4B5563", 
-                          mb: 0.5
-                        }}
-                      >
-                        Message <Box component="span" sx={{ color: "error.main" }}>*</Box>
-                      </InputLabel>
-                      <TextField
-                        id="message"
-                        name="message"
-                        fullWidth
-                        multiline
-                        rows={5}
-                        value={formState.message}
-                        onChange={handleChange}
-                        required
-                        placeholder="How can we help you?"
-                        variant="outlined"
-                        sx={{
-                          "& .MuiOutlinedInput-root": {
-                            backgroundColor: "white",
-                            borderRadius: 2,
-                            "& fieldset": {
-                              borderColor: "rgba(209, 213, 219, 0.8)",
-                            },
-                            "&:hover fieldset": {
-                              borderColor: "rgba(59, 130, 246, 0.5)",
-                            },
-                            "&.Mui-focused fieldset": {
-                              borderColor: "rgba(59, 130, 246, 0.8)",
-                            }
-                          }
-                        }}
-                      />
-                    </Box>
-                    
-                    <Box sx={{ mt: 1 }}>
-                      {error && (
-                        <Typography color="error" sx={{ mb: 2 }}>
-                          {error}
-                        </Typography>
-                      )}
-                      <Button
-                        type="submit"
-                        variant="contained"
-                        disableElevation
-                        disabled={isSubmitting}
-                        startIcon={isSubmitting ? <CircularProgress size={20} color="inherit" /> : <SendIcon />}
-                        sx={{
-                          py: 1.5,
-                          px: 3,
-                          borderRadius: 2,
-                          fontWeight: 600,
-                          bgcolor: theme.palette.primary.main,
-                          transition: "all 0.3s ease",
-                          boxShadow: `0 8px 16px ${alpha(theme.palette.primary.main, 0.25)}`,
-                          "&:hover": {
-                            bgcolor: theme.palette.primary.dark,
-                            boxShadow: `0 12px 20px ${alpha(theme.palette.primary.main, 0.3)}`,
+                          "&:hover fieldset": {
+                            borderColor: "rgba(255, 255, 255, 0.2)",
                           },
-                          width: { xs: "100%", sm: "auto" }
-                        }}
-                      >
-                        {isSubmitting ? "Sending..." : "Send Message"}
-                      </Button>
-                    </Box>
+                          "&.Mui-focused fieldset": {
+                            borderColor: "primary.contrastText",
+                          },
+                        },
+                        "& .MuiOutlinedInput-input": {
+                          color: "text.primary",
+                          fontSize: "0.9rem",
+                          "&::placeholder": {
+                            color: "text.disabled",
+                            opacity: 0.7,
+                            fontSize: "0.9rem",
+                          },
+                        },
+                      }}
+                    />
                   </Box>
-                )}
-              </FormCard>
-            </motion.div>
+
+                  {/* University Field */}
+                  <Box>
+                    <Typography
+                      sx={{
+                        fontSize: "0.85rem",
+                        color: "text.primary",
+                        mb: 0.5,
+                        fontWeight: 500,
+                      }}
+                    >
+                      University / Institution
+                    </Typography>
+                    <TextField
+                      name="university"
+                      value={formState.university}
+                      onChange={handleInputChange}
+                      placeholder="Stanford University"
+                      required
+                      fullWidth
+                      variant="outlined"
+                      size="small"
+                      sx={{
+                        "& .MuiOutlinedInput-root": {
+                          backgroundColor: "rgba(255, 255, 255, 0.02)",
+                          borderRadius: "10px",
+                          height: "38px",
+                          "& fieldset": {
+                            borderColor: "rgba(255, 255, 255, 0.1)",
+                          },
+                          "&:hover fieldset": {
+                            borderColor: "rgba(255, 255, 255, 0.2)",
+                          },
+                          "&.Mui-focused fieldset": {
+                            borderColor: "primary.contrastText",
+                          },
+                        },
+                        "& .MuiOutlinedInput-input": {
+                          color: "text.primary",
+                          fontSize: "0.9rem",
+                          "&::placeholder": {
+                            color: "text.disabled",
+                            opacity: 0.7,
+                            fontSize: "0.9rem",
+                          },
+                        },
+                      }}
+                    />
+                  </Box>
+
+                  {/* Email Field */}
+                  <Box>
+                    <Typography
+                      sx={{
+                        fontSize: "0.85rem",
+                        color: "text.primary",
+                        mb: 0.5,
+                        fontWeight: 500,
+                      }}
+                    >
+                      Email
+                    </Typography>
+                    <TextField
+                      name="email"
+                      type="email"
+                      value={formState.email}
+                      onChange={handleInputChange}
+                      placeholder="jane@chirpz.ai"
+                      required
+                      fullWidth
+                      variant="outlined"
+                      size="small"
+                      sx={{
+                        "& .MuiOutlinedInput-root": {
+                          backgroundColor: "rgba(255, 255, 255, 0.02)",
+                          borderRadius: "10px",
+                          height: "38px",
+                          "& fieldset": {
+                            borderColor: "rgba(255, 255, 255, 0.1)",
+                          },
+                          "&:hover fieldset": {
+                            borderColor: "rgba(255, 255, 255, 0.2)",
+                          },
+                          "&.Mui-focused fieldset": {
+                            borderColor: "primary.contrastText",
+                          },
+                        },
+                        "& .MuiOutlinedInput-input": {
+                          color: "text.primary",
+                          fontSize: "0.9rem",
+                          "&::placeholder": {
+                            color: "text.disabled",
+                            opacity: 0.7,
+                            fontSize: "0.9rem",
+                          },
+                        },
+                      }}
+                    />
+                  </Box>
+
+                  {/* Message Field */}
+                  <Box>
+                    <Typography
+                      sx={{
+                        fontSize: "0.85rem",
+                        color: "text.primary",
+                        mb: 0.5,
+                        fontWeight: 500,
+                      }}
+                    >
+                      Message <span style={{ color: theme.palette.text.disabled }}>(optional)</span>
+                    </Typography>
+                    <TextField
+                      name="message"
+                      value={formState.message}
+                      onChange={handleInputChange}
+                      placeholder="Hi, I am reaching out for..."
+                      multiline
+                      rows={2.5}
+                      fullWidth
+                      variant="outlined"
+                      sx={{
+                        "& .MuiOutlinedInput-root": {
+                          backgroundColor: "rgba(255, 255, 255, 0.02)",
+                          borderRadius: "10px",
+                          "& fieldset": {
+                            borderColor: "rgba(255, 255, 255, 0.1)",
+                          },
+                          "&:hover fieldset": {
+                            borderColor: "rgba(255, 255, 255, 0.2)",
+                          },
+                          "&.Mui-focused fieldset": {
+                            borderColor: "primary.contrastText",
+                          },
+                        },
+                        "& .MuiOutlinedInput-input": {
+                          color: "text.primary",
+                          fontSize: "0.9rem",
+                          "&::placeholder": {
+                            color: "text.disabled",
+                            opacity: 0.7,
+                            fontSize: "0.9rem",
+                          },
+                        },
+                      }}
+                    />
+                  </Box>
+
+                  {/* Submit Button */}
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    fullWidth
+                    sx={{
+                      mt: 1.5,
+                      py: 1,
+                      backgroundColor: "white",
+                      color: "black",
+                      borderRadius: "10px",
+                      fontSize: "0.85rem",
+                      fontWeight: 600,
+                      textTransform: "none",
+                      height: "38px",
+                      "&:hover": {
+                        backgroundColor: "rgba(255, 255, 255, 0.9)",
+                        transform: "translateY(-1px)",
+                      },
+                      "&:disabled": {
+                        backgroundColor: "rgba(255, 255, 255, 0.5)",
+                        color: "rgba(0, 0, 0, 0.5)",
+                      },
+                    }}
+                  >
+                    {isSubmitting ? (
+                      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                        <CircularProgress size={16} sx={{ color: "black" }} />
+                        <span>Sending...</span>
+                      </Box>
+                    ) : (
+                      "Submit"
+                    )}
+                  </Button>
+                </Box>
+              </Box>
+            </ContactFormContainer>
           </Grid>
         </Grid>
       </Container>
+
+      {/* Success Snackbar */}
+      <Snackbar
+        open={isSubmitted}
+        autoHideDuration={5000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        sx={{ mt: 8 }}
+      >
+        <Alert 
+          onClose={handleCloseSnackbar}
+          severity="success" 
+          sx={{ 
+            backgroundColor: "success.main",
+            border: "1px solid success.dark",
+            color: "white",
+            backdropFilter: "blur(10px)",
+            borderRadius: "12px",
+            fontWeight: 500,
+            "& .MuiAlert-icon": {
+              color: "white"
+            },
+            "& .MuiIconButton-root": {
+              color: "white"
+            }
+          }}
+        >
+          Thank you! Your message has been sent successfully.
+        </Alert>
+      </Snackbar>
     </Box>
   );
-} 
+}
