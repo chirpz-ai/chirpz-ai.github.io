@@ -99,7 +99,7 @@ export function Header(props: Props) {
       }}
     >
       <Container maxWidth="lg">
-        <Toolbar disableGutters sx={{ px: { xs: 2, md: 3 }, py: 0.5 }}>
+        <Toolbar disableGutters sx={{ px: { xs: 2, md: 1 }, py: 0.5 }}>
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -136,7 +136,7 @@ export function Header(props: Props) {
                     fontWeight: 700,
                     letterSpacing: "-0.025em",
                     mr: 2,
-                    fontSize: { xs: "1.5rem", md: "1.75rem" },
+                    fontSize: { xs: "1.5rem", md: "1.5rem" },
                     color: "text.primary",
                     transition: 'all 0.3s ease',
                     '&:hover': {
@@ -296,7 +296,7 @@ export function Header(props: Props) {
                 }}
               >
                 <StyledLink href="https://github.com/chirpz-ai" target="_blank" rel="noopener">
-                                      <Typography 
+                  <Typography 
                       textAlign="center" 
                       sx={{ 
                         display: 'flex', 
