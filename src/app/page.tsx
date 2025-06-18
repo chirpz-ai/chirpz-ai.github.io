@@ -8,6 +8,8 @@ import { Footer } from "@/components/footer";
 import Script from "next/script";
 
 export default function Home() {
+  const schemaDescription = "An AI agent for academic professionals that automates literature reviews, drafts grant-ready proposals, and writes technical papers directly in LaTeX.";
+
   return (
     <main className="min-h-screen flex flex-col">
       <Script
@@ -18,17 +20,17 @@ export default function Home() {
             "@context": "https://schema.org",
             "@type": "SoftwareApplication",
             "name": "Chirpz AI",
-            "applicationCategory": "BusinessApplication",
+            "applicationCategory": "ScientificApplication",
             "operatingSystem": "Web",
             "offers": {
               "@type": "Offer",
               "price": "0",
               "priceCurrency": "USD"
             },
-            "description": "AI agents that autonomously generate intelligence streams from development and observability stacks, delivering actionable insights that accelerate AI model development.",
+            "description": schemaDescription,
             "aggregateRating": {
               "@type": "AggregateRating",
-              "ratingValue": "5",
+              "ratingValue": "9",
               "ratingCount": "10"
             },
             "publisher": {
@@ -76,7 +78,7 @@ export default function Home() {
               "addressRegion": "CA",
               "addressCountry": "US"
             },
-            "description": "AI agents that autonomously generate intelligence streams from development and observability stacks, delivering actionable insights that accelerate AI model development."
+            "description": schemaDescription
           })
         }}
       />

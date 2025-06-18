@@ -1,7 +1,7 @@
 {
   "name": "Chirpz AI",
   "short_name": "Chirpz AI",
-  "description": "AI agents that autonomously generate intelligence streams from development and observability stacks, delivering actionable insights that accelerate AI model development.",
+  "description": "Your AI research partner. Automate literature reviews, draft grant-ready proposals, and write technical papers in LaTeX, effortlessly.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
