@@ -1,9 +1,9 @@
 import { Header } from "@/components/header";
 import { Hero } from "@/components/hero";
-import { Features } from "@/components/features";
-import { Workflow } from "@/components/workflow";
-import { About } from "@/components/about";
-import { Contact } from "@/components/contact";
+// import { Features } from "@/components/features";
+// import { Workflow } from "@/components/workflow";
+// import { About } from "@/components/about";
+// import { Contact } from "@/components/contact";
 import { Footer } from "@/components/footer";
 import Script from "next/script";
 
@@ -83,10 +83,10 @@ export default function Home() {
       
       <Header />
       <Hero />
-      <Features />
-      <Workflow />
-      <About />
-      <Contact />
+      {/* <Features /> */}
+      {/* <Workflow /> */}
+      {/* <About /> */}
+      {/* <Contact /> */}
       <Footer />
     </main>
   );

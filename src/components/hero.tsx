@@ -11,8 +11,7 @@ import {
   Button,
   Grid,
   Paper,
-  useTheme,
-  alpha
+  useTheme
 } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import DescriptionIcon from "@mui/icons-material/Description";
@@ -33,32 +32,35 @@ const StyledButton = styled(Button)(({ theme }) => ({
   }
 }));
 
-const PrimaryButton = styled(StyledButton)(() => ({
-  backgroundColor: "#3B82F6",
-  color: "white",
+const PrimaryButton = styled(StyledButton)(({ theme }) => ({
+  backgroundColor: theme.palette.info.main,
+  color: theme.palette.common.black,
+  fontWeight: 600,
   "&:hover": {
-    backgroundColor: "#2563EB",
+    backgroundColor: theme.palette.info.dark,
+    color: theme.palette.common.white,
   }
 }));
 
-const SecondaryButton = styled(StyledButton)(() => ({
-  backgroundColor: "rgba(31, 41, 55, 0.7)",
-  border: "1px solid rgba(75, 85, 99, 0.5)",
-  color: "white",
+const SecondaryButton = styled(StyledButton)(({ theme }) => ({
+  backgroundColor: theme.palette.background.paper,
+  border: "1px solid rgba(255, 255, 255, 0.2)",
+  color: theme.palette.text.primary,
   "&:hover": {
-    backgroundColor: "rgba(31, 41, 55, 0.9)",
+    backgroundColor: theme.palette.primary.light,
+    borderColor: "rgba(255, 255, 255, 0.3)",
   }
 }));
 
 const DemoWindow = styled(Paper)(({ theme }) => ({
   position: "relative",
-  backgroundColor: "rgba(17, 24, 39, 0.7)",
+  backgroundColor: theme.palette.background.paper,
   borderRadius: "16px",
   overflow: "hidden",
-  border: "1px solid rgba(75, 85, 99, 0.5)",
+  border: "1px solid rgba(255, 255, 255, 0.1)",
   padding: "24px",
-  boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)",
-  backdropFilter: "blur(8px)",
+  boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.8)",
+  backdropFilter: "blur(12px)",
 }));
 
 const StyledLink = styled(Link)({
@@ -117,7 +119,7 @@ const SpinningLoader = () => {
         width: 8,
         height: 8,
         borderRadius: "50%",
-        border: "1.5px solid rgba(16, 185, 129, 0.6)",
+        border: "1.5px solid rgba(52, 211, 153, 0.6)",
         borderTopColor: "#10B981",
         marginRight: 8
       }}
@@ -136,18 +138,19 @@ interface SectionProps {
 }
 
 const ReportSection = ({ title, content, type, isLastItem, showCursor, source }: SectionProps) => {
+  const theme = useTheme();
   // Define color schemes for different sources
   const sourceColors = {
     ArXiv: {
-      bg: "rgba(14, 165, 233, 0.15)",
+      bg: "rgba(14, 165, 233, 0.15)", // info
       border: "rgba(14, 165, 233, 0.3)",
-      text: "#0EA5E9",
-      dotColor: "#0EA5E9",
+      text: theme.palette.info.main,
+      dotColor: theme.palette.info.main,
       lightBg: "rgba(14, 165, 233, 0.1)",
       lightText: "rgba(14, 165, 233, 0.8)"
     },
     NSF: {
-      bg: "rgba(99, 102, 241, 0.15)",
+      bg: "rgba(99, 102, 241, 0.15)", // custom
       border: "rgba(99, 102, 241, 0.3)",
       text: "#6366F1",
       dotColor: "#6366F1",
@@ -155,7 +158,7 @@ const ReportSection = ({ title, content, type, isLastItem, showCursor, source }:
       lightText: "rgba(99, 102, 241, 0.8)"
     },
     PubMed: {
-      bg: "rgba(236, 72, 153, 0.15)",
+      bg: "rgba(236, 72, 153, 0.15)", // custom
       border: "rgba(236, 72, 153, 0.3)",
       text: "#EC4899",
       dotColor: "#EC4899",
@@ -163,18 +166,18 @@ const ReportSection = ({ title, content, type, isLastItem, showCursor, source }:
       lightText: "rgba(236, 72, 153, 0.8)"
     },
     IEEE: {
-      bg: "rgba(249, 115, 22, 0.15)",
+      bg: "rgba(249, 115, 22, 0.15)", // warning
       border: "rgba(249, 115, 22, 0.3)",
-      text: "#F97316",
-      dotColor: "#F97316",
+      text: theme.palette.warning.main,
+      dotColor: theme.palette.warning.main,
       lightBg: "rgba(249, 115, 22, 0.1)",
       lightText: "rgba(249, 115, 22, 0.8)"
     },
     Nature: {
-      bg: "rgba(16, 185, 129, 0.15)",
+      bg: "rgba(16, 185, 129, 0.15)", // success
       border: "rgba(16, 185, 129, 0.3)",
-      text: "#10B981",
-      dotColor: "#10B981",
+      text: theme.palette.success.main,
+      dotColor: theme.palette.success.main,
       lightBg: "rgba(16, 185, 129, 0.1)",
       lightText: "rgba(16, 185, 129, 0.8)"
     }
@@ -194,7 +197,7 @@ const ReportSection = ({ title, content, type, isLastItem, showCursor, source }:
         <Box sx={{ mb: 2 }}>
           <Typography 
             sx={{ 
-              color: "#60A5FA", 
+              color: "info.main", 
               fontWeight: 600,
               fontSize: "1.1rem"
             }}
@@ -209,12 +212,12 @@ const ReportSection = ({ title, content, type, isLastItem, showCursor, source }:
             width: 8, 
             height: 8, 
             borderRadius: "50%", 
-            bgcolor: "#3B82F6", 
+            bgcolor: "info.dark", 
             mr: 1.5 
           }} />
           <Typography 
             sx={{ 
-              color: alpha("#fff", 0.95),
+              color: "text.primary",
               fontWeight: 500,
               fontSize: "0.95rem"
             }}
@@ -255,7 +258,7 @@ const ReportSection = ({ title, content, type, isLastItem, showCursor, source }:
         <Box sx={{ ml: 4, mb: 1.5, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <Typography 
             sx={{ 
-              color: alpha("#fff", 0.8),
+              color: "text.secondary",
               fontSize: "0.88rem"
             }}
           >
@@ -288,7 +291,7 @@ const ReportSection = ({ title, content, type, isLastItem, showCursor, source }:
         }}>
           <Typography 
             sx={{ 
-              color: "#10B981",
+              color: "success.main",
               fontWeight: 600,
               fontSize: "0.9rem"
             }}
@@ -314,7 +317,7 @@ const LaTeXCodeDisplay = ({ code, isTyping }: LaTeXCodeProps) => {
       fontFamily: 'Consolas, "Courier New", monospace',
       fontSize: '0.75rem',
       lineHeight: 1.6,
-      color: '#E5E7EB',
+      color: 'text.secondary',
       whiteSpace: 'pre',
       overflow: 'hidden',
       textAlign: 'left',
@@ -343,7 +346,7 @@ const PDFPreviewDisplay = ({ content, activeLines }: PDFPreviewProps) => {
       height: '100%',
       fontSize: '0.65rem',
       lineHeight: 1.3,
-      color: '#1F2937',
+      color: 'grey.900',
       fontFamily: 'serif',
       overflow: 'hidden',
       boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
@@ -352,12 +355,12 @@ const PDFPreviewDisplay = ({ content, activeLines }: PDFPreviewProps) => {
          <Typography sx={{ fontSize: '0.8rem', fontWeight: 'bold', mb: 1 }}>
            Constitutional AI for LLM Safety
          </Typography>
-         <Typography sx={{ fontSize: '0.6rem', color: '#6B7280' }}>
+         <Typography sx={{ fontSize: '0.6rem', color: 'grey.600' }}>
            NSF Grant Proposal - AI Safety Initiative
          </Typography>
        </Box>
       
-      <Box sx={{ borderBottom: '1px solid #E5E7EB', mb: 1.5, pb: 1 }}>
+      <Box sx={{ borderBottom: '1px solid', borderColor: 'grey.300', mb: 1.5, pb: 1 }}>
         <Typography sx={{ fontSize: '0.7rem', fontWeight: 'bold', mb: 0.5 }}>
           Abstract
         </Typography>
@@ -383,23 +386,14 @@ const PDFPreviewDisplay = ({ content, activeLines }: PDFPreviewProps) => {
 };
 
 // Add some additional styled components for the timeline elements
-const TimelineConnector = styled(Box)(({ theme }) => ({
-  width: 2,
-  backgroundColor: "#3B82F6",
-  position: "absolute",
-  left: "50%",
-  transform: "translateX(-50%)",
-  zIndex: 1
-}));
-
 const TimelineEventBox = styled(Paper)(({ theme }) => ({
   position: "relative",
-  backgroundColor: "rgba(17, 24, 39, 0.7)",
+  backgroundColor: theme.palette.background.paper,
   borderRadius: "10px",
-  border: "1px solid rgba(75, 85, 99, 0.5)",
+  border: "1px solid rgba(255, 255, 255, 0.1)",
   padding: "10px",
-  boxShadow: "0 10px 20px -5px rgba(0, 0, 0, 0.3)",
-  backdropFilter: "blur(8px)",
+  boxShadow: "0 10px 20px -5px rgba(0, 0, 0, 0.6)",
+  backdropFilter: "blur(12px)",
   maxWidth: "70%",
   margin: "0 auto",
   textAlign: "center",
@@ -617,9 +611,9 @@ export function Hero() {
         minHeight: "100vh",
         display: "flex",
         alignItems: "center",
+        backgroundColor: "transparent",
         pt: "80px",
         pb: "10px",
-        background: "linear-gradient(135deg, #111827 0%, #1F2937 100%)",
         overflow: "hidden",
       }}
     >
@@ -633,36 +627,7 @@ export function Hero() {
           bottom: 0,
           backgroundImage: "url('/grid-pattern.svg')",
           backgroundRepeat: "repeat",
-          opacity: 0.1,
-          zIndex: 0,
-        }}
-      />
-
-      {/* Gradient blurs */}
-      <Box
-        sx={{
-          position: "absolute",
-          top: "20%",
-          right: "-5%",
-          width: "40vw",
-          height: "40vw",
-          borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, rgba(59, 130, 246, 0) 70%)",
-          filter: "blur(70px)",
-          zIndex: 0,
-        }}
-      />
-      
-      <Box
-        sx={{
-          position: "absolute",
-          bottom: "10%",
-          left: "10%",
-          width: "30vw",
-          height: "30vw",
-          borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(139, 92, 246, 0.3) 0%, rgba(139, 92, 246, 0) 70%)",
-          filter: "blur(70px)",
+          opacity: 0,
           zIndex: 0,
         }}
       />
@@ -692,7 +657,7 @@ export function Hero() {
                       mb: 1,
                       pb: 1,
                       pr: 1,
-                      background: "linear-gradient(90deg, #60A5FA 0%, #A78BFA 100%)",
+                      background: (theme) => `linear-gradient(90deg, ${theme.palette.info.main} 0%, ${theme.palette.info.light} 100%)`,
                       backgroundClip: "text",
                       color: "transparent",
                       display: "inline-block",
@@ -709,12 +674,12 @@ export function Hero() {
                       lineHeight: 1.1,
                       letterSpacing: "-0.05em",
                       mb: 5,
-                      color: "white",
+                      color: "text.primary",
                       display: "block",
                       ml: { xs: 0, sm: 0 }
                     }}
                   >
-                    Research Partner
+                    Research Scientist
                   </Typography>
                 </motion.div>
 
@@ -727,14 +692,14 @@ export function Hero() {
                     variant="body1"
                     sx={{
                       fontSize: { xs: "1rem", md: "1.25rem" },
-                      color: alpha("#fff", 0.8),
+                      color: "text.secondary",
                       maxWidth: "500px",
                       mt: 3,
                       mb: 2,
                       mx: { xs: "auto", lg: 0 },
                     }}
                   >
-                    An autonomous AI agent that handles the entire research and writing lifecycle—from literature review to LaTeX compiling—so you can reclaim your time for what truly matters.
+                    Zee gives you a grant-ready proposal from a single prompt. No manual literature review. No LaTeX struggles.
                   </Typography>
                   
                   <Typography
@@ -743,7 +708,7 @@ export function Hero() {
                       fontWeight: 700,
                       fontSize: { xs: "1.1rem", md: "1.3rem" },
                       mb: 4,
-                      background: "linear-gradient(90deg, #10B981 0%, #3B82F6 100%)",
+                      background: (theme) => `linear-gradient(90deg, ${theme.palette.success.main} 0%, ${theme.palette.info.main} 100%)`,
                       backgroundClip: "text",
                       color: "transparent",
                       display: "inline-block",
@@ -822,7 +787,7 @@ export function Hero() {
                           transform: 'translateX(-50%)',
                           width: 2,
                           height: '100%',
-                          background: 'linear-gradient(to bottom, rgba(59, 130, 246, 0) 0%, rgba(59, 130, 246, 1) 100%)',
+                          background: (theme) => `linear-gradient(to bottom, ${theme.palette.info.main}00 0%, ${theme.palette.info.main}ff 100%)`,
                           zIndex: 1
                         }}
                       />
@@ -844,16 +809,17 @@ export function Hero() {
                             minWidth: 28, 
                             height: 28, 
                             borderRadius: '50%', 
-                            bgcolor: 'rgba(59, 130, 246, 0.2)', 
+                            bgcolor: 'rgba(96, 165, 250, 0.2)', 
                             display: 'flex', 
                             alignItems: 'center', 
                             justifyContent: 'center',
-                            border: '1px solid rgba(59, 130, 246, 0.5)'
+                            border: '1px solid',
+                            borderColor: 'rgba(96, 165, 250, 0.5)'
                           }}
                         >
-                          <DescriptionIcon sx={{ fontSize: 14, color: '#60A5FA' }} />
+                          <DescriptionIcon sx={{ fontSize: 14, color: 'info.main' }} />
                         </Box>
-                        <Typography sx={{ fontSize: '0.8rem', fontWeight: 600, color: '#60A5FA' }}>
+                        <Typography sx={{ fontSize: '0.8rem', fontWeight: 600, color: 'info.main' }}>
                           Proactive Research
                         </Typography>
                       </Box>
@@ -882,7 +848,7 @@ export function Hero() {
                         transform: 'translateX(-50%)',
                         width: 2,
                         height: '100%',
-                        background: 'linear-gradient(to bottom, rgba(59, 130, 246, 1) 0%, rgba(59, 130, 246, 0) 100%)',
+                        background: (theme) => `linear-gradient(to bottom, ${theme.palette.info.main}ff 0%, ${theme.palette.info.main}00 100%)`,
                         zIndex: 1
                       }}
                     />
@@ -897,18 +863,18 @@ export function Hero() {
                   }}>
                     {/* Window controls */}
                     <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 3 }}>
-                      <Box sx={{ width: 120, height: 18, bgcolor: "#374151", borderRadius: 1 }} />
+                      <Box sx={{ width: 120, height: 18, bgcolor: "primary.light", borderRadius: 1 }} />
                       <Box sx={{ display: "flex", gap: 1 }}>
-                        <Box sx={{ width: 12, height: 12, borderRadius: "50%", bgcolor: "#EF4444" }} />
-                        <Box sx={{ width: 12, height: 12, borderRadius: "50%", bgcolor: "#F59E0B" }} />
-                        <Box sx={{ width: 12, height: 12, borderRadius: "50%", bgcolor: "#10B981" }} />
+                        <Box sx={{ width: 12, height: 12, borderRadius: "50%", bgcolor: "error.main" }} />
+                        <Box sx={{ width: 12, height: 12, borderRadius: "50%", bgcolor: "warning.main" }} />
+                        <Box sx={{ width: 12, height: 12, borderRadius: "50%", bgcolor: "success.main" }} />
                       </Box>
                     </Box>
 
                     {/* Progress bar */}
-                    <Box sx={{ width: "100%", height: 3, bgcolor: "rgba(55, 65, 81, 0.3)", mb: 3, borderRadius: 1, overflow: "hidden" }}>
+                    <Box sx={{ width: "100%", height: 3, bgcolor: "action.disabledBackground", mb: 3, borderRadius: 1, overflow: "hidden" }}>
                       <motion.div
-                        style={{ height: "100%", backgroundColor: "#3B82F6" }}
+                        style={{ height: "100%", backgroundColor: theme.palette.info.main }}
                         initial={{ width: "0%" }}
                         animate={{ width: `${progress}%` }}
                         transition={{ duration: 0.5 }}
@@ -923,22 +889,22 @@ export function Hero() {
                           {/* LaTeX Code Panel */}
                           <Box sx={{ 
                             flex: 1, 
-                            bgcolor: "rgba(31, 41, 55, 0.8)", 
+                            bgcolor: "background.paper", 
                             borderRadius: 1, 
                             p: 1.5,
                             overflow: "auto",
                             "&::-webkit-scrollbar": {
                               width: "4px",
                             },
-                            "&::-webkit-scrollbar-track": {
-                              backgroundColor: "rgba(55, 65, 81, 0.1)",
-                            },
-                            "&::-webkit-scrollbar-thumb": {
-                              backgroundColor: "rgba(59, 130, 246, 0.5)",
-                              borderRadius: "2px",
-                            },
+                                                          "&::-webkit-scrollbar-track": {
+                                backgroundColor: "action.disabledBackground",
+                              },
+                              "&::-webkit-scrollbar-thumb": {
+                                backgroundColor: 'rgba(96, 165, 250, 0.5)',
+                                borderRadius: "2px",
+                              },
                           }}>
-                            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, pb: 1, borderBottom: '1px solid rgba(75, 85, 99, 0.3)' }}>
+                            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, pb: 1, borderBottom: '1px solid', borderColor: 'divider' }}>
                               <Typography sx={{ fontSize: '0.7rem', color: '#9CA3AF', fontWeight: 600 }}>
                                 proposal.tex
                               </Typography>
@@ -949,7 +915,7 @@ export function Hero() {
                           {/* PDF Preview Panel */}
                           <Box sx={{ 
                             flex: 1, 
-                            bgcolor: "rgba(229, 231, 235, 0.05)", 
+                            bgcolor: "rgba(255, 255, 255, 0.03)", 
                             borderRadius: 1, 
                             p: 1,
                             display: 'flex',
@@ -979,11 +945,11 @@ export function Hero() {
                             width: "6px",
                           },
                           "&::-webkit-scrollbar-track": {
-                            backgroundColor: "rgba(55, 65, 81, 0.1)",
+                            backgroundColor: "action.disabledBackground",
                             borderRadius: "10px",
                           },
                           "&::-webkit-scrollbar-thumb": {
-                            backgroundColor: "rgba(59, 130, 246, 0.5)",
+                            backgroundColor: 'rgba(96, 165, 250, 0.5)',
                             borderRadius: "10px",
                           },
                         }}
@@ -1013,7 +979,7 @@ export function Hero() {
                           >
                             <Box sx={{ display: 'flex', alignItems: 'center' }}>
                               <SpinningLoader />
-                              <Typography variant="caption" sx={{ fontSize: "0.75rem", color: alpha("#fff", 0.8) }}>
+                              <Typography variant="caption" sx={{ fontSize: "0.75rem", color: "#B3B3B3" }}>
                                 {agentStatus === 'researching' ? 'agent researching' : 'Research Agent Working'}
                                 <AnimatedDots />
                               </Typography>
@@ -1046,7 +1012,7 @@ export function Hero() {
                         transform: 'translateX(-50%)',
                         width: 2,
                         height: '100%',
-                        background: 'linear-gradient(to top, rgba(59, 130, 246, 1) 0%, rgba(59, 130, 246, 0) 100%)',
+                        background: (theme) => `linear-gradient(to top, ${theme.palette.info.main}ff 0%, ${theme.palette.info.main}00 100%)`,
                         zIndex: 1
                       }}
                     />
@@ -1079,19 +1045,20 @@ export function Hero() {
                             display: 'flex', 
                             alignItems: 'center', 
                             justifyContent: 'center',
-                            border: '1px solid rgba(16, 185, 129, 0.5)'
+                            border: '1px solid',
+                            borderColor: 'rgba(16, 185, 129, 0.5)'
                           }}
                         >
-                          <PersonIcon sx={{ fontSize: 14, color: '#10B981' }} />
+                          <PersonIcon sx={{ fontSize: 14, color: 'success.main' }} />
                         </Box>
-                        <Typography sx={{ fontSize: '0.8rem', fontWeight: 600, color: '#10B981' }}>
+                        <Typography sx={{ fontSize: '0.8rem', fontWeight: 600, color: 'success.main' }}>
                           Scientist Review
                         </Typography>
                         
                         <CheckCircleIcon 
                           sx={{ 
                             fontSize: 20, 
-                            color: '#10B981'
+                            color: 'success.main'
                           }} 
                         />
                       </Box>
@@ -1120,7 +1087,7 @@ export function Hero() {
                         transform: 'translateX(-50%)',
                         width: 2,
                         height: '100%',
-                        background: 'linear-gradient(to bottom, rgba(59, 130, 246, 1) 0%, rgba(59, 130, 246, 0) 100%)',
+                        background: (theme) => `linear-gradient(to bottom, ${theme.palette.info.main}ff 0%, ${theme.palette.info.main}00 100%)`,
                         zIndex: 1
                       }}
                     />
