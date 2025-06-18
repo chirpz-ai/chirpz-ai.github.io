@@ -437,7 +437,7 @@ export function Features() {
       id="features"
       sx={{
         position: "relative",
-        py: { xs: 6, md: 8 },
+        py: { xs: 8, md: 12 },
         mx: { xs: 2, sm: 3, md: 4 },
         my: { xs: 4, md: 6 },
         borderRadius: 5,
