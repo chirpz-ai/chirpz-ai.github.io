@@ -341,7 +341,7 @@ export function Highlight() {
         </Typography>
 
         {/* Highlight cards */}
-        <Grid container spacing={0}>
+        <Grid container spacing={3}>
           {/* Card 1 - Research Time */}
           <Grid size={{ xs: 12, lg: 6 }}>
             <HighlightCard elevation={0}>
