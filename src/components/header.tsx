@@ -30,9 +30,9 @@ const StyledLink = styled(Link)({
 });
 
 const navItems = [
+  { name: "Highlights", link: "highlight" },
   { name: "Features", link: "features" },
   { name: "How it Works", link: "workflow" },
-  { name: "About", link: "about" },
   { name: "Contact", link: "contact" }
 ];
 
@@ -166,18 +166,18 @@ export function Header(props: Props) {
                   href={`#${item.link}`}
                   sx={{ 
                     my: 1, 
-                    mx: 1,
+                    mx: 0.5,
                     color: "text.primary",
                     display: "block",
-                    borderRadius: "8px",
-                    px: 2,
-                    py: 1,
+                    borderRadius: "16px",
+                    px: 1.5,
+                    py: 0.75,
                     fontWeight: 500,
-                    fontSize: "0.95rem",
+                    fontSize: "0.85rem",
+                    minWidth: "auto",
                     transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
                     "&:hover": {
                       backgroundColor: "action.hover",
-                      color: "info.main",
                       transform: "translateY(-1px)",
                     }
                   }}
@@ -199,15 +199,12 @@ export function Header(props: Props) {
                 sx={{ 
                   color: "text.primary",
                   ml: 1,
-                  backgroundColor: "rgba(255, 255, 255, 0.05)",
-                  border: "1px solid",
-                  borderColor: "divider",
+                  backgroundColor: "transparent",
+                  border: "none",
                   transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
                   "&:hover": {
                     backgroundColor: "action.hover",
-                    color: "info.main",
                     transform: "translateY(-1px)",
-                    borderColor: "info.light",
                   }
                 }}
               >
@@ -280,9 +277,6 @@ export function Header(props: Props) {
                       sx={{ 
                         color: "text.primary", 
                         fontWeight: 500,
-                        "&:hover": {
-                          color: "info.main",
-                        }
                       }}
                     >
                       {item.name}
@@ -302,18 +296,15 @@ export function Header(props: Props) {
                 }}
               >
                 <StyledLink href="https://github.com/chirpz-ai" target="_blank" rel="noopener">
-                  <Typography 
-                    textAlign="center" 
-                    sx={{ 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      color: "text.primary", 
-                      fontWeight: 500,
-                      "&:hover": {
-                        color: "info.main",
-                      }
-                    }}
-                  >
+                                      <Typography 
+                      textAlign="center" 
+                      sx={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        color: "text.primary", 
+                        fontWeight: 500,
+                      }}
+                    >
                     <GitHubIcon fontSize="small" sx={{ mr: 1 }} /> GitHub
                   </Typography>
                 </StyledLink>
