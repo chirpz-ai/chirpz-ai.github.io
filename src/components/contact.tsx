@@ -159,7 +159,7 @@ export function Contact() {
                   maxWidth: "400px",
                 }}
               >
-                Interested in a demo for your institution or have a question? Reach out.
+                Interested in joining the pilot cohort or have a question? Reach out.
               </Typography>
 
               {/* Contact Info */}
@@ -328,7 +328,7 @@ export function Contact() {
                       type="email"
                       value={formState.email}
                       onChange={handleInputChange}
-                      placeholder="jane@chirpz.ai"
+                      placeholder="jane@gmail.com"
                       required
                       fullWidth
                       variant="outlined"

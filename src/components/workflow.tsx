@@ -99,6 +99,7 @@ export function Workflow() {
 
   return (
     <Box
+      id="workflow"
       ref={containerRef}
       sx={{
         backgroundColor: "transparent",

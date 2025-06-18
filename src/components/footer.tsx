@@ -12,17 +12,13 @@ import {
   Stack,
   useTheme
 } from "@mui/material";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import GitHubIcon from "@mui/icons-material/GitHub";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 
 const FooterLink = styled(Link)(({ theme }) => ({
-  color: theme.palette.text.secondary,
+  color: theme.palette.text.disabled,
   textDecoration: "none",
   transition: "color 0.3s ease",
   "&:hover": {
-    color: theme.palette.info.main,
+    color: theme.palette.text.secondary,
   },
 }));
 
@@ -54,21 +50,6 @@ export function Footer() {
         borderColor: "divider",
       }}
     >
-      {/* Background grid pattern */}
-      <Box
-        sx={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundImage: "url('/grid-pattern.svg')",
-          backgroundRepeat: "repeat",
-          opacity: 0.03,
-          zIndex: 0,
-        }}
-      />
-
       <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
         {/* Top section with logo and navigation */}
         <Grid container spacing={4} sx={{ pb: 4 }}>
@@ -113,15 +94,15 @@ export function Footer() {
             }}>
               <Stack 
                 direction="row"
-                spacing={3}
+                spacing={2}
                 sx={{ 
                   flexWrap: 'wrap',
                   mt: { xs: 0, md: 0 }
                 }}
               >
+                <FooterLink href="#highlight">Highlights</FooterLink>
                 <FooterLink href="#features">Features</FooterLink>
                 <FooterLink href="#workflow">How it Works</FooterLink>
-                <FooterLink href="#about">About</FooterLink>
                 <FooterLink href="#contact">Contact</FooterLink>
               </Stack>
             </Box>
