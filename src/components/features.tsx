@@ -60,20 +60,20 @@ const KnowledgeGraphSimulation = () => {
   // Define node positions and connections
   const nodes = [
     { id: 0, x: 50, y: 50, label: "Constitutional AI", isCenter: true },
-    { id: 1, x: 20, y: 20, label: "RLHF Methods" },
-    { id: 2, x: 80, y: 25, label: "LLM Safety" },
-    { id: 3, x: 15, y: 80, label: "Alignment Research" },
-    { id: 4, x: 85, y: 75, label: "AI Ethics" },
-    { id: 5, x: 30, y: 15, label: "Preference Learning" },
-    { id: 6, x: 70, y: 15, label: "Value Alignment" },
-    { id: 7, x: 25, y: 85, label: "Human Feedback" },
-    { id: 8, x: 75, y: 85, label: "Safety Metrics" },
+    { id: 1, x: 18, y: 32, label: "RLHF Methods" },
+    { id: 2, x: 78, y: 22, label: "LLM Safety" },
+    { id: 3, x: 25, y: 75, label: "Alignment Research" },
+    { id: 4, x: 82, y: 68, label: "AI Ethics" },
+    { id: 5, x: 35, y: 18, label: "Preference Learning" },
+    { id: 6, x: 65, y: 28, label: "Value Alignment" },
+    { id: 7, x: 15, y: 88, label: "Human Feedback" },
+    { id: 8, x: 88, y: 82, label: "Safety Metrics" },
   ];
 
   const nodeConnections = [
     [0, 1], [0, 2], [0, 3], [0, 4],  // Center to main nodes
     [1, 5], [2, 6], [3, 7], [4, 8],  // Main nodes to outer nodes
-    [1, 3], [2, 4], [5, 7], [6, 8]   // Cross connections
+    [1, 2], [3, 8], [5, 6], [7, 4], [2, 7], [1, 8]   // Random cross connections
   ];
 
   useEffect(() => {
@@ -99,7 +99,7 @@ const KnowledgeGraphSimulation = () => {
         }
         return [];
       });
-    }, 1000);
+    }, 500);
 
     return () => clearTimeout(timer);
   }, [activeNodes]);
@@ -118,7 +118,7 @@ const KnowledgeGraphSimulation = () => {
         mb: 2,
         px: 1
       }}>
-        <AccountTreeIcon sx={{ fontSize: 14, color: "info.main", mr: 1 }} />
+        <AccountTreeIcon sx={{ fontSize: 14, color: "success.main", mr: 1 }} />
         <Typography sx={{ fontSize: "0.7rem", color: "text.secondary", fontWeight: 600 }}>
           Knowledge Graph Discovery
         </Typography>
@@ -148,12 +148,12 @@ const KnowledgeGraphSimulation = () => {
               y1={`${nodeAPos.y}%`}
               x2={`${nodeBPos.x}%`}
               y2={`${nodeBPos.y}%`}
-              stroke={theme.palette.info.main}
-              strokeWidth="1"
-              strokeOpacity={connections.includes(index) ? 0.6 : 0}
+              stroke={index < 4 ? theme.palette.info.main : theme.palette.info.light}
+              strokeWidth={index < 4 ? "2" : "1"}
+              strokeOpacity={connections.includes(index) ? (index < 4 ? 0.8 : 0.4) : 0}
               initial={{ pathLength: 0 }}
               animate={{ pathLength: connections.includes(index) ? 1 : 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
+              transition={{ duration: 0.8, ease: "easeOut", delay: index * 0.1 }}
             />
           );
         })}
@@ -229,24 +229,26 @@ const LaTeXWritingSimulation = () => {
 
   const simulationSteps = [
     {
-      prompt: "> Add a methodology section for the transformer architecture evaluation",
+      prompt: "Adding methodology section...",
       latex: `\\section{Methodology}
 This study presents a comprehensive evaluation 
-framework for large language models, focusing on 
-their generative capabilities and alignment with 
-human preferences.
+framework for large language models.`
+    },
+    {
+      prompt: "Adding subsection for architecture...",
+      latex: `\\section{Methodology}
+This study presents a comprehensive evaluation 
+framework for large language models.
 
 \\subsection{Model Architecture Analysis}
 We evaluate transformer-based architectures with 
 varying parameter counts from 1B to 175B parameters.`
     },
     {
-      prompt: "> Insert proper citations for transformer methodology",
+      prompt: "Inserting citations for methodology...",
       latex: `\\section{Methodology}
 This study presents a comprehensive evaluation 
-framework for large language models, focusing on 
-their generative capabilities and alignment with 
-human preferences.
+framework for large language models.
 
 \\subsection{Model Architecture Analysis}
 We evaluate transformer-based architectures with 
@@ -257,21 +259,21 @@ varying parameter counts from 1B to 175B parameters
 
   useEffect(() => {
     const runSimulation = async () => {
-      // Reset
-      setChatMessages([]);
-      setLatexCode("");
-      
       for (let i = 0; i < simulationSteps.length; i++) {
         const step = simulationSteps[i];
         
-        // Add chat message
-        setChatMessages(prev => [...prev, step.prompt]);
+        // Add chat message (replace entire array to ensure clean state)
+        setChatMessages(simulationSteps.slice(0, i + 1).map(s => s.prompt));
         await new Promise(resolve => setTimeout(resolve, 1000));
         
-        // Type LaTeX code
+        // Type LaTeX code incrementally
         setIsTyping(true);
-        for (let j = 0; j <= step.latex.length; j++) {
-          setLatexCode(step.latex.substring(0, j));
+        const previousLength = i === 0 ? 0 : simulationSteps[i - 1].latex.length;
+        const newContent = step.latex.substring(previousLength);
+        
+        for (let j = 0; j <= newContent.length; j++) {
+          const currentContent = step.latex.substring(0, previousLength + j);
+          setLatexCode(currentContent);
           await new Promise(resolve => setTimeout(resolve, 30));
         }
         setIsTyping(false);
@@ -279,8 +281,14 @@ varying parameter counts from 1B to 175B parameters
         await new Promise(resolve => setTimeout(resolve, 2000));
       }
       
-      // Reset after completion
-      setTimeout(runSimulation, 3000);
+      // Reset both states simultaneously before next cycle
+      setChatMessages([]);
+      setLatexCode("");
+      setIsTyping(false);
+      
+      // Wait a moment to show the reset state, then restart
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      runSimulation();
     };
 
     runSimulation();
@@ -302,7 +310,7 @@ varying parameter counts from 1B to 175B parameters
       }}>
         <CodeIcon sx={{ fontSize: 14, color: "warning.main", mr: 1 }} />
         <Typography sx={{ fontSize: "0.7rem", color: "text.secondary", fontWeight: 600 }}>
-          Technical Writing Environment
+        Writing Environment
         </Typography>
       </Box>
 
@@ -335,9 +343,9 @@ varying parameter counts from 1B to 175B parameters
             bgcolor: "success.main", 
             mr: 1 
           }} />
-          <Typography sx={{ fontSize: "0.6rem", color: "text.secondary", fontWeight: 600 }}>
-            Natural Language Editor
-          </Typography>
+                     <Typography sx={{ fontSize: "0.6rem", color: "text.secondary", fontWeight: 600 }}>
+             Agent Writing
+           </Typography>
         </Box>
         
         <Box sx={{ flex: 1, display: "flex", flexDirection: "column", gap: 1 }}>
@@ -433,9 +441,20 @@ export function Features() {
         mx: { xs: 2, sm: 3, md: 4 },
         my: { xs: 4, md: 6 },
         borderRadius: 5,
-        border: "1px solid rgba(255, 255, 255, 0.3)",
+        border: "1px solid transparent",
         backgroundColor: "transparent",
         overflow: "hidden",
+        "&::before": {
+          content: '""',
+          position: "absolute",
+          inset: 0,
+          padding: "1px",
+          background: "linear-gradient(to bottom, transparent 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.3) 100%)",
+          borderRadius: "inherit",
+          mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+          maskComposite: "xor",
+          WebkitMaskComposite: "xor",
+        }
       }}
     >
       {/* Background grid pattern */}
@@ -469,7 +488,7 @@ export function Features() {
           component="h2"
           sx={{
             fontSize: { xs: "1.75rem", sm: "2.5rem", md: "2.75rem" },
-            fontWeight: 600,
+            fontWeight: 400,
             textAlign: "center",
             mb: 3,
             color: "text.primary",
@@ -477,7 +496,7 @@ export function Features() {
             fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
           }}
         >
-          What ChirpZ Delivers
+          What Chirpz Delivers
         </Typography>
 
         {/* Section Sub-headline */}
@@ -485,7 +504,8 @@ export function Features() {
           variant="h5"
           component="p"
           sx={{
-            fontSize: { xs: "1rem", md: "1.25rem" },
+            fontSize: { xs: "1rem", md: "1.1rem" },
+            fontWeight: 350,
             color: "text.secondary",
             textAlign: "center",
             mb: 8,
@@ -494,7 +514,7 @@ export function Features() {
             lineHeight: 1.6,
           }}
         >
-          One unified environment to conduct deep research, write complex papers, and compile publication-ready documents.
+          One unified environment to conduct deep research, write complex papers, and compile publication-ready drafts.
         </Typography>
 
         {/* Feature 1 - Text Left, Visual Right */}
@@ -504,10 +524,9 @@ export function Features() {
               <Typography
                 variant="caption"
                 sx={{
-                  fontSize: "0.75rem",
+                  fontSize: "0.85rem",
                   color: "info.main",
                   fontWeight: 600,
-                  textTransform: "uppercase",
                   letterSpacing: "0.1em",
                   mb: 2,
                   display: "block",
@@ -527,13 +546,13 @@ export function Features() {
                   letterSpacing: "-0.01em",
                 }}
               >
-                Autonomous Research & Synthesis
+                Proactive Research & Synthesis
               </Typography>
               
               <Typography
                 variant="body1"
                 sx={{
-                  fontSize: { xs: "0.95rem", md: "1.1rem" },
+                  fontSize: { xs: "0.95rem", md: "1rem" },
                   color: "text.secondary",
                   lineHeight: 1.7,
                   maxWidth: "480px",
@@ -553,25 +572,16 @@ export function Features() {
           </Grid>
         </Grid>
 
-        {/* Feature 2 - Text Right, Visual Left */}
+        {/* Feature 2 - Text Left, Visual Right */}
         <Grid container spacing={6} alignItems="center">
-          <Grid size={{ xs: 12, md: 6 }} sx={{ order: { xs: 2, md: 1 } }}>
-            <Box sx={{ display: "flex", justifyContent: "center" }}>
-              <SimulationContainer>
-                <LaTeXWritingSimulation />
-              </SimulationContainer>
-            </Box>
-          </Grid>
-          
-          <Grid size={{ xs: 12, md: 6 }} sx={{ order: { xs: 1, md: 2 } }}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <Box>
               <Typography
                 variant="caption"
                 sx={{
-                  fontSize: "0.75rem",
+                  fontSize: "0.85rem",
                   color: "info.main",
                   fontWeight: 600,
-                  textTransform: "uppercase",
                   letterSpacing: "0.1em",
                   mb: 2,
                   display: "block",
@@ -597,14 +607,22 @@ export function Features() {
               <Typography
                 variant="body1"
                 sx={{
-                  fontSize: { xs: "0.95rem", md: "1.1rem" },
+                  fontSize: { xs: "0.95rem", md: "1rem" },
                   color: "text.secondary",
                   lineHeight: 1.7,
                   maxWidth: "480px",
                 }}
               >
-                Converse with your agent to write entire sections, insert citations, create tables, and make complex edits. It handles the code so you can focus on the science.
+                Converse with your agent to draft sections, create tables, and manage citations in a single, distraction-free environment powered by trusted models like Gemini.
               </Typography>
+            </Box>
+          </Grid>
+          
+          <Grid size={{ xs: 12, md: 6 }}>
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <SimulationContainer>
+                <LaTeXWritingSimulation />
+              </SimulationContainer>
             </Box>
           </Grid>
         </Grid>
