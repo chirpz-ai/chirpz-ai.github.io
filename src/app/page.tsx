@@ -1,7 +1,7 @@
 import { Header } from "@/components/header";
 import { Hero } from "@/components/hero";
 import { Features } from "@/components/features";
-// import { Workflow } from "@/components/workflow";
+import { Workflow } from "@/components/workflow";
 import { Highlight } from "@/components/highlight";
 // import { Contact } from "@/components/contact";
 import { Footer } from "@/components/footer";
@@ -85,7 +85,7 @@ export default function Home() {
       <Hero />
       <Highlight />
       <Features />
-      {/* <Workflow /> */}
+      <Workflow />
       {/* <Contact /> */}
       <Footer />
     </main>

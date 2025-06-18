@@ -539,7 +539,7 @@ export function Features() {
                 variant="h3"
                 component="h3"
                 sx={{
-                  fontSize: { xs: "1.5rem", md: "2rem" },
+                  fontSize: { xs: "1.5rem", md: "2.5rem" },
                   fontWeight: 600,
                   mb: 3,
                   color: "text.primary",
@@ -594,7 +594,7 @@ export function Features() {
                 variant="h3"
                 component="h3"
                 sx={{
-                  fontSize: { xs: "1.5rem", md: "2rem" },
+                  fontSize: { xs: "1.5rem", md: "2.5rem" },
                   fontWeight: 600,
                   mb: 3,
                   color: "text.primary",
