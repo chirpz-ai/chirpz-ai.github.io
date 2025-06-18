@@ -277,7 +277,7 @@ const ReportSection = ({ title, content, type, isLastItem, showCursor, source }:
               fontWeight: 500,
               letterSpacing: "0.01em"
             }}>
-              via {source}
+             {source}
             </Box>
           )}
         </Box>
@@ -305,6 +305,30 @@ const ReportSection = ({ title, content, type, isLastItem, showCursor, source }:
   );
 };
 
+// Add Badge styled component after the other styled components
+const BadgeButton = styled(Box)(({ theme }) => ({
+  display: "inline-flex",
+  alignItems: "center",
+  padding: "8px 16px",
+  borderRadius: "24px",
+  fontSize: "0.875rem",
+  fontWeight: 600,
+  whiteSpace: "nowrap",
+  position: "relative",
+  overflow: "hidden",
+  "&::before": {
+    content: '""',
+    position: "absolute",
+    inset: 0,
+    padding: "1px",
+    background: "linear-gradient(90deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 100%)",
+    borderRadius: "inherit",
+    mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+    maskComposite: "xor",
+    WebkitMaskComposite: "xor",
+  }
+}));
+
 // LaTeX Code Display Component
 interface LaTeXCodeProps {
   code: string;
@@ -315,15 +339,17 @@ const LaTeXCodeDisplay = ({ code, isTyping }: LaTeXCodeProps) => {
   return (
     <Box sx={{
       fontFamily: 'Consolas, "Courier New", monospace',
+      bgcolor: 'PrimaryButton.contrastText',
       fontSize: '0.75rem',
       lineHeight: 1.6,
       color: 'text.secondary',
-      whiteSpace: 'pre',
+      whiteSpace: 'pre-wrap',
       overflow: 'hidden',
       textAlign: 'left',
       letterSpacing: '0px',
       fontFeatureSettings: '"liga" 0',
-      textRendering: 'optimizeSpeed'
+      textRendering: 'optimizeSpeed',
+      wordBreak: 'break-all'
     }}>
       {code}
       {isTyping && <Cursor />}
@@ -340,8 +366,8 @@ interface PDFPreviewProps {
 const PDFPreviewDisplay = ({ content, activeLines }: PDFPreviewProps) => {
   return (
     <Box sx={{
-      bgcolor: 'white',
-      borderRadius: 1,
+      bgcolor: 'PrimaryButton.contrastText',
+      borderRadius: 0,
       p: 2,
       height: '100%',
       fontSize: '0.65rem',
@@ -351,36 +377,46 @@ const PDFPreviewDisplay = ({ content, activeLines }: PDFPreviewProps) => {
       overflow: 'hidden',
       boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
     }}>
-             <Box sx={{ mb: 2, textAlign: 'center' }}>
-         <Typography sx={{ fontSize: '0.8rem', fontWeight: 'bold', mb: 1 }}>
-           Constitutional AI for LLM Safety
-         </Typography>
-         <Typography sx={{ fontSize: '0.6rem', color: 'grey.600' }}>
-           NSF Grant Proposal - AI Safety Initiative
-         </Typography>
-       </Box>
+      <Box sx={{ mb: 2, textAlign: 'center' }}>
+        <Typography sx={{ fontSize: '0.8rem', fontWeight: 'bold', mb: 1 , color: 'text.primary'}}>
+          Constitutional AI for LLM Safety
+        </Typography>
+        <Typography sx={{ fontSize: '0.6rem', color: 'text.primary' }}>
+          NSF Grant Proposal - AI Safety Initiative
+        </Typography>
+      </Box>
       
       <Box sx={{ borderBottom: '1px solid', borderColor: 'grey.300', mb: 1.5, pb: 1 }}>
         <Typography sx={{ fontSize: '0.7rem', fontWeight: 'bold', mb: 0.5 }}>
           Abstract
         </Typography>
         <AnimatePresence>
-          {content.slice(0, Math.min(activeLines, content.length)).map((line, index) => (
+          {activeLines > 0 && content.slice(0, Math.min(activeLines, content.length)).map((line, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.3, delay: index * 0.1 }}
             >
-              <Typography sx={{ fontSize: '0.6rem', mb: 0.3 }}>
+              <Typography sx={{ fontSize: '0.6rem', mb: 0.3, lineHeight: 1.4 }}>
                 {line}
               </Typography>
             </motion.div>
           ))}
         </AnimatePresence>
+        
+        {/* Show additional content as the PDF fills */}
+        {activeLines > content.length && (
+          <Box sx={{ mt: 1 }}>
+            <Typography sx={{ fontSize: '0.7rem', fontWeight: 'bold', mb: 0.5 }}>
+              1. Introduction
+            </Typography>
+            <Typography sx={{ fontSize: '0.6rem', lineHeight: 1.4 }}>
+              The field of artificial intelligence has made remarkable progress...
+            </Typography>
+          </Box>
+        )}
       </Box>
-      
-      
     </Box>
   );
 };
@@ -409,6 +445,7 @@ export function Hero() {
   const [pdfLines, setPdfLines] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const reportContainerRef = useRef<HTMLDivElement>(null);
+  const latexContainerRef = useRef<HTMLDivElement>(null);
   const animationTimer = useRef<NodeJS.Timeout | null>(null);
   const resetTimer = useRef<NodeJS.Timeout | null>(null);
   const latexTimer = useRef<NodeJS.Timeout | null>(null);
@@ -434,17 +471,17 @@ export function Hero() {
      { id: 'transition', title: 'Initiating LaTeX Generation', content: 'Switching to Writing Mode', type: 'conclusion' },
    ];
 
-     // LaTeX code that gets typed out
-   const latexCodeLines = [
-     '\\documentclass[11pt]{article}\n\\usepackage{amsmath}\n\n',
-     '\\title{Constitutional AI for LLM Safety}\n\\author{Research Team}\n\n',
-     '\\begin{document}\n\\maketitle\n\n',
-     '\\begin{abstract}\n',
-     'This proposal addresses LLM safety through constitutional AI methods. ',
-     'We propose novel RLHF techniques to ensure aligned behavior. ',
-     'We request $450,000 over 3 years.\n',
-     '\\end{abstract}\n\n'
-   ];
+       // LaTeX code that gets typed out
+  const latexCodeLines = [
+    '\\documentclass[11pt]{article}\\usepackage{amsmath}',
+    '\\title{Constitutional AI for LLM Safety}\\author{Research Team}',
+    '\\begin{document}\\maketitle',
+    '\\begin{abstract}',
+    'This proposal addresses LLM safety through constitutional AI methods. ',
+    'We propose novel RLHF techniques to ensure aligned behavior. ',
+    'We request $450,000 over 3 years.',
+    '\\end{abstract}'
+  ];
 
      // PDF content lines
    const pdfContent = [
@@ -478,17 +515,46 @@ export function Hero() {
     const viewportHeight = container.clientHeight;
     
     if (contentHeight > viewportHeight) {
-      const newScrollPosition = Math.max(
-        0,
-        (contentHeight - viewportHeight) * (activeIndex / researchSections.length)
-      );
-      
-      container.scrollTo({
-        top: newScrollPosition,
-        behavior: 'smooth'
-      });
+      // On the last item, scroll to the very bottom
+      if (activeIndex === researchSections.length - 1) {
+        container.scrollTo({
+          top: contentHeight - viewportHeight,
+          behavior: 'smooth'
+        });
+      } else {
+        const scrollRatio = activeIndex / (researchSections.length - 1);
+        const newScrollPosition = Math.max(
+          0,
+          (contentHeight - viewportHeight) * scrollRatio
+        );
+        
+        container.scrollTo({
+          top: newScrollPosition,
+          behavior: 'smooth'
+        });
+      }
     }
   }, [activeIndex, agentStatus]);
+
+  // Handle auto-scrolling for LaTeX preview during writing phase
+  useEffect(() => {
+    if (!latexContainerRef.current || agentStatus !== 'writing') return;
+    
+    const container = latexContainerRef.current;
+    
+    // Auto-scroll to bottom as content is added
+    const scrollToBottom = () => {
+      container.scrollTo({
+        top: container.scrollHeight,
+        behavior: 'smooth'
+      });
+    };
+    
+    // Scroll when latex code updates
+    if (latexCode.length > 0) {
+      scrollToBottom();
+    }
+  }, [latexCode, agentStatus]);
 
   // Control the main animation sequence
   useEffect(() => {
@@ -566,18 +632,19 @@ export function Hero() {
           currentCharIndex++;
           
           // Update PDF preview based on progress
-          if (currentLineIndex >= 3) { // After abstract starts
-            const pdfLineIndex = Math.floor((currentLineIndex - 3) * 1.5);
+          if (currentLineIndex >= 4) { // After abstract content starts
+            const pdfLineIndex = Math.max(1, currentLineIndex - 3);
             setPdfLines(Math.min(pdfLineIndex, pdfContent.length));
           }
           
-                     latexTimer.current = setTimeout(typeLatex, 25);
-         } else {
-           // Move to next line
-           currentLineIndex++;
-           currentCharIndex = 0;
-           setProgress(60 + (currentLineIndex / latexCodeLines.length) * 40);
-           latexTimer.current = setTimeout(typeLatex, 100);
+          latexTimer.current = setTimeout(typeLatex, 25);
+        } else {
+          // Move to next line
+          setLatexCode(prev => prev + '\n');
+          currentLineIndex++;
+          currentCharIndex = 0;
+          setProgress(60 + (currentLineIndex / latexCodeLines.length) * 40);
+          latexTimer.current = setTimeout(typeLatex, 100);
         }
       };
       
@@ -641,6 +708,38 @@ export function Hero() {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.6 }}
               >
+                {/* Add Badges above "Your AI" */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.1 }}
+                >
+                  <Box sx={{ 
+                    display: "flex", 
+                    gap: 1.5, 
+                    mb: 3,
+                    justifyContent: { xs: "center", lg: "flex-start" },
+                    flexWrap: "wrap"
+                  }}>
+                    <BadgeButton
+                      sx={{
+                        backgroundColor: theme.palette.background.paper,
+                        color: theme.palette.text.primary,
+                      }}
+                    >
+                      Built for Researchers
+                    </BadgeButton>
+                    <BadgeButton
+                      sx={{
+                        backgroundColor: theme.palette.background.default,
+                        color: theme.palette.text.primary,
+                      }}
+                    >
+                      Accelerating Discovery
+                    </BadgeButton>
+                  </Box>
+                </motion.div>
+
                 <motion.div
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1 }}
@@ -699,10 +798,10 @@ export function Hero() {
                       mx: { xs: "auto", lg: 0 },
                     }}
                   >
-                    Zee gives you a grant-ready proposal from a single prompt. No manual literature review. No LaTeX struggles.
+                    The agent that proactively researches and writes proposals on your behalf. No manual literature review. No LaTeX struggles.
                   </Typography>
                   
-                  <Typography
+                  {/* <Typography
                     variant="subtitle1"
                     sx={{
                       fontWeight: 700,
@@ -716,7 +815,7 @@ export function Hero() {
                     }}
                   >
                     Focus on Discovery, Not the Paperwork.
-                  </Typography>
+                  </Typography> */}
                 </motion.div>
 
                 <motion.div
@@ -729,10 +828,10 @@ export function Hero() {
                       display: "flex", 
                       flexDirection: { xs: "column", sm: "row" },
                       gap: 2,
-                      justifyContent: { xs: "center", lg: "flex-start" }
+                      justifyContent: { xs: "center", lg: "flex-start" },
                     }}
                   >
-                    <Box sx={{ display: "inline-block" }}>
+                    <Box sx={{ display: "inline-block", pt: 4 }}>
                       <Link href="#features" style={{ textDecoration: 'none' }}>
                         <SecondaryButton
                           variant="outlined"
@@ -749,8 +848,8 @@ export function Hero() {
             </Box>
           </Grid>
 
-          <Grid size={{ xs: 12, lg: 6 }}>
-            <Box sx={{ display: "block" }}>
+          <Grid size={{ xs: 12, lg: 6}}>
+            <Box sx={{ display: "block", pr: 0 }}>
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -887,22 +986,20 @@ export function Hero() {
                       <Box sx={{ mb: 3, height: { xs: 200, sm: 220, md: 260 } }}>
                         <Box sx={{ display: 'flex', gap: 1, height: '100%' }}>
                           {/* LaTeX Code Panel */}
-                          <Box sx={{ 
+                          <Box 
+                            ref={latexContainerRef}
+                            sx={{ 
                             flex: 1, 
                             bgcolor: "background.paper", 
+                            border: '1px solid rgba(255, 255, 255, 0.1)',
                             borderRadius: 1, 
                             p: 1.5,
                             overflow: "auto",
                             "&::-webkit-scrollbar": {
-                              width: "4px",
+                              display: "none",
                             },
-                                                          "&::-webkit-scrollbar-track": {
-                                backgroundColor: "action.disabledBackground",
-                              },
-                              "&::-webkit-scrollbar-thumb": {
-                                backgroundColor: 'rgba(96, 165, 250, 0.5)',
-                                borderRadius: "2px",
-                              },
+                            scrollbarWidth: "none", // Firefox
+                            msOverflowStyle: "none", // IE/Edge
                           }}>
                             <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, pb: 1, borderBottom: '1px solid', borderColor: 'divider' }}>
                               <Typography sx={{ fontSize: '0.7rem', color: '#9CA3AF', fontWeight: 600 }}>
@@ -915,18 +1012,19 @@ export function Hero() {
                           {/* PDF Preview Panel */}
                           <Box sx={{ 
                             flex: 1, 
-                            bgcolor: "rgba(255, 255, 255, 0.03)", 
+                            bgcolor: "background.paper", 
                             borderRadius: 1, 
                             p: 1,
                             display: 'flex',
-                            flexDirection: 'column'
+                            flexDirection: 'column',
+                            border: '1px solid rgba(255, 255, 255, 0.1)'
                           }}>
                             <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, pb: 1, borderBottom: '1px solid rgba(75, 85, 99, 0.3)' }}>
                               <Typography sx={{ fontSize: '0.7rem', color: '#9CA3AF', fontWeight: 600 }}>
                                 PDF Preview
                               </Typography>
                             </Box>
-                            <Box sx={{ flex: 1, overflow: 'hidden' }}>
+                            <Box sx={{ flex: 1, overflow: 'hidden'}}>
                               <PDFPreviewDisplay content={pdfContent} activeLines={pdfLines} />
                             </Box>
                           </Box>
@@ -942,16 +1040,10 @@ export function Hero() {
                           overflow: "auto",
                           scrollBehavior: "smooth",
                           "&::-webkit-scrollbar": {
-                            width: "6px",
+                            display: "none",
                           },
-                          "&::-webkit-scrollbar-track": {
-                            backgroundColor: "action.disabledBackground",
-                            borderRadius: "10px",
-                          },
-                          "&::-webkit-scrollbar-thumb": {
-                            backgroundColor: 'rgba(96, 165, 250, 0.5)',
-                            borderRadius: "10px",
-                          },
+                          scrollbarWidth: "none", // Firefox
+                          msOverflowStyle: "none", // IE/Edge
                         }}
                       >
                         <AnimatePresence mode="wait">
@@ -1018,7 +1110,7 @@ export function Hero() {
                     />
                   </motion.div>
                   
-                  {/* Data Scientist Review Box - Bottom of Timeline */}
+                  {/* Scientist Review Box - Bottom of Timeline */}
                   <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
