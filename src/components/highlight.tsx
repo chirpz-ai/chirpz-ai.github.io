@@ -354,8 +354,8 @@ export function Highlight() {
                     variant="h4"
                     component="h3"
                     sx={{
-                      fontSize: { xs: "1rem", md: "1.1rem" },
-                      fontWeight: 600,
+                      fontSize: { xs: "1rem", md: "1.15rem" },
+                      fontWeight: 800,
                       mb: 2,
                       mx: 5,
                       color: "text.primary",
@@ -407,8 +407,8 @@ export function Highlight() {
                     variant="h4"
                     component="h3"
                     sx={{
-                      fontSize: { xs: "1rem", md: "1.1rem" },
-                      fontWeight: 600,
+                      fontSize: { xs: "1rem", md: "1.15rem" },
+                      fontWeight: 800,
                       mb: 2,
                       mx: 5,
                       color: "text.primary",
