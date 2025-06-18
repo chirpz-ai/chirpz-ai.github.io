@@ -12,26 +12,14 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Chirpz AI | Agents that Generate Actionable Model Intelligence",
-  description: "AI agents that autonomously generate intelligence streams from development and observability stacks, delivering actionable insights that accelerate AI model development.",
+  title: "Research Reimagined with Agents | Chirpz AI",
+  description: "Save countless hours on research and writing. Chirpz AI is the AI scientist that automates literature reviews, drafts grant proposals, and writes directly in LaTeX so you can focus on discovery.",
   metadataBase: new URL("https://chirpz.ai"),
   alternates: {
     canonical: "/",
   },
   manifest: "/manifest.json",
-  keywords: [
-    "AI developer productivity", 
-    "model intelligence", 
-    "developer workflow automation", 
-    "AI analytics", 
-    "AI agents", 
-    "automated workflows", 
-    "model metrics", 
-    "AI observability",
-    "Chirpz AI",
-    "developer tools",
-    "model performance analytics"
-  ],
+  keywords: ['AI researcher', 'grant proposal', 'scientific writing', 'LaTeX', 'academic research', 'literature review', 'autonomous agent', 'Chirpz AI'],
   authors: [{ name: "Chirpz AI Team" }],
   creator: "Chirpz AI",
   publisher: "Chirpz AI",
@@ -41,8 +29,8 @@ export const metadata: Metadata = {
     telephone: false,
   },
   openGraph: {
-    title: "Chirpz AI | Agents that Generate Actionable Model Intelligence",
-    description: "AI agents that autonomously generate intelligence streams from development and observability stacks, delivering actionable insights that accelerate AI model development.",
+    title: "Research Reimagined with Agents | Chirpz AI",
+    description: "Focus on discovery, not paperwork. The AI agent that automates research and writing for academics.",
     url: 'https://chirpz.ai',
     siteName: 'Chirpz AI',
     locale: 'en_US',
@@ -52,14 +40,14 @@ export const metadata: Metadata = {
         url: 'https://chirpz.ai/logo-google.png',
         width: 192,
         height: 192,
-        alt: 'Chirpz AI - Developer Productivity & Model Intelligence',
+        alt: 'Research Reimagined with Agents | Chirpz AI',
       }
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Chirpz AI | Agents that Generate Actionable Model Intelligence',
-    description: 'AI agents that autonomously generate intelligence streams from development and observability stacks, delivering actionable insights that accelerate AI model development.',
+    title: 'Research Reimagined with Agents | Chirpz AI',
+    description: 'Save countless hours on research and writing. Chirpz AI is the AI scientist that automates literature reviews, drafts grant proposals, and writes directly in LaTeX so you can focus on discovery.',
     images: ['https://chirpz.ai/logo-google.png'],
     creator: '@chirpzai',
   },
@@ -115,7 +103,7 @@ export default function RootLayout({
               "name": "Chirpz AI",
               "url": "https://chirpz.ai",
               "logo": "https://chirpz.ai/logo-google.png",
-              "description": "AI agents that autonomously generate intelligence streams from development and observability stacks, delivering actionable insights that accelerate AI model development.",
+              "description": "Save countless hours on research and writing. Chirpz AI is the AI scientist that automates literature reviews, drafts grant proposals, and writes directly in LaTeX so you can focus on discovery.",
               "sameAs": [
                 "https://chirpz.ai"
                 // Add social profiles here when available
@@ -127,8 +115,7 @@ export default function RootLayout({
       <body className={`${inter.variable} font-sans antialiased`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
+          defaultTheme="dark"
           disableTransitionOnChange
         >
           <MUIProvider>

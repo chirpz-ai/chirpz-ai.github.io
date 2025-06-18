@@ -11,8 +11,7 @@ import {
   Button,
   Grid,
   Paper,
-  useTheme,
-  alpha
+  useTheme
 } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import DescriptionIcon from "@mui/icons-material/Description";
@@ -33,32 +32,35 @@ const StyledButton = styled(Button)(({ theme }) => ({
   }
 }));
 
-const PrimaryButton = styled(StyledButton)(() => ({
-  backgroundColor: "#3B82F6",
-  color: "white",
+const PrimaryButton = styled(StyledButton)(({ theme }) => ({
+  backgroundColor: theme.palette.info.main,
+  color: theme.palette.common.black,
+  fontWeight: 600,
   "&:hover": {
-    backgroundColor: "#2563EB",
+    backgroundColor: theme.palette.info.dark,
+    color: theme.palette.common.white,
   }
 }));
 
-const SecondaryButton = styled(StyledButton)(() => ({
-  backgroundColor: "rgba(31, 41, 55, 0.7)",
-  border: "1px solid rgba(75, 85, 99, 0.5)",
-  color: "white",
+const SecondaryButton = styled(StyledButton)(({ theme }) => ({
+  backgroundColor: theme.palette.background.paper,
+  border: "1px solid rgba(255, 255, 255, 0.2)",
+  color: theme.palette.text.primary,
   "&:hover": {
-    backgroundColor: "rgba(31, 41, 55, 0.9)",
+    backgroundColor: theme.palette.primary.light,
+    borderColor: "rgba(255, 255, 255, 0.3)",
   }
 }));
 
 const DemoWindow = styled(Paper)(({ theme }) => ({
   position: "relative",
-  backgroundColor: "rgba(17, 24, 39, 0.7)",
+  backgroundColor: theme.palette.background.paper,
   borderRadius: "16px",
   overflow: "hidden",
-  border: "1px solid rgba(75, 85, 99, 0.5)",
+  border: "1px solid rgba(255, 255, 255, 0.1)",
   padding: "24px",
-  boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)",
-  backdropFilter: "blur(8px)",
+  boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.8)",
+  backdropFilter: "blur(12px)",
 }));
 
 const StyledLink = styled(Link)({
@@ -117,7 +119,7 @@ const SpinningLoader = () => {
         width: 8,
         height: 8,
         borderRadius: "50%",
-        border: "1.5px solid rgba(16, 185, 129, 0.6)",
+        border: "1.5px solid rgba(52, 211, 153, 0.6)",
         borderTopColor: "#10B981",
         marginRight: 8
       }}
@@ -136,52 +138,53 @@ interface SectionProps {
 }
 
 const ReportSection = ({ title, content, type, isLastItem, showCursor, source }: SectionProps) => {
+  const theme = useTheme();
   // Define color schemes for different sources
   const sourceColors = {
-    Arize: {
-      bg: "rgba(14, 165, 233, 0.15)",
+    ArXiv: {
+      bg: "rgba(14, 165, 233, 0.15)", // info
       border: "rgba(14, 165, 233, 0.3)",
-      text: "#0EA5E9",
-      dotColor: "#0EA5E9",
+      text: theme.palette.info.main,
+      dotColor: theme.palette.info.main,
       lightBg: "rgba(14, 165, 233, 0.1)",
       lightText: "rgba(14, 165, 233, 0.8)"
     },
-    Openlayer: {
-      bg: "rgba(99, 102, 241, 0.15)",
+    NSF: {
+      bg: "rgba(99, 102, 241, 0.15)", // custom
       border: "rgba(99, 102, 241, 0.3)",
       text: "#6366F1",
       dotColor: "#6366F1",
       lightBg: "rgba(99, 102, 241, 0.1)",
       lightText: "rgba(99, 102, 241, 0.8)"
     },
-    LangSmith: {
-      bg: "rgba(236, 72, 153, 0.15)",
+    PubMed: {
+      bg: "rgba(236, 72, 153, 0.15)", // custom
       border: "rgba(236, 72, 153, 0.3)",
       text: "#EC4899",
       dotColor: "#EC4899",
       lightBg: "rgba(236, 72, 153, 0.1)",
       lightText: "rgba(236, 72, 153, 0.8)"
     },
-    SageMaker: {
-      bg: "rgba(249, 115, 22, 0.15)",
+    IEEE: {
+      bg: "rgba(249, 115, 22, 0.15)", // warning
       border: "rgba(249, 115, 22, 0.3)",
-      text: "#F97316",
-      dotColor: "#F97316",
+      text: theme.palette.warning.main,
+      dotColor: theme.palette.warning.main,
       lightBg: "rgba(249, 115, 22, 0.1)",
       lightText: "rgba(249, 115, 22, 0.8)"
     },
-    Watsonx: {
-      bg: "rgba(16, 185, 129, 0.15)",
+    Nature: {
+      bg: "rgba(16, 185, 129, 0.15)", // success
       border: "rgba(16, 185, 129, 0.3)",
-      text: "#10B981",
-      dotColor: "#10B981",
+      text: theme.palette.success.main,
+      dotColor: theme.palette.success.main,
       lightBg: "rgba(16, 185, 129, 0.1)",
       lightText: "rgba(16, 185, 129, 0.8)"
     }
   };
   
-  // Get the color scheme based on source, default to Arize
-  const colorScheme = sourceColors[source as keyof typeof sourceColors] || sourceColors.Arize;
+  // Get the color scheme based on source, default to ArXiv
+  const colorScheme = sourceColors[source as keyof typeof sourceColors] || sourceColors.ArXiv;
   
   return (
     <motion.div
@@ -194,7 +197,7 @@ const ReportSection = ({ title, content, type, isLastItem, showCursor, source }:
         <Box sx={{ mb: 2 }}>
           <Typography 
             sx={{ 
-              color: "#60A5FA", 
+              color: "info.main", 
               fontWeight: 600,
               fontSize: "1.1rem"
             }}
@@ -209,12 +212,12 @@ const ReportSection = ({ title, content, type, isLastItem, showCursor, source }:
             width: 8, 
             height: 8, 
             borderRadius: "50%", 
-            bgcolor: "#3B82F6", 
+            bgcolor: "info.dark", 
             mr: 1.5 
           }} />
           <Typography 
             sx={{ 
-              color: alpha("#fff", 0.95),
+              color: "text.primary",
               fontWeight: 500,
               fontSize: "0.95rem"
             }}
@@ -255,7 +258,7 @@ const ReportSection = ({ title, content, type, isLastItem, showCursor, source }:
         <Box sx={{ ml: 4, mb: 1.5, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <Typography 
             sx={{ 
-              color: alpha("#fff", 0.8),
+              color: "text.secondary",
               fontSize: "0.88rem"
             }}
           >
@@ -274,7 +277,7 @@ const ReportSection = ({ title, content, type, isLastItem, showCursor, source }:
               fontWeight: 500,
               letterSpacing: "0.01em"
             }}>
-              via {source}
+             {source}
             </Box>
           )}
         </Box>
@@ -288,7 +291,7 @@ const ReportSection = ({ title, content, type, isLastItem, showCursor, source }:
         }}>
           <Typography 
             sx={{ 
-              color: "#10B981",
+              color: "success.main",
               fontWeight: 600,
               fontSize: "0.9rem"
             }}
@@ -302,24 +305,131 @@ const ReportSection = ({ title, content, type, isLastItem, showCursor, source }:
   );
 };
 
-// Add some additional styled components for the timeline elements
-const TimelineConnector = styled(Box)(({ theme }) => ({
-  width: 2,
-  backgroundColor: "#3B82F6",
-  position: "absolute",
-  left: "50%",
-  transform: "translateX(-50%)",
-  zIndex: 1
+// Add Badge styled component after the other styled components
+const BadgeButton = styled(Box)(({ theme }) => ({
+  display: "inline-flex",
+  alignItems: "center",
+  padding: "8px 16px",
+  borderRadius: "24px",
+  fontSize: "0.875rem",
+  fontWeight: 600,
+  whiteSpace: "nowrap",
+  position: "relative",
+  overflow: "hidden",
+  "&::before": {
+    content: '""',
+    position: "absolute",
+    inset: 0,
+    padding: "1px",
+    background: "linear-gradient(90deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 100%)",
+    borderRadius: "inherit",
+    mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+    maskComposite: "xor",
+    WebkitMaskComposite: "xor",
+  }
 }));
 
+// LaTeX Code Display Component
+interface LaTeXCodeProps {
+  code: string;
+  isTyping: boolean;
+}
+
+const LaTeXCodeDisplay = ({ code, isTyping }: LaTeXCodeProps) => {
+  return (
+    <Box sx={{
+      fontFamily: 'Consolas, "Courier New", monospace',
+      bgcolor: 'PrimaryButton.contrastText',
+      fontSize: '0.75rem',
+      lineHeight: 1.6,
+      color: 'text.secondary',
+      whiteSpace: 'pre-wrap',
+      overflow: 'hidden',
+      textAlign: 'left',
+      letterSpacing: '0px',
+      fontFeatureSettings: '"liga" 0',
+      textRendering: 'optimizeSpeed',
+      wordBreak: 'break-all'
+    }}>
+      {code}
+      {isTyping && <Cursor />}
+    </Box>
+  );
+};
+
+// PDF Preview Component
+interface PDFPreviewProps {
+  content: string[];
+  activeLines: number;
+}
+
+const PDFPreviewDisplay = ({ content, activeLines }: PDFPreviewProps) => {
+  return (
+    <Box sx={{
+      bgcolor: 'PrimaryButton.contrastText',
+      borderRadius: 0,
+      p: 2,
+      height: '100%',
+      fontSize: '0.65rem',
+      lineHeight: 1.3,
+      color: 'grey.900',
+      fontFamily: 'serif',
+      overflow: 'hidden',
+      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+    }}>
+      <Box sx={{ mb: 2, textAlign: 'center' }}>
+        <Typography sx={{ fontSize: '0.8rem', fontWeight: 'bold', mb: 1 , color: 'text.primary'}}>
+          Constitutional AI for LLM Safety
+        </Typography>
+        <Typography sx={{ fontSize: '0.6rem', color: 'text.primary' }}>
+          NSF Grant Proposal - AI Safety Initiative
+        </Typography>
+      </Box>
+      
+      <Box sx={{ borderBottom: '1px solid', borderColor: 'grey.300', mb: 1.5, pb: 1 }}>
+        <Typography sx={{ fontSize: '0.7rem', fontWeight: 'bold', mb: 0.5 }}>
+          Abstract
+        </Typography>
+        <AnimatePresence>
+          {activeLines > 0 && content.slice(0, Math.min(activeLines, content.length)).map((line, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3, delay: index * 0.1 }}
+            >
+              <Typography sx={{ fontSize: '0.6rem', mb: 0.3, lineHeight: 1.4 }}>
+                {line}
+              </Typography>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+        
+        {/* Show additional content as the PDF fills */}
+        {activeLines > content.length && (
+          <Box sx={{ mt: 1 }}>
+            <Typography sx={{ fontSize: '0.7rem', fontWeight: 'bold', mb: 0.5 }}>
+              1. Introduction
+            </Typography>
+            <Typography sx={{ fontSize: '0.6rem', lineHeight: 1.4 }}>
+              The field of artificial intelligence has made remarkable progress...
+            </Typography>
+          </Box>
+        )}
+      </Box>
+    </Box>
+  );
+};
+
+// Add some additional styled components for the timeline elements
 const TimelineEventBox = styled(Paper)(({ theme }) => ({
   position: "relative",
-  backgroundColor: "rgba(17, 24, 39, 0.7)",
+  backgroundColor: theme.palette.background.paper,
   borderRadius: "10px",
-  border: "1px solid rgba(75, 85, 99, 0.5)",
+  border: "1px solid rgba(255, 255, 255, 0.1)",
   padding: "10px",
-  boxShadow: "0 10px 20px -5px rgba(0, 0, 0, 0.3)",
-  backdropFilter: "blur(8px)",
+  boxShadow: "0 10px 20px -5px rgba(0, 0, 0, 0.6)",
+  backdropFilter: "blur(12px)",
   maxWidth: "70%",
   margin: "0 auto",
   textAlign: "center",
@@ -330,101 +440,69 @@ export function Hero() {
   const [activeIndex, setActiveIndex] = useState(-1);
   const [showCursor, setShowCursor] = useState(true);
   const [progress, setProgress] = useState(0);
-  const [currentReportType, setCurrentReportType] = useState<'llm' | 'cv'>('llm');
-  const [agentStatus, setAgentStatus] = useState<'idle' | 'thinking' | 'generating'>('idle');
-  const [scrollPosition, setScrollPosition] = useState(0);
+  const [agentStatus, setAgentStatus] = useState<'idle' | 'researching' | 'writing'>('idle');
+  const [latexCode, setLatexCode] = useState('');
+  const [pdfLines, setPdfLines] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const reportContainerRef = useRef<HTMLDivElement>(null);
+  const latexContainerRef = useRef<HTMLDivElement>(null);
   const animationTimer = useRef<NodeJS.Timeout | null>(null);
   const resetTimer = useRef<NodeJS.Timeout | null>(null);
-  const scrollTimer = useRef<NodeJS.Timeout | null>(null);
-  const statusTimer = useRef<NodeJS.Timeout | null>(null);
+  const latexTimer = useRef<NodeJS.Timeout | null>(null);
 
-  // LLM Report sections data
-  const llmReportSections = [
-    { id: 'header', title: 'LLM Model Intelligence Dashboard', type: 'header' },
-    { id: 'model', title: 'Model: LLM-Analytics-v2.1', type: 'section' },
-    { id: 'date', title: 'Analysis Generated: June 15, 2023', type: 'data' },
-    
-    { id: 'performance', title: 'Performance Analytics', type: 'section', source: 'Arize' },
-    { id: 'perf1', title: 'Accuracy Trend', content: '94.3% (↑2.1% this week)', type: 'data', source: 'Arize' },
-    { id: 'perf2', title: 'Response Quality', content: '4.7/5.0 avg rating', type: 'data', source: 'Arize' },
-    
-    { id: 'metrics', title: 'Operational Metrics', type: 'section', source: 'LangSmith' },
-    { id: 'metrics1', title: 'Latency Performance', content: '127ms (p95) - Stable', type: 'data', source: 'LangSmith' },
-    { id: 'metrics3', title: 'Throughput', content: '1.2K requests/min', type: 'data', source: 'LangSmith' },
-    
-    { id: 'insights', title: 'Predictive Insights', type: 'section', source: 'Openlayer' },
-    { id: 'insights1', title: 'Performance Trend', content: 'Stable growth expected', type: 'data', source: 'Openlayer' },
-    
-    { id: 'reliability', title: 'Model Reliability', type: 'section', source: 'Arize' },
-    { id: 'reliability1', title: 'Drift Detection', content: 'No significant drift', type: 'data', source: 'Arize' },
-    { id: 'reliability3', title: 'Error Analysis', content: '2.1% edge case patterns', type: 'data', source: 'LangSmith' },
-    
-    // Team Workflow section - shortened
-    { id: 'workflow', title: 'Team Workflow', type: 'section' },
-    { id: 'workflow1', title: 'Model Owner', content: 'AI Development Team', type: 'data' },
-    { id: 'workflow4', title: 'Last Review', content: 'David Chen - 2 days ago', type: 'data' },
-    
-    // Development Lifecycle section - shortened
-    { id: 'lifecycle', title: 'Development Lifecycle', type: 'section', source: 'LangSmith' },
-    { id: 'lifecycle2', title: 'Last Update', content: 'May 30, 2023', type: 'data', source: 'LangSmith' },
-    { id: 'lifecycle3', title: 'Monitoring Status', content: 'Active (continuous)', type: 'data', source: 'Openlayer' },
-    
-    { id: 'conclusion', title: 'Intelligence Summary', content: 'Performance Optimized - Ready for Scale', type: 'conclusion' },
+     // Research Phase sections data
+   const researchSections = [
+     { id: 'header', title: 'Deep Research Phase: LLM Safety Grant', type: 'header' },
+     { id: 'search', title: 'Literature Search Initiated', type: 'section', source: 'ArXiv' },
+     { id: 'papers1', title: 'Papers Found', content: '189 relevant publications', type: 'data', source: 'ArXiv' },
+     { id: 'papers2', title: 'High Impact Citations', content: '27 breakthrough papers', type: 'data', source: 'Nature' },
+     
+     { id: 'grants', title: 'Grant Database Scan', type: 'section', source: 'NSF' },
+     { id: 'grants1', title: 'Matching Programs', content: 'AI Safety Initiative: $450K available', type: 'data', source: 'NSF' },
+     { id: 'grants2', title: 'Deadline Analysis', content: 'Optimal submission: Feb 15', type: 'data', source: 'NSF' },
+     
+     { id: 'analysis', title: 'Research Gap Analysis', type: 'section', source: 'IEEE' },
+     { id: 'gaps1', title: 'Key Opportunity', content: 'Constitutional AI for LLMs', type: 'data', source: 'IEEE' },
+     { id: 'gaps2', title: 'Competitive Edge', content: 'RLHF + interpretability unexplored', type: 'data', source: 'PubMed' },
+     
+     { id: 'synthesis', title: 'Research Synthesis Complete', type: 'section', source: 'Nature' },
+     { id: 'synthesis1', title: 'Novel Approach Identified', content: 'Ready for proposal generation', type: 'data', source: 'Nature' },
+     
+     { id: 'transition', title: 'Initiating LaTeX Generation', content: 'Switching to Writing Mode', type: 'conclusion' },
+   ];
+
+       // LaTeX code that gets typed out
+  const latexCodeLines = [
+    '\\documentclass[11pt]{article}\\usepackage{amsmath}',
+    '\\title{Constitutional AI for LLM Safety}\\author{Research Team}',
+    '\\begin{document}\\maketitle',
+    '\\begin{abstract}',
+    'This proposal addresses LLM safety through constitutional AI methods. ',
+    'We propose novel RLHF techniques to ensure aligned behavior. ',
+    'We request $450,000 over 3 years.',
+    '\\end{abstract}'
   ];
 
-  // Computer Vision Report sections data
-  const cvReportSections = [
-    { id: 'cv-header', title: 'Computer Vision Intelligence Dashboard', type: 'header' },
-    { id: 'cv-model', title: 'Model: ObjectDetect-CV-3.4', type: 'section' },
-    { id: 'cv-date', title: 'Analysis Generated: August 3, 2023', type: 'data' },
-    
-    { id: 'cv-performance', title: 'Performance Analytics', type: 'section', source: 'Openlayer' },
-    { id: 'cv-metrics1', title: 'mAP Score', content: '0.87 (Excellent)', type: 'data', source: 'Openlayer' },
-    { id: 'cv-metrics2', title: 'Precision Rate', content: '91.2% accuracy', type: 'data', source: 'SageMaker' },
-    
-    { id: 'cv-optimization', title: 'Performance Optimization', type: 'section', source: 'SageMaker' },
-    { id: 'cv-thresh1', title: 'Detection Threshold', content: '0.65 optimal setting', type: 'data', source: 'SageMaker' },
-    
-    { id: 'cv-robustness', title: 'Robustness Insights', type: 'section', source: 'Watsonx' },
-    { id: 'cv-robust1', title: 'Environmental Variance', content: '96.3% consistency', type: 'data', source: 'Watsonx' },
-    { id: 'cv-robust3', title: 'Angle Sensitivity', content: '78.9% stable range', type: 'data', source: 'Watsonx' },
-    
-    { id: 'cv-testing', title: 'Predictive Testing', type: 'section', source: 'Openlayer' },
-    { id: 'cv-test2', title: 'Edge Case Analysis', content: 'Low risk scenarios', type: 'data', source: 'Openlayer' },
-    
-    // Team Workflow section - shortened
-    { id: 'cv-workflow', title: 'Team Workflow', type: 'section' },
-    { id: 'cv-workflow1', title: 'Project Lead', content: 'Michael Torres', type: 'data' },
-    { id: 'cv-workflow3', title: 'Deployment Team', content: 'Edge Infrastructure', type: 'data' },
-    
-    // Development Lifecycle section - shortened
-    { id: 'cv-lifecycle', title: 'Development Lifecycle', type: 'section', source: 'SageMaker' },
-    { id: 'cv-lifecycle2', title: 'Training Duration', content: '72 hours', type: 'data', source: 'SageMaker' },
-    { id: 'cv-lifecycle5', title: 'Update Schedule', content: 'Bi-monthly optimization', type: 'data', source: 'Watsonx' },
-    
-    { id: 'cv-conclusion', title: 'Intelligence Summary', content: 'Performance Optimized - Ready for Scale', type: 'conclusion' },
-  ];
-
-  // Get the current active report sections based on report type
-  const reportSections = currentReportType === 'llm' ? llmReportSections : cvReportSections;
+     // PDF content lines
+   const pdfContent = [
+     'This proposal addresses LLM safety through constitutional AI methods.',
+     'We propose novel RLHF techniques to ensure aligned behavior.',
+     'We request $450,000 over 3 years.'
+   ];
 
   // Clean up timers on unmount
   useEffect(() => {
     return () => {
       if (animationTimer.current) clearTimeout(animationTimer.current);
       if (resetTimer.current) clearTimeout(resetTimer.current);
-      if (scrollTimer.current) clearTimeout(scrollTimer.current);
-      if (statusTimer.current) clearTimeout(statusTimer.current);
+      if (latexTimer.current) clearTimeout(latexTimer.current);
     };
   }, []);
 
-  // Handle auto-scrolling as content grows
+  // Handle auto-scrolling during research phase
   useEffect(() => {
-    if (!reportContainerRef.current || activeIndex < 0) return;
+    if (!reportContainerRef.current || activeIndex < 0 || agentStatus === 'writing') return;
     
-    // Reset scroll position when starting a new animation
     if (activeIndex === 0) {
       if (reportContainerRef.current) {
         reportContainerRef.current.scrollTop = 0;
@@ -436,19 +514,18 @@ export function Hero() {
     const contentHeight = container.scrollHeight;
     const viewportHeight = container.clientHeight;
     
-    // Only need to scroll if content exceeds viewport
     if (contentHeight > viewportHeight) {
-      // If we're at the conclusion item, scroll to the very bottom
-      if (activeIndex === reportSections.length - 1) {
+      // On the last item, scroll to the very bottom
+      if (activeIndex === researchSections.length - 1) {
         container.scrollTo({
-          top: contentHeight,
+          top: contentHeight - viewportHeight,
           behavior: 'smooth'
         });
       } else {
-        // For other items, use the proportional scroll
+        const scrollRatio = activeIndex / (researchSections.length - 1);
         const newScrollPosition = Math.max(
           0,
-          (contentHeight - viewportHeight) * (activeIndex / reportSections.length)
+          (contentHeight - viewportHeight) * scrollRatio
         );
         
         container.scrollTo({
@@ -457,28 +534,40 @@ export function Hero() {
         });
       }
     }
-  }, [activeIndex, reportSections.length]);
+  }, [activeIndex, agentStatus]);
 
-  // Control the animation sequence
+  // Handle auto-scrolling for LaTeX preview during writing phase
   useEffect(() => {
-    // Don't process animation updates during transition
-    if (isTransitioning) {
-      return;
-    }
+    if (!latexContainerRef.current || agentStatus !== 'writing') return;
     
-    // Start animation after component mounts
+    const container = latexContainerRef.current;
+    
+    // Auto-scroll to bottom as content is added
+    const scrollToBottom = () => {
+      container.scrollTo({
+        top: container.scrollHeight,
+        behavior: 'smooth'
+      });
+    };
+    
+    // Scroll when latex code updates
+    if (latexCode.length > 0) {
+      scrollToBottom();
+    }
+  }, [latexCode, agentStatus]);
+
+  // Control the main animation sequence
+  useEffect(() => {
+    if (isTransitioning) return;
+    
+    // Start research phase
     if (activeIndex === -1) {
-      // First set to thinking state
-      setAgentStatus('thinking');
+      setAgentStatus('researching');
       
       animationTimer.current = setTimeout(() => {
-        // After short thinking period, switch to generating
-        setAgentStatus('generating');
         setActiveIndex(0);
-        setScrollPosition(0);
         setProgress(5);
         
-        // Explicitly reset scroll position
         if (reportContainerRef.current) {
           reportContainerRef.current.scrollTop = 0;
         }
@@ -486,79 +575,96 @@ export function Hero() {
       return;
     }
 
-    // Update progress based on current index
-    setProgress(Math.min(100, Math.round(((activeIndex + 1) / reportSections.length) * 100)));
+    // Research phase progression
+    if (agentStatus === 'researching' && activeIndex < researchSections.length) {
+      setProgress(Math.min(50, Math.round(((activeIndex + 1) / researchSections.length) * 50)));
 
-    // If animation is complete, reset after delay and switch report type
-    if (activeIndex >= reportSections.length) {
-      // Set back to idle
-      setAgentStatus('idle');
-      
-      // First mark as transitioning to prevent any animation updates
-      setIsTransitioning(true);
-      
-      resetTimer.current = setTimeout(() => {
-        // Reset animation states
-        setActiveIndex(-1);
-        setProgress(0);
-        setScrollPosition(0);
-        
-        // Important: Switch report type only after a complete animation cycle
-        setTimeout(() => {
-          // Update report type
-          setCurrentReportType(prev => prev === 'llm' ? 'cv' : 'llm');
-          
-          // Explicitly reset scroll position
-          if (reportContainerRef.current) {
-            reportContainerRef.current.scrollTop = 0;
-          }
-          
-          // Allow animation to proceed again after everything is reset
-          setTimeout(() => {
-            setIsTransitioning(false);
-          }, 70);
-        }, 150); 
-      }, 1000);
+      const currentType = researchSections[activeIndex]?.type || '';
+      const delay = 
+        currentType === 'header' ? 1000 :
+        currentType === 'section' ? 600 :
+        currentType === 'conclusion' ? 1500 : 
+        300;
+
+      animationTimer.current = setTimeout(() => {
+        if (activeIndex === researchSections.length - 1) {
+          // Transition to writing phase
+          setAgentStatus('writing');
+          setProgress(60);
+        } else {
+          setActiveIndex(prev => prev + 1);
+        }
+      }, delay);
       return;
     }
 
-    // Continue the animation with varying delays based on section type
-    const currentType = activeIndex < reportSections.length ? reportSections[activeIndex].type : '';
-    const delay = 
-      currentType === 'header' ? 1200 :
-      currentType === 'section' ? 800 :
-      currentType === 'conclusion' ? 850 : 
-      400;
-
-    // If this is the last item (conclusion), add extra delay before transitioning
-    if (activeIndex === reportSections.length - 1) {
-      // First render the conclusion item
-      animationTimer.current = setTimeout(() => {
-        setActiveIndex(prev => prev + 1);
-      }, delay);
-      setTimeout(() => {
-        setActiveIndex(prev => prev + 1);
-      }, delay + 5000);
-    } else {
-      animationTimer.current = setTimeout(() => {
-        setActiveIndex(prev => prev + 1);
-      }, delay);
+    // Writing phase - start LaTeX generation
+    if (agentStatus === 'writing') {
+      // Start typing LaTeX code
+      let currentLineIndex = 0;
+      let currentCharIndex = 0;
+      
+      const typeLatex = () => {
+        if (currentLineIndex >= latexCodeLines.length) {
+          // Writing complete, restart cycle
+          setProgress(100);
+          
+          resetTimer.current = setTimeout(() => {
+            setIsTransitioning(true);
+            setActiveIndex(-1);
+            setProgress(0);
+            setLatexCode('');
+            setPdfLines(0);
+            setAgentStatus('idle');
+            
+            setTimeout(() => {
+              setIsTransitioning(false);
+            }, 500);
+          }, 3000);
+          return;
+        }
+        
+        const currentLine = latexCodeLines[currentLineIndex];
+        
+        if (currentCharIndex < currentLine.length) {
+          // Type character by character
+          setLatexCode(prev => prev + currentLine[currentCharIndex]);
+          currentCharIndex++;
+          
+          // Update PDF preview based on progress
+          if (currentLineIndex >= 4) { // After abstract content starts
+            const pdfLineIndex = Math.max(1, currentLineIndex - 3);
+            setPdfLines(Math.min(pdfLineIndex, pdfContent.length));
+          }
+          
+          latexTimer.current = setTimeout(typeLatex, 25);
+        } else {
+          // Move to next line
+          setLatexCode(prev => prev + '\n');
+          currentLineIndex++;
+          currentCharIndex = 0;
+          setProgress(60 + (currentLineIndex / latexCodeLines.length) * 40);
+          latexTimer.current = setTimeout(typeLatex, 100);
+        }
+      };
+      
+      latexTimer.current = setTimeout(typeLatex, 500);
     }
-  }, [activeIndex, reportSections.length, currentReportType, isTransitioning]);
+  }, [activeIndex, agentStatus, isTransitioning]);
 
-  // Render only content that should be visible based on animation state
-  const renderReportSections = () => {
-    if (isTransitioning || activeIndex <= 0) {
+  // Render research sections
+  const renderResearchSections = () => {
+    if (agentStatus === 'writing' || activeIndex <= 0) {
       return null;
     }
     
-    return reportSections.slice(0, activeIndex).map((section, index) => (
+    return researchSections.slice(0, activeIndex + 1).map((section, index) => (
       <ReportSection
         key={section.id}
         title={section.title}
         content={section.content}
         type={section.type}
-        isLastItem={index === activeIndex - 1}
+        isLastItem={index === activeIndex}
         showCursor={showCursor}
         source={section.source}
       />
@@ -572,9 +678,9 @@ export function Hero() {
         minHeight: "100vh",
         display: "flex",
         alignItems: "center",
+        backgroundColor: "transparent",
         pt: "80px",
         pb: "10px",
-        background: "linear-gradient(135deg, #111827 0%, #1F2937 100%)",
         overflow: "hidden",
       }}
     >
@@ -588,36 +694,7 @@ export function Hero() {
           bottom: 0,
           backgroundImage: "url('/grid-pattern.svg')",
           backgroundRepeat: "repeat",
-          opacity: 0.1,
-          zIndex: 0,
-        }}
-      />
-
-      {/* Gradient blurs */}
-      <Box
-        sx={{
-          position: "absolute",
-          top: "20%",
-          right: "-5%",
-          width: "40vw",
-          height: "40vw",
-          borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, rgba(59, 130, 246, 0) 70%)",
-          filter: "blur(70px)",
-          zIndex: 0,
-        }}
-      />
-      
-      <Box
-        sx={{
-          position: "absolute",
-          bottom: "10%",
-          left: "10%",
-          width: "30vw",
-          height: "30vw",
-          borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(139, 92, 246, 0.3) 0%, rgba(139, 92, 246, 0) 70%)",
-          filter: "blur(70px)",
+          opacity: 0,
           zIndex: 0,
         }}
       />
@@ -631,6 +708,38 @@ export function Hero() {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.6 }}
               >
+                {/* Add Badges above "Your AI" */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.1 }}
+                >
+                  <Box sx={{ 
+                    display: "flex", 
+                    gap: 1.5, 
+                    mb: 3,
+                    justifyContent: { xs: "center", lg: "flex-start" },
+                    flexWrap: "wrap"
+                  }}>
+                    <BadgeButton
+                      sx={{
+                        backgroundColor: theme.palette.background.paper,
+                        color: theme.palette.text.primary,
+                      }}
+                    >
+                      Built for Researchers
+                    </BadgeButton>
+                    <BadgeButton
+                      sx={{
+                        backgroundColor: theme.palette.background.default,
+                        color: theme.palette.text.primary,
+                      }}
+                    >
+                      Accelerating Discovery
+                    </BadgeButton>
+                  </Box>
+                </motion.div>
+
                 <motion.div
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1 }}
@@ -647,13 +756,13 @@ export function Hero() {
                       mb: 1,
                       pb: 1,
                       pr: 1,
-                      background: "linear-gradient(90deg, #60A5FA 0%, #A78BFA 100%)",
+                      background: (theme) => `linear-gradient(90deg, ${theme.palette.info.main} 0%, ${theme.palette.info.light} 100%)`,
                       backgroundClip: "text",
                       color: "transparent",
                       display: "inline-block",
                     }}
                   >
-                    AI Agents 
+                    Your AI
                   </Typography>
                   <Typography
                     variant="h1"
@@ -664,12 +773,12 @@ export function Hero() {
                       lineHeight: 1.1,
                       letterSpacing: "-0.05em",
                       mb: 5,
-                      color: "white",
+                      color: "text.primary",
                       display: "block",
                       ml: { xs: 0, sm: 0 }
                     }}
                   >
-                    for Model Intelligence
+                    Research Scientist
                   </Typography>
                 </motion.div>
 
@@ -682,31 +791,31 @@ export function Hero() {
                     variant="body1"
                     sx={{
                       fontSize: { xs: "1rem", md: "1.25rem" },
-                      color: alpha("#fff", 0.8),
+                      color: "text.secondary",
                       maxWidth: "500px",
                       mt: 3,
                       mb: 2,
                       mx: { xs: "auto", lg: 0 },
                     }}
                   >
-                    Automate workflow bottlenecks. Get actionable model insights. Stop manual metric gathering—focus on building better AI.
+                    AI agent that proactively researches and writes proposals on your behalf. No manual literature review. No LaTeX struggles.
                   </Typography>
                   
-                  <Typography
+                  {/* <Typography
                     variant="subtitle1"
                     sx={{
                       fontWeight: 700,
                       fontSize: { xs: "1.1rem", md: "1.3rem" },
                       mb: 4,
-                      background: "linear-gradient(90deg, #10B981 0%, #3B82F6 100%)",
+                      background: (theme) => `linear-gradient(90deg, ${theme.palette.success.main} 0%, ${theme.palette.info.main} 100%)`,
                       backgroundClip: "text",
                       color: "transparent",
                       display: "inline-block",
                       mx: { xs: "auto", lg: 0 },
                     }}
                   >
-                    Plug in. Power up. Ship faster.
-                  </Typography>
+                    Focus on Discovery, Not the Paperwork.
+                  </Typography> */}
                 </motion.div>
 
                 <motion.div
@@ -719,10 +828,10 @@ export function Hero() {
                       display: "flex", 
                       flexDirection: { xs: "column", sm: "row" },
                       gap: 2,
-                      justifyContent: { xs: "center", lg: "flex-start" }
+                      justifyContent: { xs: "center", lg: "flex-start" },
                     }}
                   >
-                    <Box sx={{ display: "inline-block" }}>
+                    <Box sx={{ display: "inline-block", pt: 4 }}>
                       <Link href="#features" style={{ textDecoration: 'none' }}>
                         <SecondaryButton
                           variant="outlined"
@@ -739,8 +848,8 @@ export function Hero() {
             </Box>
           </Grid>
 
-          <Grid size={{ xs: 12, lg: 6 }}>
-            <Box sx={{ display: "block" }}>
+          <Grid size={{ xs: 12, lg: 6}}>
+            <Box sx={{ display: "block", pr: 0 }}>
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -777,7 +886,7 @@ export function Hero() {
                           transform: 'translateX(-50%)',
                           width: 2,
                           height: '100%',
-                          background: 'linear-gradient(to bottom, rgba(59, 130, 246, 0) 0%, rgba(59, 130, 246, 1) 100%)',
+                          background: (theme) => `linear-gradient(to bottom, ${theme.palette.info.main}00 0%, ${theme.palette.info.main}ff 100%)`,
                           zIndex: 1
                         }}
                       />
@@ -799,17 +908,18 @@ export function Hero() {
                             minWidth: 28, 
                             height: 28, 
                             borderRadius: '50%', 
-                            bgcolor: 'rgba(59, 130, 246, 0.2)', 
+                            bgcolor: 'rgba(96, 165, 250, 0.2)', 
                             display: 'flex', 
                             alignItems: 'center', 
                             justifyContent: 'center',
-                            border: '1px solid rgba(59, 130, 246, 0.5)'
+                            border: '1px solid',
+                            borderColor: 'rgba(96, 165, 250, 0.5)'
                           }}
                         >
-                          <DescriptionIcon sx={{ fontSize: 14, color: '#60A5FA' }} />
+                          <DescriptionIcon sx={{ fontSize: 14, color: 'info.main' }} />
                         </Box>
-                        <Typography sx={{ fontSize: '0.8rem', fontWeight: 600, color: '#60A5FA' }}>
-                          Intelligence Requested
+                        <Typography sx={{ fontSize: '0.8rem', fontWeight: 600, color: 'info.main' }}>
+                          Proactive Research
                         </Typography>
                       </Box>
                     </TimelineEventBox>
@@ -837,7 +947,7 @@ export function Hero() {
                         transform: 'translateX(-50%)',
                         width: 2,
                         height: '100%',
-                        background: 'linear-gradient(to bottom, rgba(59, 130, 246, 1) 0%, rgba(59, 130, 246, 0) 100%)',
+                        background: (theme) => `linear-gradient(to bottom, ${theme.palette.info.main}ff 0%, ${theme.palette.info.main}00 100%)`,
                         zIndex: 1
                       }}
                     />
@@ -852,57 +962,103 @@ export function Hero() {
                   }}>
                     {/* Window controls */}
                     <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 3 }}>
-                      <Box sx={{ width: 120, height: 18, bgcolor: "#374151", borderRadius: 1 }} />
+                      <Box sx={{ width: 120, height: 18, bgcolor: "primary.light", borderRadius: 1 }} />
                       <Box sx={{ display: "flex", gap: 1 }}>
-                        <Box sx={{ width: 12, height: 12, borderRadius: "50%", bgcolor: "#EF4444" }} />
-                        <Box sx={{ width: 12, height: 12, borderRadius: "50%", bgcolor: "#F59E0B" }} />
-                        <Box sx={{ width: 12, height: 12, borderRadius: "50%", bgcolor: "#10B981" }} />
+                        <Box sx={{ width: 12, height: 12, borderRadius: "50%", bgcolor: "error.main" }} />
+                        <Box sx={{ width: 12, height: 12, borderRadius: "50%", bgcolor: "warning.main" }} />
+                        <Box sx={{ width: 12, height: 12, borderRadius: "50%", bgcolor: "success.main" }} />
                       </Box>
                     </Box>
 
                     {/* Progress bar */}
-                    <Box sx={{ width: "100%", height: 3, bgcolor: "rgba(55, 65, 81, 0.3)", mb: 3, borderRadius: 1, overflow: "hidden" }}>
+                    <Box sx={{ width: "100%", height: 3, bgcolor: "action.disabledBackground", mb: 3, borderRadius: 1, overflow: "hidden" }}>
                       <motion.div
-                        style={{ height: "100%", backgroundColor: "#3B82F6" }}
+                        style={{ height: "100%", backgroundColor: theme.palette.info.main }}
                         initial={{ width: "0%" }}
                         animate={{ width: `${progress}%` }}
                         transition={{ duration: 0.5 }}
                       />
                     </Box>
 
-                    {/* Dynamic report content */}
-                    <Box 
-                      ref={reportContainerRef}
-                      sx={{ 
-                        mb: 3, 
-                        height: { xs: 200, sm: 220, md: 260 }, 
-                        overflow: "auto",
-                        scrollBehavior: "smooth",
-                        "&::-webkit-scrollbar": {
-                          width: "6px",
-                        },
-                        "&::-webkit-scrollbar-track": {
-                          backgroundColor: "rgba(55, 65, 81, 0.1)",
-                          borderRadius: "10px",
-                        },
-                        "&::-webkit-scrollbar-thumb": {
-                          backgroundColor: "rgba(59, 130, 246, 0.5)",
-                          borderRadius: "10px",
-                        },
-                      }}
-                    >
-                      <AnimatePresence mode="wait">
-                        <motion.div
-                          key={`${currentReportType}-${isTransitioning ? 'transition' : 'active'}`}
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -20 }}
-                          transition={{ duration: 0.5 }}
-                        >
-                          {renderReportSections()}
-                        </motion.div>
-                      </AnimatePresence>
-                    </Box>
+                    {/* Dynamic content - Research Phase or Writing Phase */}
+                    {agentStatus === 'writing' ? (
+                      // Overleaf-like LaTeX editor with PDF preview
+                      <Box sx={{ mb: 3, height: { xs: 200, sm: 220, md: 260 } }}>
+                        <Box sx={{ display: 'flex', gap: 1, height: '100%' }}>
+                          {/* LaTeX Code Panel */}
+                          <Box 
+                            ref={latexContainerRef}
+                            sx={{ 
+                            flex: 1, 
+                            bgcolor: "background.paper", 
+                            border: '1px solid rgba(255, 255, 255, 0.1)',
+                            borderRadius: 1, 
+                            p: 1.5,
+                            overflow: "auto",
+                            "&::-webkit-scrollbar": {
+                              display: "none",
+                            },
+                            scrollbarWidth: "none", // Firefox
+                            msOverflowStyle: "none", // IE/Edge
+                          }}>
+                            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, pb: 1, borderBottom: '1px solid', borderColor: 'divider' }}>
+                              <Typography sx={{ fontSize: '0.7rem', color: '#9CA3AF', fontWeight: 600 }}>
+                                proposal.tex
+                              </Typography>
+                            </Box>
+                            <LaTeXCodeDisplay code={latexCode} isTyping={agentStatus === 'writing'} />
+                          </Box>
+                          
+                          {/* PDF Preview Panel */}
+                          <Box sx={{ 
+                            flex: 1, 
+                            bgcolor: "background.paper", 
+                            borderRadius: 1, 
+                            p: 1,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            border: '1px solid rgba(255, 255, 255, 0.1)'
+                          }}>
+                            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, pb: 1, borderBottom: '1px solid rgba(75, 85, 99, 0.3)' }}>
+                              <Typography sx={{ fontSize: '0.7rem', color: '#9CA3AF', fontWeight: 600 }}>
+                                PDF Preview
+                              </Typography>
+                            </Box>
+                            <Box sx={{ flex: 1, overflow: 'hidden'}}>
+                              <PDFPreviewDisplay content={pdfContent} activeLines={pdfLines} />
+                            </Box>
+                          </Box>
+                        </Box>
+                      </Box>
+                    ) : (
+                      // Research Phase Display
+                      <Box 
+                        ref={reportContainerRef}
+                        sx={{ 
+                          mb: 3, 
+                          height: { xs: 200, sm: 220, md: 260 }, 
+                          overflow: "auto",
+                          scrollBehavior: "smooth",
+                          "&::-webkit-scrollbar": {
+                            display: "none",
+                          },
+                          scrollbarWidth: "none", // Firefox
+                          msOverflowStyle: "none", // IE/Edge
+                        }}
+                      >
+                        <AnimatePresence mode="wait">
+                          <motion.div
+                            key={`${agentStatus}-${isTransitioning ? 'transition' : 'active'}`}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            transition={{ duration: 0.5 }}
+                          >
+                            {renderResearchSections()}
+                          </motion.div>
+                        </AnimatePresence>
+                      </Box>
+                    )}
 
                     {/* Action button and agent indicator */}
                     <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", minHeight: "24px" }}>
@@ -915,8 +1071,8 @@ export function Hero() {
                           >
                             <Box sx={{ display: 'flex', alignItems: 'center' }}>
                               <SpinningLoader />
-                              <Typography variant="caption" sx={{ fontSize: "0.75rem", color: alpha("#fff", 0.8) }}>
-                                {agentStatus === 'thinking' ? 'agent thinking' : 'Intelligence Stream'}
+                              <Typography variant="caption" sx={{ fontSize: "0.75rem", color: "#B3B3B3" }}>
+                                {agentStatus === 'researching' ? 'agent researching' : 'Research Agent Working'}
                                 <AnimatedDots />
                               </Typography>
                             </Box>
@@ -948,13 +1104,13 @@ export function Hero() {
                         transform: 'translateX(-50%)',
                         width: 2,
                         height: '100%',
-                        background: 'linear-gradient(to top, rgba(59, 130, 246, 1) 0%, rgba(59, 130, 246, 0) 100%)',
+                        background: (theme) => `linear-gradient(to top, ${theme.palette.info.main}ff 0%, ${theme.palette.info.main}00 100%)`,
                         zIndex: 1
                       }}
                     />
                   </motion.div>
                   
-                  {/* Data Scientist Review Box - Bottom of Timeline */}
+                  {/* Scientist Review Box - Bottom of Timeline */}
                   <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -981,19 +1137,20 @@ export function Hero() {
                             display: 'flex', 
                             alignItems: 'center', 
                             justifyContent: 'center',
-                            border: '1px solid rgba(16, 185, 129, 0.5)'
+                            border: '1px solid',
+                            borderColor: 'rgba(16, 185, 129, 0.5)'
                           }}
                         >
-                          <PersonIcon sx={{ fontSize: 14, color: '#10B981' }} />
+                          <PersonIcon sx={{ fontSize: 14, color: 'success.main' }} />
                         </Box>
-                        <Typography sx={{ fontSize: '0.8rem', fontWeight: 600, color: '#10B981' }}>
-                          Developer Review
+                        <Typography sx={{ fontSize: '0.8rem', fontWeight: 600, color: 'success.main' }}>
+                          Scientist Review
                         </Typography>
                         
                         <CheckCircleIcon 
                           sx={{ 
                             fontSize: 20, 
-                            color: '#10B981'
+                            color: 'success.main'
                           }} 
                         />
                       </Box>
@@ -1022,7 +1179,7 @@ export function Hero() {
                         transform: 'translateX(-50%)',
                         width: 2,
                         height: '100%',
-                        background: 'linear-gradient(to bottom, rgba(59, 130, 246, 1) 0%, rgba(59, 130, 246, 0) 100%)',
+                        background: (theme) => `linear-gradient(to bottom, ${theme.palette.info.main}ff 0%, ${theme.palette.info.main}00 100%)`,
                         zIndex: 1
                       }}
                     />

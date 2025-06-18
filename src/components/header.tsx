@@ -87,13 +87,19 @@ export function Header(props: Props) {
       position="fixed" 
       elevation={0}
       sx={{ 
-        bgcolor: "rgba(17, 24, 39, 0.95)",
-        backdropFilter: "blur(8px)",
-        transition: "all 0.3s"
+        top: { xs: 16, md: 24 },
+        left: '50%',
+        transform: 'translateX(-50%)',
+        width: { xs: 'calc(100% - 32px)', lg: '1200px' },
+        backgroundColor: "rgba(28, 28, 28, 0.75)",
+        backdropFilter: "blur(12px)",
+        border: "1px solid rgba(255, 255, 255, 0.1)",
+        borderRadius: 3,
+        boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)",
       }}
     >
       <Container maxWidth="lg">
-        <Toolbar disableGutters sx={{ py: 1.5 }}>
+        <Toolbar disableGutters sx={{ px: { xs: 2, md: 3 }, py: 0.5 }}>
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -104,10 +110,10 @@ export function Header(props: Props) {
                 <Box 
                   sx={{
                     position: 'relative',
-                    width: 50, 
-                    height: 50, 
+                    width: 40, 
+                    height: 40, 
                     mr: 1,
-                    backgroundColor: 'white',
+                    backgroundColor: 'primary.contrastText',
                     borderRadius: '10px',
                     maskImage: 'url("/assets/logo.svg")',
                     WebkitMaskImage: 'url("/assets/logo.svg")',
@@ -117,9 +123,12 @@ export function Header(props: Props) {
                     WebkitMaskRepeat: 'no-repeat',
                     maskPosition: 'center',
                     WebkitMaskPosition: 'center',
+                    transition: 'all 0.3s ease',
+                    '&:hover': {
+                      transform: 'scale(1.05)',
+                    }
                   }}
-                >
-                </Box>
+                />
                 <Typography
                   variant="h5"
                   component="div"
@@ -127,10 +136,15 @@ export function Header(props: Props) {
                     fontWeight: 700,
                     letterSpacing: "-0.025em",
                     mr: 2,
-                    fontSize: { xs: "1.5rem", md: "1.75rem" }
+                    fontSize: { xs: "1.5rem", md: "1.75rem" },
+                    color: "text.primary",
+                    transition: 'all 0.3s ease',
+                    '&:hover': {
+                      color: "info.main",
+                    }
                   }}
                 >
-                  Chirpz <Box component="span" sx={{ color: "#60a5fa" }}>AI</Box>
+                  Chirpz <Box component="span" sx={{ color: "info.main" }}>AI</Box>
                 </Typography>
               </Box>
             </StyledLink>
@@ -151,14 +165,20 @@ export function Header(props: Props) {
                   component={StyledLink}
                   href={`#${item.link}`}
                   sx={{ 
-                    my: 2, 
+                    my: 1, 
                     mx: 1,
-                    color: "white",
+                    color: "text.primary",
                     display: "block",
                     borderRadius: "8px",
                     px: 2,
+                    py: 1,
+                    fontWeight: 500,
+                    fontSize: "0.95rem",
+                    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
                     "&:hover": {
-                      bgcolor: "rgba(255, 255, 255, 0.1)",
+                      backgroundColor: "action.hover",
+                      color: "info.main",
+                      transform: "translateY(-1px)",
                     }
                   }}
                 >
@@ -177,10 +197,17 @@ export function Header(props: Props) {
                 target="_blank"
                 rel="noopener"
                 sx={{ 
-                  color: "white",
+                  color: "text.primary",
                   ml: 1,
+                  backgroundColor: "rgba(255, 255, 255, 0.05)",
+                  border: "1px solid",
+                  borderColor: "divider",
+                  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
                   "&:hover": {
-                    bgcolor: "rgba(255, 255, 255, 0.1)",
+                    backgroundColor: "action.hover",
+                    color: "info.main",
+                    transform: "translateY(-1px)",
+                    borderColor: "info.light",
                   }
                 }}
               >
@@ -196,7 +223,15 @@ export function Header(props: Props) {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              color="inherit"
+              sx={{
+                color: "text.primary",
+                backgroundColor: "rgba(255, 255, 255, 0.05)",
+                border: "1px solid",
+                borderColor: "divider",
+                "&:hover": {
+                  backgroundColor: "action.hover",
+                }
+              }}
             >
               <MenuIcon />
             </IconButton>
@@ -216,24 +251,69 @@ export function Header(props: Props) {
               onClose={handleCloseNavMenu}
               PaperProps={{
                 sx: {
-                  bgcolor: "rgba(31, 41, 55, 0.95)",
-                  backdropFilter: "blur(8px)",
-                  boxShadow: "0 4px 20px rgba(0, 0, 0, 0.3)",
+                  backgroundColor: "background.paper",
+                  backdropFilter: "blur(12px)",
+                  border: "1px solid",
+                  borderColor: "divider",
+                  boxShadow: "0 8px 32px rgba(0, 0, 0, 0.8)",
+                  borderRadius: "12px",
+                  mt: 1,
                 }
               }}
             >
               {navItems.map((item) => (
-                <MenuItem key={item.name} onClick={handleCloseNavMenu} sx={{ py: 1 }}>
+                <MenuItem 
+                  key={item.name} 
+                  onClick={handleCloseNavMenu} 
+                  sx={{ 
+                    py: 1.5,
+                    px: 2,
+                    transition: "all 0.2s ease",
+                    "&:hover": {
+                      backgroundColor: "action.hover",
+                    }
+                  }}
+                >
                   <StyledLink href={`#${item.link}`}>
-                    <Typography textAlign="center" sx={{ color: "white", fontWeight: 500 }}>
+                    <Typography 
+                      textAlign="center" 
+                      sx={{ 
+                        color: "text.primary", 
+                        fontWeight: 500,
+                        "&:hover": {
+                          color: "info.main",
+                        }
+                      }}
+                    >
                       {item.name}
                     </Typography>
                   </StyledLink>
                 </MenuItem>
               ))}
-              <MenuItem onClick={handleCloseNavMenu} sx={{ py: 1 }}>
+              <MenuItem 
+                onClick={handleCloseNavMenu} 
+                sx={{ 
+                  py: 1.5,
+                  px: 2,
+                  transition: "all 0.2s ease",
+                  "&:hover": {
+                    backgroundColor: "action.hover",
+                  }
+                }}
+              >
                 <StyledLink href="https://github.com/chirpz-ai" target="_blank" rel="noopener">
-                  <Typography textAlign="center" sx={{ display: 'flex', alignItems: 'center', color: "white", fontWeight: 500 }}>
+                  <Typography 
+                    textAlign="center" 
+                    sx={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      color: "text.primary", 
+                      fontWeight: 500,
+                      "&:hover": {
+                        color: "info.main",
+                      }
+                    }}
+                  >
                     <GitHubIcon fontSize="small" sx={{ mr: 1 }} /> GitHub
                   </Typography>
                 </StyledLink>
