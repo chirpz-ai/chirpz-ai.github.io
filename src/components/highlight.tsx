@@ -66,22 +66,18 @@ const CalendarSimulation = () => {
   const calendarItems = [
     { id: 1, text: "Literature Search", color: "#EF4444" },
     { id: 2, text: "Format Paper", color: "#F59E0B" },
-    { id: 3, text: "Citation Management", color: "#EF4444" },
+    { id: 3, text: "Relevance Map", color: "#10B981" },
     { id: 4, text: "Deep Work", color: theme.palette.info.main, isDeepWork: true },
   ];
 
   useEffect(() => {
     const timer = setInterval(() => {
       setClearedItems(prev => {
-        const nextItem = calendarItems.find(item => !item.isDeepWork && !prev.includes(item.id));
-        if (nextItem) {
-          return [...prev, nextItem.id];
-        }
+        if (prev.length === 0) return [1];
+        if (prev.length === 1) return [1, 2];
+        if (prev.length === 2) return [1, 2, 3];
         // Reset after all items are cleared
-        if (prev.length >= 3) {
-          return [];
-        }
-        return prev;
+        return [];
       });
     }, 1500);
 
@@ -93,8 +89,6 @@ const CalendarSimulation = () => {
       background: `linear-gradient(to bottom, ${theme.palette.primary.light} 0%, ${theme.palette.primary.light} 70%, transparent 100%)`,
       borderRadius: 1.5, 
       p: 1.5,
-      border: "1px solid rgba(255, 255, 255, 0.05)",
-      borderImage: "linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.05) 70%, transparent 100%) 1",
       width: "80%", 
       height: "180px",
       display: "flex",
@@ -126,7 +120,7 @@ const CalendarSimulation = () => {
              animate={{
                opacity: clearedItems.includes(item.id) ? 0.3 : 1,
                scale: clearedItems.includes(item.id) ? 0.95 : 1,
-               backgroundColor: item.isDeepWork && clearedItems.length >= 2 ? 
+               backgroundColor: item.isDeepWork && clearedItems.length >= 3 ? 
                  "rgba(96, 165, 250, 0.2)" : "transparent"
              }}
              transition={{ duration: 0.5 }}
@@ -165,7 +159,7 @@ const CalendarSimulation = () => {
 // Proposal score simulation component
 const ProposalSimulation = () => {
   const theme = useTheme();
-  const [score, setScore] = useState(45);
+  const [score, setScore] = useState(30);
   const [improvements, setImprovements] = useState<string[]>([]);
   
   const possibleImprovements = [
@@ -180,11 +174,11 @@ const ProposalSimulation = () => {
       setImprovements(prev => {
         if (prev.length < possibleImprovements.length) {
           const nextImprovement = possibleImprovements[prev.length];
-          setScore(current => Math.min(95, current + 12));
+          setScore(current => Math.min(100, current + 12));
           return [...prev, nextImprovement];
         }
         // Reset
-        setScore(45);
+        setScore(30);
         return [];
       });
     }, 2000);
@@ -197,8 +191,6 @@ const ProposalSimulation = () => {
       background: `linear-gradient(to bottom, ${theme.palette.primary.light} 0%, ${theme.palette.primary.light} 70%, transparent 100%)`,
       borderRadius: 1.5, 
       p: 1.5,
-      border: "1px solid rgba(255, 255, 255, 0.05)",
-      borderImage: "linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.05) 70%, transparent 100%) 1",
       width: "80%", 
       height: "180px",
       display: "flex",
@@ -236,7 +228,7 @@ const ProposalSimulation = () => {
            >
              <Typography sx={{ 
                fontSize: "0.65rem", 
-               color: score > 80 ? "info.main" : score > 60 ? "warning.main" : "error.main",
+               color: score > 80 ? "success.main" : score > 50 ? "warning.main" : "error.main",
                fontWeight: 700
              }}>
                {score}%
@@ -249,7 +241,7 @@ const ProposalSimulation = () => {
            <motion.div
              style={{ 
                height: "100%", 
-               backgroundColor: score > 80 ? "#60A5FA" : score > 60 ? "#F59E0B" : "#EF4444",
+               backgroundColor: score > 80 ? "#10B981" : score > 60 ? "#F59E0B" : "#EF4444",
                borderRadius: 1.5
              }}
              initial={{ width: "45%" }}
