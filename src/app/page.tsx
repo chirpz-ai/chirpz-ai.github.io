@@ -30,7 +30,7 @@ export default function Home() {
             "description": schemaDescription,
             "aggregateRating": {
               "@type": "AggregateRating",
-              "ratingValue": "9",
+              "ratingValue": "5",
               "ratingCount": "10"
             },
             "publisher": {
