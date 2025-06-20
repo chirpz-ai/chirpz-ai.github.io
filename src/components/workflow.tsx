@@ -192,7 +192,7 @@ export function Workflow() {
                 background: `linear-gradient(to bottom, ${theme.palette.primary.contrastText}, ${theme.palette.primary.contrastText}90)`,
                 boxShadow: `0 0 20px ${theme.palette.primary.contrastText}40`,
                 height: `${progressHeight}%`,
-                transition: "height 0.1s ease-out",
+                transition: "height 0.18s ease-out",
               }}
             />
           </Box>
