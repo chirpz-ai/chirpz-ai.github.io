@@ -61,18 +61,44 @@ export function Header(props: Props) {
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
     
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      const currentScrollY = window.scrollY;
+      setScrolled(currentScrollY > 20);
+      setScrollY(currentScrollY);
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Calculate dynamic width based on scroll position
+  const getDynamicWidth = () => {
+    if (isMobile) {
+      return '100%'; // Keep mobile unchanged
+    }
+    
+    // Define the scroll range where the shrinking happens
+    const maxScroll = 300; // Pixels to complete the transition
+    const minWidth = 700; // Minimum width in pixels
+    const maxWidth = 1200; // Maximum width in pixels
+    
+    // Calculate the progress of shrinking (0 to 1)
+    const progress = Math.min(scrollY / maxScroll, 1);
+    
+    // Apply easing function for smoother transition
+    const easedProgress = 1 - Math.pow(1 - progress, 3); // Ease-out cubic
+    
+    // Calculate the current width
+    const currentWidth = maxWidth - (maxWidth - minWidth) * easedProgress;
+    
+    return `${Math.round(currentWidth)}px`;
+  };
 
   const handleToggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -91,12 +117,13 @@ export function Header(props: Props) {
           top: { xs: 0, md: 24 },
           left: { xs: 0, md: '50%' },
           transform: { xs: 'none', md: 'translateX(-50%)' },
-          width: { xs: '100%', lg: '1200px' },
+          width: { xs: '100%', lg: getDynamicWidth() },
           backgroundColor: "rgba(28, 28, 28, 0.75)",
           backdropFilter: "blur(12px)",
           border: { xs: "none", md: "1px solid rgba(255, 255, 255, 0.1)" },
           borderRadius: { xs: 0, md: 3 },
           boxShadow: { xs: "0 2px 8px rgba(0, 0, 0, 0.3)", md: "0 8px 32px rgba(0, 0, 0, 0.3)" },
+          transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)', // Smooth width transition
         }}
       >
         <Container maxWidth="lg">
