@@ -716,15 +716,20 @@ export function Hero() {
                 >
                   <Box sx={{ 
                     display: "flex", 
-                    gap: 1.5, 
+                    gap: { xs: 0.8, sm: 1.5 }, 
                     mb: 3,
                     justifyContent: { xs: "center", lg: "flex-start" },
-                    flexWrap: "wrap"
+                    flexWrap: "nowrap",
+                    alignItems: "center"
                   }}>
                     <BadgeButton
                       sx={{
                         backgroundColor: theme.palette.background.paper,
                         color: theme.palette.text.primary,
+                        fontSize: { xs: "0.75rem", sm: "0.875rem" },
+                        padding: { xs: "6px 12px", sm: "8px 16px" },
+                        flexShrink: 1,
+                        minWidth: 0
                       }}
                     >
                       Built for Researchers
@@ -733,6 +738,10 @@ export function Hero() {
                       sx={{
                         backgroundColor: theme.palette.background.default,
                         color: theme.palette.text.primary,
+                        fontSize: { xs: "0.75rem", sm: "0.875rem" },
+                        padding: { xs: "6px 12px", sm: "8px 16px" },
+                        flexShrink: 1,
+                        minWidth: 0
                       }}
                     >
                       Accelerating Discovery

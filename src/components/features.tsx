@@ -525,7 +525,7 @@ export function Features() {
                 variant="caption"
                 sx={{
                   fontSize: "0.85rem",
-                  color: "info.main",
+                  color: "text.disabled",
                   fontWeight: 600,
                   letterSpacing: "0.1em",
                   mb: 2,
@@ -580,7 +580,7 @@ export function Features() {
                 variant="caption"
                 sx={{
                   fontSize: "0.85rem",
-                  color: "info.main",
+                  color: "text.disabled",
                   fontWeight: 600,
                   letterSpacing: "0.1em",
                   mb: 2,

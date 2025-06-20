@@ -161,9 +161,12 @@ export function Workflow() {
           <Box
             sx={{
               position: "absolute",
-              left: { xs: "24px", md: "48px" },
+              left: { xs: "22.5px", md: "48px" }, // Adjusted for mobile centering
               top: "50px", // Start at first label level
-              height: "calc(100% - 190px)", // End at third label level
+              height: { 
+                xs: "calc(100% - 260px)", // Shorter for mobile spacing
+                md: "calc(100% - 190px)" // Original desktop height
+              },
               width: "2px",
               zIndex: 1,
             }}
@@ -189,7 +192,7 @@ export function Workflow() {
                 background: `linear-gradient(to bottom, ${theme.palette.primary.contrastText}, ${theme.palette.primary.contrastText}90)`,
                 boxShadow: `0 0 20px ${theme.palette.primary.contrastText}40`,
                 height: `${progressHeight}%`,
-                transition: "height 0.1s ease-out",
+                transition: "height 0.12s ease-out",
               }}
             />
           </Box>
@@ -217,7 +220,7 @@ export function Workflow() {
                    component={motion.div}
                    sx={{
                      position: "absolute",
-                     left: { xs: "20px", md: "46.5px" },
+                     left: { xs: "21px", md: "46.5px" }, // Better centering for mobile
                      top: "50px", // Align with label position
                      width: "5px",
                      height: "5px",
